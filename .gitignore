@@ -1,0 +1,95 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env*.local
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+
+# expo
+.expo/
+*.jks
+*.key
+*.orig
+*.pack
+*.bin
+*.enc
+/.idea
+
+# metro
+/metro-cache
+
+# vs code
+.vscode/
+
+# yarn
+.yarn/
+.yarn-integrity
+
+# Android
+/android/build
+/android/.gradle
+/android/app/build
+/android/app/.cxx
+/android/app/.externalNativeBuild
+/android/app/src/main/assets/hermes-engine
+
+# iOS
+/ios/build
+/ios/Pods
+/ios/.xcode.env.local
+/ios/*.xcworkspace
+/ios/*.xcodeproj/project.xcworkspace
+/ios/*.xcodeproj/xcuserdata
+/ios/*.xcodeproj/xcshareddata
+
+# macOS
+.DS_Store
+
+# Expo specific
+*.js.map
+*.map
+*.bundle
+*.pack
+*.log
+*.xccheckout
+*.xcscmblueprint
+*.xcdatamodeld
+*.xctestplan
+*.xcuserstate
+
+# Temporary files
+*.tmp
+*.temp
+
+# Other
+.env
+.env.local
+.env.development
+.env.production
+
+# Expo web build
+/web-build
+
+# Expo Go cache
+.expo-shared/

@@ -1,0 +1,46 @@
+{
+  "welcome": {
+    "title": "Bienvenido a VitaPet",
+    "select_language": "Selecciona tu idioma"
+  },
+  "onboarding": {
+    "page1_text": "Mantén el historial médico de tu mascota siempre a mano.",
+    "page2_text": "Genera un código QR para emergencias.",
+    "continue_button": "Continuar"
+  },
+  "tabs": {
+    "home": "Principal",
+    "pets": "Mis Mascotas",
+    "medical": "Expediente",
+    "settings": "Ajustes"
+  },
+  "home": {
+    "welcome": "Bienvenido a VitaPet",
+    "add_pet_button": "Registrar Nueva Mascota y Generar QR"
+  },
+  "pet_form": {
+    "add_title": "Registrar Nueva Mascota",
+    "edit_title": "Editar Mascota",
+    "basic_info_section": "Información Básica",
+    "name": "Nombre",
+    "dob": "Fecha de Nacimiento",
+    "species": "Especie",
+    "breed": "Raza",
+    "sex": "Sexo",
+    "color": "Color",
+    "markings": "Marcas distintivas",
+    "chip_id": "Nº de Chip",
+    "medical_info_section": "Información Médica",
+    "weight_kg": "Peso (kg)",
+    "height_cm": "Altura (cm)",
+    "allergies": "Alergias",
+    "medications": "Medicamentos",
+    "special_condition": "Condición Especial",
+    "owner_info_section": "Información del Dueño",
+    "owner_name": "Nombre",
+    "phone": "Teléfono",
+    "email": "Correo Electrónico",
+    "save_button": "Guardar Mascota",
+    "add_photo_button": "Añadir Foto"
+  }
+}
