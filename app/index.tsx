@@ -18,10 +18,10 @@ const WelcomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text variant="headlineLarge" style={styles.title}>
-        {t('welcome.title')}
+        Bienvenido / Welcome
       </Text>
-      <Text variant="titleMedium" style={styles.subtitle}>
-        {t('welcome.select_language')}
+      <Text variant="bodyLarge" style={styles.subtitle}>
+        Selecciona tu idioma / Select your language
       </Text>
       <Button
         mode="contained"

@@ -7,6 +7,7 @@ const PETS_STORAGE_KEY = 'VitaPet:pets';
 // Definimos la estructura de una mascota para usarla en todo el servicio.
 export interface Pet {
   id: string;
+  photoUri?: string; // Campo opcional para la URI de la foto
   basicInfo: {
     name: string;
     species: string;

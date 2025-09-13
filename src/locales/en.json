@@ -9,6 +9,7 @@
     "continue_button": "Continue"
   },
   "tabs": {
+    "title": "My Pets",
     "home": "Home",
     "pets": "My Pets",
     "medical": "Medical Record",
@@ -27,6 +28,10 @@
     "species": "Species",
     "breed": "Breed",
     "sex": "Sex",
+    "sex_options": {
+      "male": "Male",
+      "female": "Female"
+    },
     "color": "Color",
     "markings": "Markings",
     "chip_id": "Chip ID",
@@ -36,11 +41,47 @@
     "allergies": "Allergies",
     "medications": "Medications",
     "special_condition": "Special Condition",
+    "others": "Others",
+    "others_options": {
+      "spayed": "Spayed",
+      "neutered": "Neutered",
+      "none": "None"
+    },
     "owner_info_section": "Owner Info",
     "owner_name": "Name",
     "phone": "Phone",
     "email": "Email",
     "save_button": "Save Pet",
-    "add_photo_button": "Add Photo"
+    "add_photo_button": "Add Photo",
+    "unnamed": "Unnamed",
+    "no_species": "Species not defined",
+    "select_image_title": "Add Photo",
+    "select_image_message": "Choose an option",
+    "take_photo_button": "Take Photo",
+    "gallery_button": "Choose from Gallery"
+  },
+  "delete_pet_alert": {
+    "title": "Delete Pet",
+    "message": "Are you sure you want to delete this pet?",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "common": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
+  "app": {
+    "name": "VitaPet's"
+  },
+  "permissions": {
+    "gallery_denied_title": "Permission Denied",
+    "gallery_denied_message": "You need to grant gallery permissions to select a photo.",
+    "camera_denied_title": "Permission Denied",
+    "camera_denied_message": "You need to grant camera permissions to take a photo."
+  },
+  "medical_screen": {
+    "title": "Medical Record",
+    "description": "Appointments and medical history for the selected pet will be displayed here."
   }
 }

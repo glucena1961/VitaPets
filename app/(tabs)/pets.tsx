@@ -1,14 +1,16 @@
 import React, { useCallback } from 'react';
-import { FlatList, StyleSheet, Alert } from 'react-native';
+import { FlatList, StyleSheet, Alert, View, Image } from 'react-native';
 import { Button, Card, FAB, Text } from 'react-native-paper';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { getPets, deletePet } from '../../src/data/PetService';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
+import { useTranslation } from 'react-i18next';
 
 export default function PetListScreen() {
   const [pets, setPets] = React.useState([]);
   const router = useRouter();
+  const { t } = useTranslation(); // Hook para traducciones
 
   const loadPets = useCallback(async () => {
     const petsData = await getPets();
@@ -23,12 +25,12 @@ export default function PetListScreen() {
 
   const handleDelete = (id: string) => {
     Alert.alert(
-      'Borrar Mascota',
-      '¿Estás seguro de que quieres borrar esta mascota?',
+      t('delete_pet_alert.title'),
+      t('delete_pet_alert.message'),
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: t('delete_pet_alert.cancel'), style: 'cancel' },
         {
-          text: 'Borrar',
+          text: t('delete_pet_alert.confirm'),
           onPress: async () => {
             await deletePet(id);
             loadPets();
@@ -41,13 +43,26 @@ export default function PetListScreen() {
 
   const renderItem = ({ item }: { item: any }) => (
     <Card style={styles.card}>
-      <Card.Title title={item.basicInfo?.name || 'Sin nombre'} />
-      <Card.Content>
-        <Text>{item.basicInfo?.species || 'Especie no definida'}</Text>
-      </Card.Content>
-      <Card.Actions>
-        <Button onPress={() => router.push(`/pet-form?id=${item.id}`)}>Editar</Button>
-        <Button onPress={() => handleDelete(item.id)}>Borrar</Button>
+      <View style={styles.cardLayout}>
+        {/* Columna Izquierda: Imagen */}
+        <View style={styles.imageContainer}>
+          <Image
+            source={item.photoUri ? { uri: item.photoUri } : require('../../assets/images/icon.png')} // Usa placeholder si no hay foto
+            style={styles.petImage}
+          />
+        </View>
+
+        {/* Columna Derecha: Textos */}
+        <View style={styles.textContainer}>
+          <Text style={styles.petName}>{item.basicInfo?.name || t('pet_form.unnamed')}</Text>
+          <Text style={styles.petBreed}>{item.basicInfo?.breed || t('pet_form.no_species')}</Text>
+        </View>
+      </View>
+
+      {/* Acciones de la tarjeta */}
+      <Card.Actions style={styles.cardActions}>
+        <Button onPress={() => router.push(`/pet-form?id=${item.id}`)}>{t('common.edit')}</Button>
+        <Button onPress={() => handleDelete(item.id)}>{t('common.delete')}</Button>
       </Card.Actions>
     </Card>
   );
@@ -73,20 +88,48 @@ export default function PetListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
-  },
-  title: {
-    marginTop: 24, // Aumentado para dar más espacio
-    marginBottom: 16,
   },
   flatList: {
     flex: 1,
   },
   list: {
-    paddingBottom: 80, // Espacio para que el FAB no tape el último item
+    paddingTop: 16,
+    paddingHorizontal: 16,
+    paddingBottom: 80,
   },
   card: {
-    marginBottom: 8,
+    marginBottom: 16,
+  },
+  cardLayout: {
+    flexDirection: 'row',
+    padding: 12,
+  },
+  imageContainer: {
+    marginRight: 12,
+  },
+  petImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+    backgroundColor: '#f0f0f0',
+  },
+  textContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  petName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  petBreed: {
+    fontSize: 14,
+    color: 'gray',
+  },
+  cardActions: {
+    justifyContent: 'center',
+    paddingBottom: 8,
+    borderTopWidth: 1,
+    borderTopColor: '#f0f0f0',
   },
   fab: {
     position: 'absolute',

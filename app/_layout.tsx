@@ -1,6 +1,6 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack, SplashScreen, useRouter } from 'expo-router';
+import { Stack, SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
@@ -15,48 +15,49 @@ import i18next from '../src/lib/i18n';
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-function RootLayoutNav() {
-  const { t } = useTranslation();
-  const router = useRouter();
+import NavigationTitle from '@/components/NavigationTitle';
 
+// Componente de navegación principal. Ahora puede usar useTranslation de forma segura
+// porque su proveedor estará garantizado en un nivel superior.
+function RootLayoutNav() {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-      <Stack.Screen 
-        name="(tabs)" 
-        options={{ 
-          headerShown: true, 
-          title: t('tabs.title'), // Título general para la sección de pestañas
-          headerLeft: () => null, // Opcional: para quitar el botón de "atrás"
-        }} 
+      <Stack.Screen
+        name="(tabs)"
+        options={{
+          headerShown: true,
+          headerTitle: () => <NavigationTitle i18nKey="app.name" />,
+          headerLeft: () => null,
+        }}
       />
       <Stack.Screen name="+not-found" />
     </Stack>
   );
 }
 
-export default function RootLayout() {
-  const [isReady, setIsReady] = useState(false);
+// Nuevo componente que maneja la carga de recursos y el estado de la UI.
+// Se renderiza DENTRO de I18nextProvider, por lo que tiene acceso al contexto.
+function AppContent() {
   const colorScheme = useColorScheme();
+  const [isI18nReady, setI18nReady] = useState(false);
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
+  // Efecto para cargar fuentes y el idioma guardado.
   useEffect(() => {
     async function prepare() {
       try {
-        // 1. Cargar idioma guardado
         const savedLanguage = await AsyncStorage.getItem('user-language');
         if (savedLanguage) {
           await i18next.changeLanguage(savedLanguage);
         }
-        // Aquí se podrían precargar otras cosas (datos de usuario, etc)
       } catch (e) {
-        console.warn(e);
+        console.warn('Error loading language:', e);
       } finally {
-        // 3. Marcar la app como lista
-        setIsReady(true);
+        setI18nReady(true);
       }
     }
 
@@ -67,27 +68,35 @@ export default function RootLayout() {
     if (error) throw error;
   }, [error]);
 
+  // Ocultar la splash screen solo cuando las fuentes Y el i18n estén listos.
   useEffect(() => {
-    if (loaded && isReady) {
+    if (loaded && isI18nReady) {
       SplashScreen.hideAsync();
     }
-  }, [loaded, isReady]);
+  }, [loaded, isI18nReady]);
 
-  if (!loaded || !isReady) {
-    return null; // Muestra la splash screen nativa mientras no esté todo listo
+  if (!loaded || !isI18nReady) {
+    return null; // Muestra la splash screen mientras se carga todo.
   }
 
   const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
   const navigationTheme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
 
   return (
+    <PaperProvider theme={theme}>
+      <ThemeProvider value={navigationTheme}>
+        <RootLayoutNav />
+        <StatusBar style="auto" />
+      </ThemeProvider>
+    </PaperProvider>
+  );
+}
+
+// El componente raíz ahora solo se encarga de proveer el contexto de i18n.
+export default function RootLayout() {
+  return (
     <I18nextProvider i18n={i18next}>
-      <PaperProvider theme={theme}>
-        <ThemeProvider value={navigationTheme}>
-          <RootLayoutNav />
-          <StatusBar style="auto" />
-        </ThemeProvider>
-      </PaperProvider>
+      <AppContent />
     </I18nextProvider>
   );
 }

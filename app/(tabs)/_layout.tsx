@@ -1,10 +1,10 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Ionicons } from '@expo/vector-icons'; // Usando un set de iconos estándar
+import { Ionicons } from '@expo/vector-icons';
 
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import NavigationTitle from '@/components/NavigationTitle'; // Importamos el nuevo componente
 
 // Un componente simple para el icono de la pestaña
 function TabBarIcon({ name, color }: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
@@ -12,44 +12,49 @@ function TabBarIcon({ name, color }: { name: React.ComponentProps<typeof Ionicon
 }
 
 export default function TabLayout() {
-  const { t } = useTranslation();
   const colorScheme = useColorScheme();
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // headerShown: false, // <-- Eliminamos esta línea para que el header sea visible
       }}>
       <Tabs.Screen
         name="index" // Asumiendo que index.tsx es la pantalla "Principal"
         options={{
-          title: t('tabs.home'),
+          title: 'Principal',
+          headerTitle: () => <NavigationTitle i18nKey="tabs.home" />,
+          tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.home" style={{ color }} />,
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
       />
       <Tabs.Screen
         name="pets"
         options={{
-          title: t('tabs.pets'),
+          title: 'Mis Mascotas',
+          headerTitle: () => <NavigationTitle i18nKey="tabs.pets" />,
+          tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.pets" style={{ color }} />,
           tabBarIcon: ({ color }) => <TabBarIcon name="paw" color={color} />,
         }}
       />
       <Tabs.Screen
         name="medical"
         options={{
-          title: t('tabs.medical'),
+          title: 'Expediente',
+          headerTitle: () => <NavigationTitle i18nKey="tabs.medical" />,
+          tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.medical" style={{ color }} />,
           tabBarIcon: ({ color }) => <TabBarIcon name="medkit" color={color} />,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          title: t('tabs.settings'),
+          title: 'Ajustes',
+          headerTitle: () => <NavigationTitle i18nKey="tabs.settings" />,
+          tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.settings" style={{ color }} />,
           tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
         }}
       />
-      {/* La pantalla 'explore' no parece existir en tu navegación, la he eliminado */}
     </Tabs>
   );
 }

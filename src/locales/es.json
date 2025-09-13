@@ -9,6 +9,7 @@
     "continue_button": "Continuar"
   },
   "tabs": {
+    "title": "Mis Mascotas",
     "home": "Principal",
     "pets": "Mis Mascotas",
     "medical": "Expediente",
@@ -27,6 +28,10 @@
     "species": "Especie",
     "breed": "Raza",
     "sex": "Sexo",
+    "sex_options": {
+      "male": "Macho",
+      "female": "Hembra"
+    },
     "color": "Color",
     "markings": "Marcas distintivas",
     "chip_id": "Nº de Chip",
@@ -36,11 +41,47 @@
     "allergies": "Alergias",
     "medications": "Medicamentos",
     "special_condition": "Condición Especial",
+    "others": "Otros",
+    "others_options": {
+      "spayed": "Esterilizada",
+      "neutered": "Castrado",
+      "none": "Ninguno"
+    },
     "owner_info_section": "Información del Dueño",
     "owner_name": "Nombre",
     "phone": "Teléfono",
     "email": "Correo Electrónico",
     "save_button": "Guardar Mascota",
-    "add_photo_button": "Añadir Foto"
+    "add_photo_button": "Añadir Foto",
+    "unnamed": "Sin nombre",
+    "no_species": "Especie no definida",
+    "select_image_title": "Añadir Foto",
+    "select_image_message": "Elige una opción",
+    "take_photo_button": "Tomar Foto",
+    "gallery_button": "Elegir de la Galería"
+  },
+  "delete_pet_alert": {
+    "title": "Borrar Mascota",
+    "message": "¿Estás seguro de que quieres borrar esta mascota?",
+    "cancel": "Cancelar",
+    "confirm": "Borrar"
+  },
+  "common": {
+    "edit": "Editar",
+    "delete": "Borrar",
+    "cancel": "Cancelar"
+  },
+  "app": {
+    "name": "VitaPet's"
+  },
+  "permissions": {
+    "gallery_denied_title": "Permiso Denegado",
+    "gallery_denied_message": "Necesitas conceder permisos a la galería para seleccionar una foto.",
+    "camera_denied_title": "Permiso Denegado",
+    "camera_denied_message": "Necesitas conceder permisos a la cámara para tomar una foto."
+  },
+  "medical_screen": {
+    "title": "Expediente Médico",
+    "description": "Aquí se mostrarán las citas y el historial médico de la mascota seleccionada."
   }
 }

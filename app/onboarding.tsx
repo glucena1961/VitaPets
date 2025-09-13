@@ -16,17 +16,17 @@ export default function OnboardingScreen() {
   return (
     <View style={styles.container}>
       <Text variant="headlineLarge" style={styles.title}>
-        ¡Bienvenido a VitaPet!
+        {t('welcome.title')}
       </Text>
       <Text variant="bodyLarge" style={styles.subtitle}>
-        Mantén el historial médico de tu mascota siempre a mano.
+        {t('onboarding.page1_text')}
       </Text>
       <Button 
         mode="contained" 
         onPress={handleContinue} 
         style={styles.button}
       >
-        Comenzar
+        {t('onboarding.continue_button')}
       </Button>
     </View>
   );
