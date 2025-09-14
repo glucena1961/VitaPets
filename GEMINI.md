@@ -1,6 +1,6 @@
 # Documentación del Proyecto VitaPet (Generado por Gemini)
 
-**Fecha de Generación:** 12 de septiembre de 2025
+**Fecha de Generación:** 14 de septiembre de 2025
 
 ---
 
@@ -47,9 +47,37 @@ Este documento resume el extenso proceso de recuperación y estabilización del 
 
 ---
 
-## 3. Estado Actual del Proyecto (12 de septiembre de 2025)
+## 3. Módulo de Autenticación (14 de septiembre de 2025)
 
-El proyecto se encuentra en un estado **estable y funcional**. La aplicación arranca, navega entre pantallas y las funcionalidades principales (gestión de mascotas, formularios) están presentes en el código.
+Se ha implementado un módulo de autenticación completo y aislado en la rama `feature/auth-module`.
+
+### 3.1. Funcionalidades Implementadas
+
+*   **Flujo de Usuario:**
+    *   **Registro (Sign Up):** Creación de nuevos usuarios con validación de campos y confirmación de contraseña. El sistema utiliza la verificación por email por defecto de Supabase.
+    *   **Inicio de Sesión (Sign In):** Autenticación de usuarios con email y contraseña.
+    *   **Recuperación de Contraseña:** Flujo para que los usuarios puedan solicitar un enlace de reseteo de contraseña a su email.
+    *   **Cierre de Sesión (Sign Out):** Implementado en la pantalla de Ajustes para permitir al usuario cerrar su sesión persistente.
+*   **Arquitectura y Tecnología:**
+    *   **Backend:** Integración con **Supabase** para toda la gestión de usuarios y autenticación.
+    *   **Gestión de Estado:** Creación de un `AuthContext` global para manejar el estado de la sesión (`session`, `user`, `loading`) y exponer las funciones (`signIn`, `signUp`, etc.) a toda la aplicación.
+    *   **Navegación Protegida:** Implementación de un "guardián de rutas" en `app/_layout.tsx` que redirige automáticamente al usuario al login si no hay sesión, o a la app principal si ya está autenticado.
+    *   **Persistencia de Sesión:** Uso de `expo-secure-store` para guardar la sesión del usuario de forma segura, permitiendo la funcionalidad de "Recordarme".
+    *   **Formularios:** Uso de `react-hook-form` para la gestión y validación de todos los formularios.
+    *   **Internacionalización (i18n):** Soporte completo para español e inglés en todas las nuevas pantallas y mensajes.
+
+### 3.2. Proceso de Depuración y Estabilización
+
+La implementación requirió un proceso de depuración intensivo para resolver un conflicto de dependencias a nivel nativo. Los pasos clave fueron:
+
+1.  **Diagnóstico con `expo-doctor`**: Se identificaron múltiples versiones de paquetes incompatibles con el SDK de Expo del proyecto.
+2.  **Corrección de Dependencias**: Se utilizó `npx expo install --fix` para alinear las versiones de las librerías, principalmente `react-native-reanimated`.
+3.  **Creación de `babel.config.js`**: Se creó este archivo de configuración faltante para añadir el plugin de `react-native-reanimated`, solucionando el crash nativo (`installTurboModule`).
+4.  **Resolución de Carga de Entorno**: Se diagnosticó y solucionó el problema de carga de las credenciales de Supabase, causado por un nombre de archivo incorrecto (`Conexion_Supabase.env` en lugar de `.env`).
+
+### 3.3. Estado Actual del Módulo
+
+El módulo de autenticación está **100% funcional y completo** en la rama `feature/auth-module` (commit `f11a273`). Por solicitud del usuario, esta rama se ha dejado "aparcada" para ser integrada en el futuro, permitiendo así el desarrollo de otras funcionalidades en la rama principal sin la interferencia del flujo de login.
 
 ---
 
