@@ -57,14 +57,14 @@ Se ha implementado un módulo de autenticación completo y aislado en la rama `f
     *   **Registro (Sign Up):** Creación de nuevos usuarios con validación de campos y confirmación de contraseña. El sistema utiliza la verificación por email por defecto de Supabase.
     *   **Inicio de Sesión (Sign In):** Autenticación de usuarios con email y contraseña.
     *   **Recuperación de Contraseña:** Flujo para que los usuarios puedan solicitar un enlace de reseteo de contraseña a su email.
-    *   **Cierre de Sesión (Sign Out):** Implementado en la pantalla de Ajustes para permitir al usuario cerrar su sesión persistente.
+    *   **Cierre de Sesión (Sign Out):** Se añadió un botón en la pantalla de **Ajustes** (`app/(tabs)/settings.tsx`) para permitir al usuario cerrar su sesión persistente y volver al login.
 *   **Arquitectura y Tecnología:**
     *   **Backend:** Integración con **Supabase** para toda la gestión de usuarios y autenticación.
     *   **Gestión de Estado:** Creación de un `AuthContext` global para manejar el estado de la sesión (`session`, `user`, `loading`) y exponer las funciones (`signIn`, `signUp`, etc.) a toda la aplicación.
     *   **Navegación Protegida:** Implementación de un "guardián de rutas" en `app/_layout.tsx` que redirige automáticamente al usuario al login si no hay sesión, o a la app principal si ya está autenticado.
     *   **Persistencia de Sesión:** Uso de `expo-secure-store` para guardar la sesión del usuario de forma segura, permitiendo la funcionalidad de "Recordarme".
     *   **Formularios:** Uso de `react-hook-form` para la gestión y validación de todos los formularios.
-    *   **Internacionalización (i18n):** Soporte completo para español e inglés en todas las nuevas pantallas y mensajes.
+    *   **Internacionalización (i18n):** Soporte completo para español e inglés en todas las nuevas pantallas y mensajes. Se añadió un **selector de idioma** en la pantalla de Ajustes.
 
 ### 3.2. Proceso de Depuración y Estabilización
 
@@ -77,7 +77,7 @@ La implementación requirió un proceso de depuración intensivo para resolver u
 
 ### 3.3. Estado Actual del Módulo
 
-El módulo de autenticación está **100% funcional y completo** en la rama `feature/auth-module` (commit `f11a273`). Por solicitud del usuario, esta rama se ha dejado "aparcada" para ser integrada en el futuro, permitiendo así el desarrollo de otras funcionalidades en la rama principal sin la interferencia del flujo de login.
+El módulo de autenticación está **100% funcional y completo** en la rama `feature/auth-module`. Por solicitud del usuario, esta rama se ha dejado "aparcada" para ser integrada en el futuro, permitiendo así el desarrollo de otras funcionalidades en la rama principal sin la interferencia del flujo de login.
 
 ---
 
