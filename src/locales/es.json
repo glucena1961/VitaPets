@@ -83,5 +83,54 @@
   "medical_screen": {
     "title": "Expediente Médico",
     "description": "Aquí se mostrarán las citas y el historial médico de la mascota seleccionada."
+  },
+  "auth": {
+    "login": {
+      "title_v2": "Inicio de Sesión",
+      "emailLabel": "Email",
+      "passwordLabel": "Contraseña",
+      "submitButton": "Iniciar Sesión",
+      "createAccountLink": "Crear una cuenta",
+      "forgotPasswordLink": "¿Olvidaste tu contraseña?",
+      "errorTitle": "Error al iniciar sesión"
+    },
+    "register": {
+      "title": "Crear Cuenta",
+      "emailLabel": "Email",
+      "passwordLabel": "Contraseña",
+      "confirmPasswordLabel": "Confirmar Contraseña",
+      "submitButton": "Crear Cuenta",
+      "backToLoginLink": "¿Ya tienes una cuenta? Inicia sesión",
+      "errorTitle": "Error en el registro",
+      "successTitle": "Registro exitoso",
+      "successMessage": "Por favor, revisa tu email para confirmar tu cuenta."
+    },
+    "forgotPassword": {
+      "title": "Recuperar Contraseña",
+      "subtitle": "Introduce tu email y te enviaremos un enlace para resetear tu contraseña.",
+      "emailLabel": "Email",
+      "submitButton": "Enviar Email de Recuperación",
+      "backToLoginLink": "Volver a Iniciar Sesión",
+      "errorTitle": "Error",
+      "successTitle": "Petición enviada",
+      "successMessage": "Si el email existe, recibirás un enlace para resetear tu contraseña."
+    },
+    "validation": {
+      "emailRequired": "El email es obligatorio.",
+      "emailInvalid": "El formato del email no es válido.",
+      "passwordRequired": "La contraseña es obligatoria.",
+      "passwordLength": "La contraseña debe tener al menos 6 caracteres.",
+      "confirmPasswordRequired": "Debes confirmar la contraseña.",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden."
+    }
+  },
+   "settings": {
+    "language": {
+      "title": "Idioma"
+    },
+    "account": {
+      "title": "Cuenta",
+      "signOut": "Cerrar Sesión"
+    }
   }
 }

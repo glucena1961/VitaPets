@@ -83,5 +83,54 @@
   "medical_screen": {
     "title": "Medical Record",
     "description": "Appointments and medical history for the selected pet will be displayed here."
+  },
+  "auth": {
+    "login": {
+      "title_v2": "Sign In",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submitButton": "Sign In",
+      "createAccountLink": "Create an account",
+      "forgotPasswordLink": "Forgot your password?",
+      "errorTitle": "Login Error"
+    },
+    "register": {
+      "title": "Create Account",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "submitButton": "Create Account",
+      "backToLoginLink": "Already have an account? Sign in",
+      "errorTitle": "Registration Error",
+      "successTitle": "Registration successful",
+      "successMessage": "Please check your email to confirm your account."
+    },
+    "forgotPassword": {
+      "title": "Recover Password",
+      "subtitle": "Enter your email and we will send you a link to reset your password.",
+      "emailLabel": "Email",
+      "submitButton": "Send Recovery Email",
+      "backToLoginLink": "Back to Sign In",
+      "errorTitle": "Error",
+      "successTitle": "Request sent",
+      "successMessage": "If the email exists, you will receive a link to reset your password."
+    },
+    "validation": {
+      "emailRequired": "Email is required.",
+      "emailInvalid": "The email format is not valid.",
+      "passwordRequired": "Password is required.",
+      "passwordLength": "Password must be at least 6 characters long.",
+      "confirmPasswordRequired": "You must confirm the password.",
+      "passwordsDoNotMatch": "The passwords do not match."
+    }
+  },
+  "settings": {
+    "language": {
+      "title": "Language"
+    },
+    "account": {
+      "title": "Account",
+      "signOut": "Sign Out"
+    }
   }
 }

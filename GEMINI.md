@@ -51,29 +51,15 @@ Este documento resume el extenso proceso de recuperación y estabilización del 
 
 El proyecto se encuentra en un estado **estable y funcional**. La aplicación arranca, navega entre pantallas y las funcionalidades principales (gestión de mascotas, formularios) están presentes en el código.
 
-### 3.1. Problemas Conocidos Pendientes
-
-*   **i18n (Mezcla de Idiomas):** A pesar de las correcciones, el usuario reporta que persiste una mezcla de idiomas en algunas partes de la UI, especialmente en las pestañas de navegación y otros textos. Esto requiere una depuración más profunda del contexto de i18n o de cómo los componentes consumen las traducciones.
-*   **UI (Superposición de Encabezados):** El usuario reporta que el problema de superposición de elementos en el encabezado persiste en algunas pantallas. Esto indica que la solución implementada no fue suficiente o que hay otros elementos de UI que no están respetando el área segura.
-
 ---
 
 ## 4. Próximos Pasos y Colaboración del Usuario
 
 Para continuar con el desarrollo, necesito tu ayuda con lo siguiente:
 
-### 4.1. Reporte Detallado de Errores
+### 4.1. Lista de Funcionalidades a Implementar
 
-Por favor, proporciona una lista detallada de los errores que aún encuentres en la aplicación. Para cada error, incluye:
-*   **Pantalla:** ¿En qué pantalla ocurre?
-*   **Pasos para Reproducir:** ¿Qué acciones realizaste para que apareciera el error?
-*   **Comportamiento Esperado:** ¿Qué debería haber pasado?
-*   **Comportamiento Actual:** ¿Qué pasó realmente?
-*   **Capturas de Pantalla (Opcional):** Si es posible, una imagen ayuda mucho.
-
-### 4.2. Lista de Funcionalidades a Implementar
-
-Una vez que hayamos estabilizado los errores actuales, necesitaremos definir las próximas funcionalidades. Por favor, enumera las características que te gustaría añadir o mejorar en la aplicación.
+Necesitaremos definir las próximas funcionalidades. Por favor, enumera las características que te gustaría añadir o mejorar en la aplicación.
 
 ---
 
