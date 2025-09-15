@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
-import { FlatList, StyleSheet, Alert, View, Image } from 'react-native';
+import { FlatList, StyleSheet, Alert, View, Image, TouchableOpacity } from 'react-native';
 import { Button, Card, FAB, Text } from 'react-native-paper';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { getPets, deletePet } from '../../src/data/PetService';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { useTranslation } from 'react-i18next';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function PetListScreen() {
   const [pets, setPets] = React.useState([]);
@@ -61,6 +62,7 @@ export default function PetListScreen() {
 
       {/* Acciones de la tarjeta */}
       <Card.Actions style={styles.cardActions}>
+        <Button onPress={() => router.push({ pathname: '/pet-qr-detail', params: { petId: item.id } })}>{t('common.view_qr')}</Button>
         <Button onPress={() => router.push(`/pet-form?id=${item.id}`)}>{t('common.edit')}</Button>
         <Button onPress={() => handleDelete(item.id)}>{t('common.delete')}</Button>
       </Card.Actions>
@@ -124,6 +126,11 @@ const styles = StyleSheet.create({
   petBreed: {
     fontSize: 14,
     color: 'gray',
+  },
+  chevronContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 8,
   },
   cardActions: {
     justifyContent: 'center',

@@ -51,12 +51,7 @@ Este documento resume el extenso proceso de recuperación y estabilización del 
 
 El proyecto se encuentra en un estado **estable y funcional**. La aplicación arranca, navega entre pantallas y las funcionalidades principales (gestión de mascotas, formularios) están presentes en el código.
 
-### 3.1. Problemas Conocidos Pendientes
 
-*   **i18n (Mezcla de Idiomas):** A pesar de las correcciones, el usuario reporta que persiste una mezcla de idiomas en algunas partes de la UI, especialmente en las pestañas de navegación y otros textos. Esto requiere una depuración más profunda del contexto de i18n o de cómo los componentes consumen las traducciones.
-*   **UI (Superposición de Encabezados):** El usuario reporta que el problema de superposición de elementos en el encabezado persiste en algunas pantallas. Esto indica que la solución implementada no fue suficiente o que hay otros elementos de UI que no están respetando el área segura.
-
----
 
 ## 4. Próximos Pasos y Colaboración del Usuario
 

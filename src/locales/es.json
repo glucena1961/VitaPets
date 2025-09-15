@@ -69,7 +69,38 @@
   "common": {
     "edit": "Editar",
     "delete": "Borrar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "back": "Atrás",
+    "view_qr": "Ver QR"
+  },
+  "qrReport": {
+    "basic_info_title": "== INFORMACIÓN BÁSICA ==",
+    "medical_info_title": "== INFORMACIÓN MÉDICA ==",
+    "owner_info_title": "== INFORMACIÓN DEL DUEÑO ==",
+    "name": "Nombre:",
+    "species": "Especie:",
+    "breed": "Raza:",
+    "dob": "Fecha de Nac.:",
+    "sex": "Sexo:",
+    "chipId": "Nº de Chip:",
+    "weight": "Peso:",
+    "allergies": "Alergias:",
+    "medications": "Medicamentos:",
+    "specialCondition": "Condición Especial:",
+    "others": "Otros:",
+    "ownerName": "Nombre Dueño:",
+    "phone": "Teléfono:",
+    "email": "Email:",
+    "kg": "kg",
+    "none": "Ninguno",
+    "not_available": "N/A"
+  },
+  "qrDetail": {
+    "title": "Código QR",
+    "scanInstruction": "Escanea este código para ver el expediente médico de {{petName}}. Puedes imprimirlo y colocarlo en su collar.",
+    "viewButton": "Visualizar Datos",
+    "shareButton": "Compartir",
+    "downloadButton": "Descargar"
   },
   "app": {
     "name": "VitaPet's"
