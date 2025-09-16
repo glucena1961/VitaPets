@@ -10,6 +10,7 @@ import ViewShot from 'react-native-view-shot';
 import QRCode from 'react-native-qrcode-svg';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
+import { Ionicons } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
 import { getPet, savePet } from '../src/data/PetService';
 
@@ -47,13 +48,51 @@ export default function PetFormScreen() {
 
   // --- Image Picker Logic ---
   const pickImage = async () => {
-    // ... (código existente)
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert(t('permissions.gallery_denied_title'), t('permissions.gallery_denied_message'));
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
   };
+
   const takePhoto = async () => {
-    // ... (código existente)
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert(t('permissions.camera_denied_title'), t('permissions.camera_denied_message'));
+      return;
+    }
+
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
   };
   const selectImage = () => {
-    // ... (código existente)
+    Alert.alert(
+      t('pet_form.select_image_title'),
+      t('pet_form.select_image_message'),
+      [
+        { text: t('pet_form.take_photo_button'), onPress: takePhoto },
+        { text: t('pet_form.gallery_button'), onPress: pickImage },
+        { text: t('common.cancel'), style: 'cancel' },
+      ]
+    );
   };
 
   // --- Date Picker Logic ---
@@ -136,7 +175,17 @@ export default function PetFormScreen() {
         <Appbar.Content title={isEditMode ? t('pet_form.edit_title') : t('pet_form.add_title')} />
       </Appbar.Header>
       <ScrollView style={styles.scrollView}>
-        {/* ... (Image Picker View) ... */}
+        <View style={styles.imagePickerContainer}>
+          <Pressable onPress={selectImage}>
+            <Image
+              source={imageUri ? { uri: imageUri } : require('../assets/images/icon.png')}
+              style={styles.petImagePreview}
+            />
+            <View style={styles.imagePickerIcon}>
+              <Ionicons name="camera" size={24} color="white" />
+            </View>
+          </Pressable>
+        </View>
         <List.AccordionGroup>
           <List.Accordion title={t('pet_form.basic_info_section')} id="1">
             {renderInput('basicInfo.name', t('pet_form.name'))}
@@ -197,6 +246,28 @@ export default function PetFormScreen() {
 }
 
 const styles = StyleSheet.create({
+  imagePickerContainer: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  petImagePreview: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#e0e0e0',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imagePickerIcon: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: '#20DF6C',
+    padding: 8,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: 'white',
+  },
   // ... (estilos existentes)
   pickerContainer: {
     marginHorizontal: 4,
