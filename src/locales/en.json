@@ -100,7 +100,11 @@
     "scanInstruction": "Scan this code to see {{petName}}'s medical record. You can print it and place it on their collar.",
     "viewButton": "View Data",
     "shareButton": "Share",
-    "downloadButton": "Download"
+    "downloadButton": "Download",
+    "download_success_message": "QR saved to gallery!",
+    "download_error_message": "Error saving QR.",
+    "share_title": "{{petName}}'s QR Code",
+    "share_error_message": "Error sharing QR."
   },
   "app": {
     "name": "VitaPet's"

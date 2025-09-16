@@ -71,7 +71,9 @@
     "delete": "Borrar",
     "cancel": "Cancelar",
     "back": "Atrás",
-    "view_qr": "Ver QR"
+    "view_qr": "Ver QR",
+    "success": "Éxito",
+    "error": "Error"
   },
   "qrReport": {
     "basic_info_title": "== INFORMACIÓN BÁSICA ==",
@@ -100,7 +102,11 @@
     "scanInstruction": "Escanea este código para ver el expediente médico de {{petName}}. Puedes imprimirlo y colocarlo en su collar.",
     "viewButton": "Visualizar Datos",
     "shareButton": "Compartir",
-    "downloadButton": "Descargar"
+    "downloadButton": "Descargar",
+    "download_success_message": "¡QR guardado en la galería!",
+    "download_error_message": "Error al guardar el QR.",
+    "share_title": "Código QR de {{petName}}",
+    "share_error_message": "Error al compartir el QR."
   },
   "app": {
     "name": "VitaPet's"

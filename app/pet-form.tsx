@@ -10,6 +10,7 @@ import ViewShot from 'react-native-view-shot';
 import QRCode from 'react-native-qrcode-svg';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
+import Toast from 'react-native-toast-message';
 import { getPet, savePet } from '../src/data/PetService';
 
 export default function PetFormScreen() {
@@ -69,9 +70,22 @@ export default function PetFormScreen() {
 
   // --- Form Submission ---
   const onSubmit = async (data: any) => {
-    const savedPet = await savePet(data);
-    setSavedPetData(savedPet);
-    setModalVisible(true);
+    try {
+      await savePet({ ...data, photoUri: imageUri });
+      Toast.show({
+        type: 'success',
+        text1: t('common.success'),
+        text2: isEditMode ? t('pet_form.update_success_message') : t('pet_form.add_success_message'),
+      });
+      router.back(); // Vuelve a la pantalla anterior
+    } catch (error) {
+      console.error("Error saving pet:", error);
+      Toast.show({
+        type: 'error',
+        text1: t('common.error'),
+        text2: t('pet_form.error_message'),
+      });
+    }
   };
 
   // --- QR Code Logic ---
