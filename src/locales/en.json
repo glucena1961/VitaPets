@@ -71,7 +71,8 @@
     "delete": "Delete",
     "cancel": "Cancel",
     "back": "Back",
-    "view_qr": "View QR"
+    "view_qr": "View QR",
+    "save": "Save"
   },
   "qrReport": {
     "basic_info_title": "== BASIC INFORMATION ==",
@@ -115,8 +116,49 @@
     "camera_denied_title": "Permission Denied",
     "camera_denied_message": "You need to grant camera permissions to take a photo."
   },
-  "medical_screen": {
-    "title": "Medical Record",
-    "description": "Appointments and medical history for the selected pet will be displayed here."
+  "medical_history": {
+    "select_pet": "SELECT YOUR PET",
+    "title": "Medical History",
+    "categories": {
+      "allergies": "ALLERGIES",
+      "surgeries": "SURGERIES",
+      "exams": "EXAMS",
+      "medicines": "MEDICINES",
+      "parasite_treatment": "PARASITE TREATMENT",
+      "vaccines": "VACCINES"
+    }
+  },
+  "allergy_screen": {
+    "title": "Allergies for {{petName}}",
+    "add_button": "Add Allergy"
+  },
+  "add_allergy_form": {
+    "title": "Add Allergy",
+    "allergy_name": "Allergy Name",
+    "allergy_name_placeholder": "e.g., Pollen, Flea bite",
+    "date": "Date Detected",
+    "vet_name": "Attending Veterinarian",
+    "clinic_name": "Clinic",
+    "edit_title": "Edit Allergy"
+  },
+  "common": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "back": "Back",
+    "view_qr": "View QR",
+    "save": "Save",
+    "not_specified": "Not specified"
+  },
+  "allergy_detail_screen": {
+    "title": "Allergy Detail",
+    "allergy_label": "Allergy to:",
+    "date_label": "Date Detected:",
+    "vet_label": "Attending Veterinarian:",
+    "clinic_label": "Clinic:",
+    "delete_alert_title": "Delete Allergy",
+    "delete_alert_message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "delete_success_message": "Record deleted successfully.",
+    "delete_error_message": "Could not delete record."
   }
 }

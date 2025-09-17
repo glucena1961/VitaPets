@@ -72,6 +72,7 @@
     "cancel": "Cancelar",
     "back": "Atrás",
     "view_qr": "Ver QR",
+    "save": "Guardar",
     "success": "Éxito",
     "error": "Error"
   },
@@ -117,8 +118,51 @@
     "camera_denied_title": "Permiso Denegado",
     "camera_denied_message": "Necesitas conceder permisos a la cámara para tomar una foto."
   },
-  "medical_screen": {
-    "title": "Expediente Médico",
-    "description": "Aquí se mostrarán las citas y el historial médico de la mascota seleccionada."
+  "medical_history": {
+    "select_pet": "SELECCIONA TU MASCOTA",
+    "title": "Historial Médico",
+    "categories": {
+      "allergies": "ALERGIAS",
+      "surgeries": "CIRUGÍAS",
+      "exams": "EXÁMENES",
+      "medicines": "MEDICINAS",
+      "parasite_treatment": "TRATAMIENTO PARÁSITOS",
+      "vaccines": "VACUNAS"
+    }
+  },
+  "allergy_screen": {
+    "title": "Alergias de {{petName}}",
+    "add_button": "Añadir Alergia"
+  },
+  "add_allergy_form": {
+    "title": "Añadir Alergia",
+    "allergy_name": "Nombre de la Alergia",
+    "allergy_name_placeholder": "Ej: Polen, Picadura de pulga",
+    "date": "Fecha de Detección",
+    "vet_name": "Veterinario Tratante",
+    "clinic_name": "Clínica",
+    "edit_title": "Editar Alergia"
+  },
+  "common": {
+    "edit": "Editar",
+    "delete": "Borrar",
+    "cancel": "Cancelar",
+    "back": "Atrás",
+    "view_qr": "Ver QR",
+    "save": "Guardar",
+    "success": "Éxito",
+    "error": "Error",
+    "not_specified": "No especificado"
+  },
+  "allergy_detail_screen": {
+    "title": "Detalle de Alergia",
+    "allergy_label": "Alergia a:",
+    "date_label": "Fecha Detectado:",
+    "vet_label": "Veterinario Tratante:",
+    "clinic_label": "Clínica:",
+    "delete_alert_title": "Borrar Alergia",
+    "delete_alert_message": "¿Está seguro de que quiere borrar \"{{name}}\"? Esta acción no se puede deshacer.",
+    "delete_success_message": "Registro eliminado con éxito.",
+    "delete_error_message": "No se pudo eliminar el registro."
   }
 }
