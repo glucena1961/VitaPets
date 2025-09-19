@@ -1,4 +1,4 @@
-{
+export default {
   "welcome": {
     "title": "Welcome to VitaPet",
     "select_language": "Select your language"
@@ -151,6 +151,17 @@
     "vet_name": "Attending Veterinarian",
     "clinic_name": "Clinic",
     "edit_title": "Edit Allergy"
+  },
+  "allergy_detail_screen": {
+    "title": "Allergy Detail",
+    "allergy_label": "Allergy to:",
+    "date_label": "Date Detected:",
+    "vet_label": "Attending Veterinarian:",
+    "clinic_label": "Clinic:",
+    "delete_alert_title": "Delete Allergy",
+    "delete_alert_message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "delete_success_message": "Record deleted successfully.",
+    "delete_error_message": "Could not delete record."
   },
   "surgery_screen": {
     "title": "Surgeries for {{petName}}",

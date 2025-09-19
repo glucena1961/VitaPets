@@ -1,4 +1,4 @@
-{
+export default {
   "welcome": {
     "title": "Bienvenido a VitaPet",
     "select_language": "Selecciona tu idioma"
