@@ -119,3 +119,44 @@ Mi rol fue el de "traducir" y adaptar estos diseños a la arquitectura de nuestr
 -   **Navegación:** Uso de `expo-router` (`useRouter`, `useLocalSearchParams`) para gestionar la navegación entre pantallas y el paso de parámetros.
 
 Este enfoque nos permitió combinar la visión de diseño del usuario con las mejores prácticas de desarrollo móvil y la arquitectura existente de VitaPet.
+---
+
+## Implementación de Cirugías y Exámenes y Unificación de UI (18 de septiembre de 2025)
+
+Este día se completó la implementación de las funcionalidades de gestión de Cirugías y Exámenes, junto con una exhaustiva unificación del diseño de la interfaz de usuario en varias pantallas clave.
+
+### Funcionalidades Implementadas:
+
+*   **Gestión de Cirugías:**
+    *   Implementación de la pantalla de lista de cirugías (`app/surgery-screen.tsx`).
+    *   Implementación del formulario multifuncional para añadir/ver/editar cirugías (`app/add-surgery-form.tsx`).
+    *   Integración con `MedicalRecordService` para persistencia de datos (CRUD).
+    *   Selector de fecha (`DateTimePicker`) con formato DD/MM/YYYY.
+    *   Notificaciones Toast para feedback de operaciones.
+
+*   **Gestión de Exámenes:**
+    *   Implementación de la pantalla de lista de exámenes (`app/exam-screen.tsx`).
+    *   Implementación del formulario multifuncional para añadir/ver/editar exámenes (`app/add-exam-form.tsx`).
+    *   Integración con `MedicalRecordService` para persistencia de datos (CRUD).
+    *   Selector de fecha (`DateTimePicker`) con formato DD/MM/YYYY.
+    *   Funcionalidad para adjuntar documentos (`expo-document-picker`, `expo-file-system`).
+    *   Notificaciones Toast para feedback de operaciones.
+
+### Unificación de Diseño de UI:
+
+*   **Botones "Añadir":** Estandarización del estilo de los botones "Añadir" en las pantallas de lista de Alergias, Cirugías y Exámenes (botón azul sin icono, tamaño unificado).
+*   **Pies de Página:** Unificación del estilo de los pies de página en las pantallas de lista de Alergias, Cirugías y Exámenes (posición absoluta, fondo semitransparente, sin borde superior).
+*   **Encabezados de Pantalla:**
+    *   Pantalla "Historial Médico": Título "Expediente" ahora en el encabezado del navegador, centrado y más grande.
+    *   Pantalla "Alergias": Eliminación del encabezado manual duplicado, usando el encabezado estándar del navegador.
+    *   Pantalla "Añadir Alergia": Refactorización completa para usar `react-hook-form`, `Toast` y el encabezado estándar del navegador.
+    *   Título principal "VitaPet's" (en el layout raíz) centrado y más grande.
+
+### Correcciones y Mejoras Técnicas:
+
+*   Actualización de `MedicalRecordService` para soportar nuevos tipos de registros (Cirugías, Exámenes).
+*   Instalación y configuración de `react-native-toast-message` para notificaciones.
+*   Instalación de `expo-document-picker` para adjuntar archivos.
+*   Corrección de errores de resolución de módulos (`@/` aliases) mediante el uso de rutas relativas.
+*   Corrección de errores de sintaxis en `app/_layout.tsx` y `app/add-surgery-form.tsx`.
+*   Actualización de claves de internacionalización (`en.json`, `es.json`) y mapeo de iconos (`IconSymbol.tsx`).

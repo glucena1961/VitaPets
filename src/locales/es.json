@@ -74,7 +74,16 @@
     "view_qr": "Ver QR",
     "save": "Guardar",
     "success": "Éxito",
-    "error": "Error"
+    "error": "Error",
+    "locale": "es",
+    "field_required": "Este campo es obligatorio",
+    "record_not_found": "Registro no encontrado",
+    "fetch_error": "Error al cargar el registro",
+    "loading": "Cargando...",
+    "not_specified": "No especificado",
+    "save_success_message": "Registro guardado con éxito.",
+    "save_error_message": "No se pudo guardar el registro.",
+    "delete_success_message": "Registro eliminado con éxito."
   },
   "qrReport": {
     "basic_info_title": "== INFORMACIÓN BÁSICA ==",
@@ -89,8 +98,13 @@
     "weight": "Peso:",
     "allergies": "Alergias:",
     "medications": "Medicamentos:",
-    "specialCondition": "Condición Especial:",
+    "special_condition": "Condición Especial:",
     "others": "Otros:",
+    "others_options": {
+      "spayed": "Esterilizada",
+      "neutered": "Castrado",
+      "none": "Ninguno"
+    },
     "ownerName": "Nombre Dueño:",
     "phone": "Teléfono:",
     "email": "Email:",
@@ -142,20 +156,6 @@
     "vet_name": "Veterinario Tratante",
     "clinic_name": "Clínica",
     "edit_title": "Editar Alergia"
-  },
-  "common": {
-    "edit": "Editar",
-    "delete": "Borrar",
-    "cancel": "Cancelar",
-    "back": "Atrás",
-    "view_qr": "Ver QR",
-    "save": "Guardar",
-    "success": "Éxito",
-    "error": "Error",
-    "not_specified": "No especificado",
-    "save_success_message": "Registro guardado con éxito.",
-    "save_error_message": "No se pudo guardar el registro.",
-    "delete_success_message": "Registro eliminado con éxito."
   },
   "allergy_detail_screen": {
     "title": "Detalle de Alergia",
@@ -219,6 +219,53 @@
     "clinic_label": "Clínica:",
     "results_label": "Resultados:",
     "delete_alert_title": "Borrar Examen",
+    "delete_alert_message": "¿Está seguro de que quiere borrar \"{{name}}\"? Esta acción no se puede deshacer."
+  },
+  "medicine_screen": {
+    "title": "Medicamentos de {{petName}}",
+    "add_button": "Agregar Medicamento",
+    "no_medicines_message": "No hay medicamentos registrados."
+  },
+  "add_medicine_form": {
+    "title": "Añadir Medicamento",
+    "edit_title": "Editar Medicamento",
+    "medicine_name": "Nombre del Medicamento",
+    "dose": "Dosis",
+    "duration": "Duración",
+    "date": "Fecha de Inicio",
+    "notes": "Notas"
+  },
+  "medicine_detail_screen": {
+    "title": "Detalle de Medicamento",
+    "dose_label": "Dosis:",
+    "duration_label": "Duración:",
+    "date_label": "Fecha de Inicio:",
+    "notes_label": "Notas:",
+    "delete_alert_title": "Borrar Medicamento",
+    "delete_alert_message": "¿Está seguro de que quiere borrar \"{{name}}\"? Esta acción no se puede deshacer."
+  },
+  "parasite_treatment_screen": {
+    "title": "Tratamiento Parásitos de {{petName}}",
+    "add_button": "Añadir tratamiento",
+    "no_treatments_message": "No hay tratamientos registrados.",
+    "last_dose_label": "Última dosis:",
+    "next_dose_label": "Próxima dosis:"
+  },
+  "add_parasite_treatment_form": {
+    "title": "Añadir Tratamiento",
+    "edit_title": "Editar Tratamiento",
+    "treatment_name": "Nombre del Tratamiento",
+    "last_dose_date": "Fecha Última Dosis",
+    "next_dose_date": "Fecha Próxima Dosis",
+    "notes": "Notas"
+  },
+  "parasite_treatment_detail_screen": {
+    "title": "Detalle Tratamiento",
+    "treatment_name_label": "Tratamiento:",
+    "last_dose_date_label": "Última Dosis:",
+    "next_dose_date_label": "Próxima Dosis:",
+    "notes_label": "Notas:",
+    "delete_alert_title": "Borrar Tratamiento",
     "delete_alert_message": "¿Está seguro de que quiere borrar \"{{name}}\"? Esta acción no se puede deshacer."
   }
 }

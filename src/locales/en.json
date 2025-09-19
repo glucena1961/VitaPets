@@ -72,7 +72,18 @@
     "cancel": "Cancel",
     "back": "Back",
     "view_qr": "View QR",
-    "save": "Save"
+    "save": "Save",
+    "success": "Success",
+    "error": "Error",
+    "locale": "en",
+    "field_required": "This field is required",
+    "record_not_found": "Record not found",
+    "fetch_error": "Error loading record",
+    "loading": "Loading...",
+    "not_specified": "Not specified",
+    "save_success_message": "Record saved successfully.",
+    "save_error_message": "Could not save record.",
+    "delete_success_message": "Record deleted successfully."
   },
   "qrReport": {
     "basic_info_title": "== BASIC INFORMATION ==",
@@ -87,7 +98,7 @@
     "weight": "Weight:",
     "allergies": "Allergies:",
     "medications": "Medications:",
-    "specialCondition": "Special Condition:",
+    "special_condition": "Special Condition:",
     "others": "Others:",
     "ownerName": "Owner Name:",
     "phone": "Phone:",
@@ -141,29 +152,6 @@
     "clinic_name": "Clinic",
     "edit_title": "Edit Allergy"
   },
-  "common": {
-    "edit": "Edit",
-    "delete": "Delete",
-    "cancel": "Cancel",
-    "back": "Back",
-    "view_qr": "View QR",
-    "save": "Save",
-    "not_specified": "Not specified",
-    "save_success_message": "Record saved successfully.",
-    "save_error_message": "Could not save record.",
-    "delete_success_message": "Record deleted successfully."
-  },
-  "allergy_detail_screen": {
-    "title": "Allergy Detail",
-    "allergy_label": "Allergy to:",
-    "date_label": "Date Detected:",
-    "vet_label": "Attending Veterinarian:",
-    "clinic_label": "Clinic:",
-    "delete_alert_title": "Delete Allergy",
-    "delete_alert_message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
-    "delete_success_message": "Record deleted successfully.",
-    "delete_error_message": "Could not delete record."
-  },
   "surgery_screen": {
     "title": "Surgeries for {{petName}}",
     "add_button": "Add Surgery",
@@ -215,6 +203,53 @@
     "clinic_label": "Clinic:",
     "results_label": "Results:",
     "delete_alert_title": "Delete Exam",
+    "delete_alert_message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."
+  },
+  "medicine_screen": {
+    "title": "Medications for {{petName}}",
+    "add_button": "Add Medication",
+    "no_medicines_message": "No medications recorded."
+  },
+  "add_medicine_form": {
+    "title": "Add Medication",
+    "edit_title": "Edit Medication",
+    "medicine_name": "Medication Name",
+    "dose": "Dose",
+    "duration": "Duration",
+    "date": "Start Date",
+    "notes": "Notes"
+  },
+  "medicine_detail_screen": {
+    "title": "Medication Detail",
+    "dose_label": "Dose:",
+    "duration_label": "Duration:",
+    "date_label": "Start Date:",
+    "notes_label": "Notes:",
+    "delete_alert_title": "Delete Medication",
+    "delete_alert_message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."
+  },
+  "parasite_treatment_screen": {
+    "title": "Parasite Treatments for {{petName}}",
+    "add_button": "Add Treatment",
+    "no_treatments_message": "No treatments recorded.",
+    "last_dose_label": "Last dose:",
+    "next_dose_label": "Next dose:"
+  },
+  "add_parasite_treatment_form": {
+    "title": "Add Treatment",
+    "edit_title": "Edit Treatment",
+    "treatment_name": "Treatment Name",
+    "last_dose_date": "Last Dose Date",
+    "next_dose_date": "Next Dose Date",
+    "notes": "Notes"
+  },
+  "parasite_treatment_detail_screen": {
+    "title": "Treatment Detail",
+    "treatment_name_label": "Treatment:",
+    "last_dose_date_label": "Last Dose:",
+    "next_dose_date_label": "Next Dose:",
+    "notes_label": "Notes:",
+    "delete_alert_title": "Delete Treatment",
     "delete_alert_message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."
   }
 }

@@ -34,6 +34,22 @@ export interface ExamDetails {
   attachmentUri?: string;
 }
 
+// Define la estructura de los detalles para un medicamento
+export interface MedicineDetails {
+  name: string;
+  dose: string;
+  duration: string;
+  notes?: string;
+}
+
+// Define la estructura de los detalles para un tratamiento antiparasitario
+export interface ParasiteTreatmentDetails {
+  name: string;
+  lastDoseDate: string;
+  nextDoseDate: string;
+  notes?: string;
+}
+
 // --- Definiciones de Registros ---
 
 // Estructura base para cualquier registro médico
@@ -62,8 +78,20 @@ export interface ExamRecord extends BaseMedicalRecord {
   details: ExamDetails;
 }
 
+// Registro de Medicamento
+export interface MedicineRecord extends BaseMedicalRecord {
+  type: 'medicine';
+  details: MedicineDetails;
+}
+
+// Registro de Tratamiento Antiparasitario
+export interface ParasiteTreatmentRecord extends BaseMedicalRecord {
+  type: 'parasite_treatment';
+  details: ParasiteTreatmentDetails;
+}
+
 // Unión de todos los tipos de registros médicos posibles
-export type MedicalRecord = AllergyRecord | SurgeryRecord | ExamRecord;
+export type MedicalRecord = AllergyRecord | SurgeryRecord | ExamRecord | MedicineRecord | ParasiteTreatmentRecord;
 
 
 // --- FUNCIONES DEL SERVICIO ---

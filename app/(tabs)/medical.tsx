@@ -51,6 +51,8 @@ const MedicalHistoryScreen = () => {
       allergies: '/allergy-screen',
       surgeries: '/surgery-screen',
       exams: '/exam-screen',
+      medicines: '/medicine-screen',
+      parasite_treatment: '/parasite-treatment-screen',
       // Futuras pantallas se pueden añadir aquí
     };
 
