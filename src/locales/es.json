@@ -152,7 +152,10 @@
     "save": "Guardar",
     "success": "Éxito",
     "error": "Error",
-    "not_specified": "No especificado"
+    "not_specified": "No especificado",
+    "save_success_message": "Registro guardado con éxito.",
+    "save_error_message": "No se pudo guardar el registro.",
+    "delete_success_message": "Registro eliminado con éxito."
   },
   "allergy_detail_screen": {
     "title": "Detalle de Alergia",
@@ -164,5 +167,58 @@
     "delete_alert_message": "¿Está seguro de que quiere borrar \"{{name}}\"? Esta acción no se puede deshacer.",
     "delete_success_message": "Registro eliminado con éxito.",
     "delete_error_message": "No se pudo eliminar el registro."
+  },
+  "surgery_screen": {
+    "title": "Cirugías de {{petName}}",
+    "add_button": "Añadir Cirugía",
+    "no_surgeries_message": "No hay cirugías registradas."
+  },
+  "add_surgery_form": {
+    "title": "Añadir Cirugía",
+    "edit_title": "Editar Cirugía",
+    "surgery_name": "Nombre de la Cirugía",
+    "surgery_name_placeholder": "Ej: Esterilización",
+    "date": "Fecha de la Cirugía",
+    "vet_name": "Veterinario",
+    "clinic_name": "Clínica",
+    "notes": "Notas"
+  },
+  "surgery_detail_screen": {
+    "title": "Detalle de Cirugía",
+    "surgery_label": "Cirugía:",
+    "date_label": "Fecha:",
+    "vet_label": "Veterinario:",
+    "clinic_label": "Clínica:",
+    "delete_alert_title": "Borrar Cirugía",
+    "delete_alert_message": "¿Está seguro de que quiere borrar \"{{name}}\"? Esta acción no se puede deshacer.",
+    "delete_success_message": "Registro eliminado con éxito.",
+    "delete_error_message": "No se pudo eliminar el registro."
+  },
+  "exam_screen": {
+    "title": "Exámenes de {{petName}}",
+    "add_button": "Añadir Examen",
+    "no_exams_message": "No hay exámenes registrados."
+  },
+  "add_exam_form": {
+    "title": "Añadir Examen",
+    "edit_title": "Editar Examen",
+    "exam_name": "Nombre del Examen",
+    "exam_name_placeholder": "Ej: Análisis de sangre",
+    "date": "Fecha del Examen",
+    "vet_name": "Veterinario",
+    "clinic_name": "Clínica",
+    "results": "Resultados",
+    "attachments": "Adjuntar Documento",
+    "upload_prompt": "Toca para subir un archivo"
+  },
+  "exam_detail_screen": {
+    "title": "Detalle de Examen",
+    "exam_label": "Examen:",
+    "date_label": "Fecha:",
+    "vet_label": "Veterinario:",
+    "clinic_label": "Clínica:",
+    "results_label": "Resultados:",
+    "delete_alert_title": "Borrar Examen",
+    "delete_alert_message": "¿Está seguro de que quiere borrar \"{{name}}\"? Esta acción no se puede deshacer."
   }
 }

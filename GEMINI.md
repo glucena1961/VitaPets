@@ -90,3 +90,32 @@ Una vez que hayamos estabilizado los errores actuales, necesitaremos definir las
 ---
 
 **¡Gracias por tu colaboración!**
+
+---
+
+## Implementación Sección 'Alergias' (17 de septiembre de 2025)
+
+Este día se realizó la implementación completa de la sección 'Alergias' dentro de la nueva funcionalidad de 'Historial Médico'.
+
+**Detalles de la implementación:**
+
+- **Nueva Rama:** Se creó la rama `feature/medical-history` para el desarrollo de esta funcionalidad.
+- **Flujo de Usuario:** Se implementó el ciclo completo de Crear, Leer, Actualizar y Borrar (CRUD) para los registros de alergias.
+    -   **Navegación:** Desde la pantalla principal de 'Historial Médico', se puede seleccionar una mascota y acceder a la lista de sus alergias.
+    -   **Lista de Alergias:** Muestra los registros existentes y se actualiza dinámicamente al añadir o borrar.
+    -   **Formulario de Añadir/Editar:** Permite crear nuevas alergias y editar las existentes.
+    -   **Detalle de Alergia:** Muestra la información de una alergia específica y ofrece opciones para editarla o borrarla.
+
+**Colaboración y Adaptación de Diseños (Metodología de Trabajo):**
+
+Cabe destacar que los diseños iniciales para las pantallas 'Alergias' y 'Añadir Alergia' fueron suministrados por el usuario en formato **HTML/CSS**, utilizando herramientas como **Tailwind CSS** y **Material Symbols Outlined**.
+
+Mi rol fue el de "traducir" y adaptar estos diseños a la arquitectura de nuestra aplicación **React Native / Expo Router**. Esto implicó los siguientes ajustes para mantener la consistencia y la eficiencia:
+
+-   **Componentes Nativos:** Conversión de etiquetas HTML (`<div>`, `<button>`, `<input>`) a componentes nativos de React Native (`<View>`, `<TouchableOpacity>`, `<TextInput>`, `<FlatList>`, etc.).
+-   **Sistema de Estilos:** Adaptación de las clases de Tailwind CSS a la API `StyleSheet` de React Native, utilizando la paleta de colores y las convenciones de estilo existentes en el proyecto.
+-   **Internacionalización (i18n):** Todos los textos de las nuevas pantallas y formularios fueron integrados en nuestro sistema `react-i18next`, asegurando que la aplicación sea completamente multilingüe. Esto incluyó la adición de nuevas claves de traducción en `en.json` y `es.json`.
+-   **Gestión de Estado y Datos:** Implementación de la lógica de estado (`useState`, `useEffect`, `useFocusEffect`) y conexión con el nuevo `MedicalRecordService.ts` para la persistencia de datos en `AsyncStorage`.
+-   **Navegación:** Uso de `expo-router` (`useRouter`, `useLocalSearchParams`) para gestionar la navegación entre pantallas y el paso de parámetros.
+
+Este enfoque nos permitió combinar la visión de diseño del usuario con las mejores prácticas de desarrollo móvil y la arquitectura existente de VitaPet.

@@ -49,6 +49,8 @@ const MedicalHistoryScreen = () => {
 
     const paths: { [key: string]: string } = {
       allergies: '/allergy-screen',
+      surgeries: '/surgery-screen',
+      exams: '/exam-screen',
       // Futuras pantallas se pueden añadir aquí
     };
 
@@ -81,7 +83,7 @@ const MedicalHistoryScreen = () => {
           </Picker>
         </View>
 
-        <Text style={styles.title}>{t('medical_history.title')}</Text>
+        {/* El título ahora se maneja en el encabezado del navegador */}
 
         <View style={styles.buttonsContainer}>
           {medicalCategories.map((category) => (

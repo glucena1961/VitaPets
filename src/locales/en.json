@@ -148,7 +148,10 @@
     "back": "Back",
     "view_qr": "View QR",
     "save": "Save",
-    "not_specified": "Not specified"
+    "not_specified": "Not specified",
+    "save_success_message": "Record saved successfully.",
+    "save_error_message": "Could not save record.",
+    "delete_success_message": "Record deleted successfully."
   },
   "allergy_detail_screen": {
     "title": "Allergy Detail",
@@ -160,5 +163,58 @@
     "delete_alert_message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
     "delete_success_message": "Record deleted successfully.",
     "delete_error_message": "Could not delete record."
+  },
+  "surgery_screen": {
+    "title": "Surgeries for {{petName}}",
+    "add_button": "Add Surgery",
+    "no_surgeries_message": "No surgeries recorded."
+  },
+  "add_surgery_form": {
+    "title": "Add Surgery",
+    "edit_title": "Edit Surgery",
+    "surgery_name": "Surgery Name",
+    "surgery_name_placeholder": "e.g., Sterilization",
+    "date": "Date of Surgery",
+    "vet_name": "Veterinarian",
+    "clinic_name": "Clinic",
+    "notes": "Notes"
+  },
+  "surgery_detail_screen": {
+    "title": "Surgery Detail",
+    "surgery_label": "Surgery:",
+    "date_label": "Date:",
+    "vet_label": "Veterinarian:",
+    "clinic_label": "Clinic:",
+    "delete_alert_title": "Delete Surgery",
+    "delete_alert_message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "delete_success_message": "Record deleted successfully.",
+    "delete_error_message": "Could not delete record."
+  },
+  "exam_screen": {
+    "title": "Exams for {{petName}}",
+    "add_button": "Add Exam",
+    "no_exams_message": "No exams recorded."
+  },
+  "add_exam_form": {
+    "title": "Add Exam",
+    "edit_title": "Edit Exam",
+    "exam_name": "Exam Name",
+    "exam_name_placeholder": "e.g., Blood test",
+    "date": "Date of Exam",
+    "vet_name": "Veterinarian",
+    "clinic_name": "Clinic",
+    "results": "Results",
+    "attachments": "Attach Document",
+    "upload_prompt": "Tap to upload a file"
+  },
+  "exam_detail_screen": {
+    "title": "Exam Detail",
+    "exam_label": "Exam:",
+    "date_label": "Date:",
+    "vet_label": "Veterinarian:",
+    "clinic_label": "Clinic:",
+    "results_label": "Results:",
+    "delete_alert_title": "Delete Exam",
+    "delete_alert_message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."
   }
 }

@@ -8,6 +8,8 @@ import uuid from 'react-native-uuid';
 // Define los tipos de registros médicos que manejaremos
 export type MedicalRecordType = 'allergy' | 'vaccine' | 'surgery' | 'exam' | 'parasite_treatment' | 'medicine';
 
+// --- Definiciones de Detalles ---
+
 // Define la estructura de los detalles específicos para una alergia
 export interface AllergyDetails {
   name: string;
@@ -15,14 +17,54 @@ export interface AllergyDetails {
   clinic?: string;
 }
 
-// Estructura genérica para cualquier registro médico
-export interface MedicalRecord {
+// Define la estructura de los detalles para una cirugía
+export interface SurgeryDetails {
+  name: string;
+  vet?: string;
+  clinic?: string;
+  notes?: string;
+}
+
+// Define la estructura de los detalles para un examen
+export interface ExamDetails {
+  name: string;
+  vet?: string;
+  clinic?: string;
+  results?: string;
+  attachmentUri?: string;
+}
+
+// --- Definiciones de Registros ---
+
+// Estructura base para cualquier registro médico
+export interface BaseMedicalRecord {
   id: string; // ID único del registro
   petId: string; // ID de la mascota a la que pertenece
-  type: MedicalRecordType; // El tipo de registro (ej. 'allergy')
-  date: string; // Fecha del registro/detección
-  details: AllergyDetails; // Por ahora solo manejamos detalles de alergia
+  type: MedicalRecordType; // El tipo de registro
+  date: string; // Fecha del registro
 }
+
+// Registro de Alergia
+export interface AllergyRecord extends BaseMedicalRecord {
+  type: 'allergy';
+  details: AllergyDetails;
+}
+
+// Registro de Cirugía
+export interface SurgeryRecord extends BaseMedicalRecord {
+  type: 'surgery';
+  details: SurgeryDetails;
+}
+
+// Registro de Examen
+export interface ExamRecord extends BaseMedicalRecord {
+  type: 'exam';
+  details: ExamDetails;
+}
+
+// Unión de todos los tipos de registros médicos posibles
+export type MedicalRecord = AllergyRecord | SurgeryRecord | ExamRecord;
+
 
 // --- FUNCIONES DEL SERVICIO ---
 

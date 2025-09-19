@@ -18,6 +18,11 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontSize: 20,
+          fontWeight: 'bold',
+        },
       }}>
       <Tabs.Screen
         name="index" // Asumiendo que index.tsx es la pantalla "Principal"

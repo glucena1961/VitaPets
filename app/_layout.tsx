@@ -5,20 +5,19 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { PaperProvider } from 'react-native-paper';
-import { I18nextProvider, useTranslation } from 'react-i18next';
+import { I18nextProvider } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useColorScheme } from '../hooks/useColorScheme';
 import { lightTheme, darkTheme } from '../src/constants/theme';
 import i18next from '../src/lib/i18n';
+import NavigationTitle from '../components/NavigationTitle';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-import NavigationTitle from '@/components/NavigationTitle';
-
-// Componente de navegación principal. Ahora puede usar useTranslation de forma segura
-// porque su proveedor estará garantizado en un nivel superior.
+// Componente de navegación principal.
 function RootLayoutNav() {
   return (
     <Stack>
@@ -30,6 +29,11 @@ function RootLayoutNav() {
           headerShown: true,
           headerTitle: () => <NavigationTitle i18nKey="app.name" />,
           headerLeft: () => null,
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 22,
+            fontWeight: 'bold',
+          },
         }}
       />
       <Stack.Screen name="+not-found" />
@@ -37,8 +41,7 @@ function RootLayoutNav() {
   );
 }
 
-// Nuevo componente que maneja la carga de recursos y el estado de la UI.
-// Se renderiza DENTRO de I18nextProvider, por lo que tiene acceso al contexto.
+// Componente que maneja la carga de recursos y el estado de la UI.
 function AppContent() {
   const colorScheme = useColorScheme();
   const [isI18nReady, setI18nReady] = useState(false);
@@ -46,7 +49,6 @@ function AppContent() {
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
-  // Efecto para cargar fuentes y el idioma guardado.
   useEffect(() => {
     async function prepare() {
       try {
@@ -60,7 +62,6 @@ function AppContent() {
         setI18nReady(true);
       }
     }
-
     prepare();
   }, []);
 
@@ -68,7 +69,6 @@ function AppContent() {
     if (error) throw error;
   }, [error]);
 
-  // Ocultar la splash screen solo cuando las fuentes Y el i18n estén listos.
   useEffect(() => {
     if (loaded && isI18nReady) {
       SplashScreen.hideAsync();
@@ -92,11 +92,12 @@ function AppContent() {
   );
 }
 
-// El componente raíz ahora solo se encarga de proveer el contexto de i18n.
+// El componente raíz que provee todos los contextos.
 export default function RootLayout() {
   return (
     <I18nextProvider i18n={i18next}>
       <AppContent />
+      <Toast />
     </I18nextProvider>
   );
 }
