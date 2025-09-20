@@ -1,16 +1,19 @@
+
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import i18n from '../src/lib/i18n'; // Importar la instancia de i18n
 
 export default function OnboardingScreen() {
   const { t } = useTranslation();
   const router = useRouter();
 
-  const handleContinue = () => {
+  const handleLanguageSelect = (lang: 'es' | 'en') => {
+    i18n.changeLanguage(lang);
     // Usamos replace para que el usuario no pueda "volver" a la pantalla de onboarding
-    router.replace('/(tabs)/pets');
+    router.replace('/(tabs)');
   };
 
   return (
@@ -19,14 +22,23 @@ export default function OnboardingScreen() {
         {t('welcome.title')}
       </Text>
       <Text variant="bodyLarge" style={styles.subtitle}>
-        {t('onboarding.page1_text')}
+        {t('welcome.select_language')}
       </Text>
+      
       <Button 
         mode="contained" 
-        onPress={handleContinue} 
+        onPress={() => handleLanguageSelect('es')} 
         style={styles.button}
       >
-        {t('onboarding.continue_button')}
+        Español
+      </Button>
+
+      <Button 
+        mode="contained" 
+        onPress={() => handleLanguageSelect('en')} 
+        style={styles.button}
+      >
+        English
       </Button>
     </View>
   );
@@ -48,7 +60,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    marginTop: 20,
+    marginTop: 10,
     width: '80%',
   },
 });
