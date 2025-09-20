@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, FlatList, TouchableOpacity, Text } from 'react-native';
 import { Stack, useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
@@ -45,11 +44,11 @@ export default function MedicineScreen() {
       }}
     >
       <View style={styles.cardContent}>
-        <ThemedText style={styles.medicineName}>{item.details.name}</ThemedText>
-        <ThemedText style={styles.medicineInfo}>{item.details.dose}</ThemedText>
-        <ThemedText style={styles.medicineDuration}>{t('add_medicine_form.duration')}: {item.details.duration}</ThemedText>
+        <ThemedText style={styles.cardTitle}>{item.details.name}</ThemedText>
+        <ThemedText style={styles.cardSubtitle}>{item.details.dose}</ThemedText>
+        <ThemedText style={styles.cardSubtitle}>{t('add_medicine_form.duration')}: {item.details.duration}</ThemedText>
       </View>
-      <IconSymbol name="chevron_right" size={40} color={Colors[colorScheme].gray} />
+      <IconSymbol name="chevron_right" size={24} color={Colors[colorScheme].gray} />
     </TouchableOpacity>
   );
 
@@ -64,7 +63,7 @@ export default function MedicineScreen() {
         contentContainerStyle={styles.listContent}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <ThemedText>{t('medicine_screen.no_medicines_message')}</ThemedText>
+            <ThemedText style={styles.emptyText}>{t('medicine_screen.no_medicines_message')}</ThemedText>
           </View>
         }
       />
@@ -76,7 +75,7 @@ export default function MedicineScreen() {
             router.push({ pathname: '/add-medicine-form', params: { petId, petName } });
           }}
         >
-          <IconSymbol name="add" size={36} color="white" />
+          <IconSymbol name="add" size={20} color="white" />
           <Text style={styles.addButtonText}>{t('medicine_screen.add_button')}</Text>
         </TouchableOpacity>
       </View>
@@ -90,39 +89,37 @@ const createStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create
     backgroundColor: Colors[colorScheme === 'dark' ? 'dark' : 'light'].background,
   },
   listContent: {
-    padding: 24,
-    paddingBottom: 120, // Espacio para el footer
+    padding: 16,
+    paddingBottom: 100,
   },
   card: {
     backgroundColor: Colors[colorScheme === 'dark' ? 'dark' : 'light'].card,
-    borderRadius: 12,
-    padding: 24,
+    borderRadius: 8,
+    padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 16,
+    borderWidth: 1,
+    borderColor: Colors[colorScheme === 'dark' ? 'dark' : 'light'].border,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
   },
   cardContent: {
     flex: 1,
   },
-  medicineName: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 4,
   },
-  medicineInfo: {
-    fontSize: 20,
+  cardSubtitle: {
+    fontSize: 14,
     color: Colors[colorScheme === 'dark' ? 'dark' : 'light'].secondaryText,
-    marginTop: 8,
-  },
-  medicineDuration: {
-    fontSize: 18,
-    color: Colors[colorScheme === 'dark' ? 'dark' : 'light'].tertiaryText,
-    marginTop: 8,
+    marginTop: 4,
   },
   emptyContainer: {
     flex: 1,
@@ -130,14 +127,18 @@ const createStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create
     alignItems: 'center',
     marginTop: 50,
   },
+  emptyText: {
+    fontSize: 16,
+    color: Colors.light.gray,
+  },
   footer: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    padding: 24,
-    backgroundColor: 'transparent', // El fondo lo da el contenedor padre si es necesario
-    borderTopWidth: 2,
+    padding: 16,
+    backgroundColor: 'transparent',
+    borderTopWidth: 1,
     borderTopColor: Colors[colorScheme === 'dark' ? 'dark' : 'light'].border,
   },
   addButton: {
@@ -145,14 +146,14 @@ const createStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 16,
-    height: 64,
-    paddingHorizontal: 24,
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
   },
   addButtonText: {
     color: 'white',
-    fontSize: 22,
+    fontSize: 16,
     fontWeight: 'bold',
-    marginLeft: 12,
+    marginLeft: 8,
   },
 });

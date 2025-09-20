@@ -50,6 +50,13 @@ export interface ParasiteTreatmentDetails {
   notes?: string;
 }
 
+// Define la estructura para una vacuna
+export interface VaccineDetails {
+  name: string;
+  nextDoseDate: string;
+  lot?: string;
+}
+
 // --- Definiciones de Registros ---
 
 // Estructura base para cualquier registro médico
@@ -90,8 +97,14 @@ export interface ParasiteTreatmentRecord extends BaseMedicalRecord {
   details: ParasiteTreatmentDetails;
 }
 
+// Registro de Vacuna
+export interface VaccineRecord extends BaseMedicalRecord {
+  type: 'vaccine';
+  details: VaccineDetails;
+}
+
 // Unión de todos los tipos de registros médicos posibles
-export type MedicalRecord = AllergyRecord | SurgeryRecord | ExamRecord | MedicineRecord | ParasiteTreatmentRecord;
+export type MedicalRecord = AllergyRecord | SurgeryRecord | ExamRecord | MedicineRecord | ParasiteTreatmentRecord | VaccineRecord;
 
 
 // --- FUNCIONES DEL SERVICIO ---

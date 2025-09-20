@@ -170,9 +170,9 @@ export default {
   },
   "surgery_screen": {
     "title": "Cirugías de {{petName}}",
-    "add_button": "Añadir Cirugía",
-    "no_surgeries_message": "No hay cirugías registradas."
+    "add_button": "Añadir Cirugía"
   },
+  "no_surgeries_message": "No hay cirugías registradas.",
   "add_surgery_form": {
     "title": "Añadir Cirugía",
     "edit_title": "Editar Cirugía",
@@ -267,5 +267,24 @@ export default {
     "notes_label": "Notas:",
     "delete_alert_title": "Borrar Tratamiento",
     "delete_alert_message": "¿Está seguro de que quiere borrar \"{{name}}\"? Esta acción no se puede deshacer."
+  },
+  "vaccine_screen": {
+    "title": "Vacunas de {{petName}}",
+    "administered": "Administrada",
+    "next_dose": "Próxima dosis",
+    "no_vaccines_message": "No hay vacunas registradas.",
+    "add_button": "Añadir Vacuna"
+  },
+  "add_vaccine_form": {
+    "add_title": "Añadir Vacuna",
+    "edit_title": "Editar Vacuna",
+    "name": "Nombre de la Vacuna",
+    "date": "Fecha de Administración",
+    "next_dose_date": "Fecha Próxima Dosis",
+    "lot": "Lote"
+  },
+  "delete_vaccine_alert": {
+    "title": "Borrar Vacuna",
+    "message": "¿Está seguro de que quiere borrar la vacuna '{{name}}'?"
   }
 }

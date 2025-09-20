@@ -262,5 +262,24 @@ export default {
     "notes_label": "Notes:",
     "delete_alert_title": "Delete Treatment",
     "delete_alert_message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."
+  },
+  "vaccine_screen": {
+    "title": "Vaccines for {{petName}}",
+    "administered": "Administered",
+    "next_dose": "Next dose",
+    "no_vaccines_message": "No vaccines recorded.",
+    "add_button": "Add Vaccine"
+  },
+  "add_vaccine_form": {
+    "add_title": "Add Vaccine",
+    "edit_title": "Edit Vaccine",
+    "name": "Vaccine Name",
+    "date": "Administration Date",
+    "next_dose_date": "Next Dose Date",
+    "lot": "Lot Number"
+  },
+  "delete_vaccine_alert": {
+    "title": "Delete Vaccine",
+    "message": "Are you sure you want to delete the vaccine '{{name}}\'?"
   }
 }

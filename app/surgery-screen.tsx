@@ -1,15 +1,20 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, useRouter, Stack, useFocusEffect } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Colors } from '../constants/Colors';
 import { IconSymbol } from '../components/ui/IconSymbol';
 import { getMedicalRecords, SurgeryRecord } from '../src/data/MedicalRecordService';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function SurgeryScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const { petName, petId } = useLocalSearchParams<{ petName: string; petId: string }>();
+  const colorScheme = useColorScheme();
+  const styles = createStyles(colorScheme);
 
   const [surgeries, setSurgeries] = useState<SurgeryRecord[]>([]);
 
@@ -41,18 +46,18 @@ export default function SurgeryScreen() {
       })}
     >
       <View style={styles.cardContent}>
-        <Text style={styles.cardTitle}>{item.details.name}</Text>
-        <Text style={styles.cardSubtitle}>{item.date}</Text>
-        <Text style={styles.cardSubtitle}>
+        <ThemedText style={styles.cardTitle}>{item.details.name}</ThemedText>
+        <ThemedText style={styles.cardSubtitle}>{item.date}</ThemedText>
+        <ThemedText style={styles.cardSubtitle}>
           {item.details.vet || ''}{item.details.vet && item.details.clinic ? ', ' : ''}{item.details.clinic || ''}
-        </Text>
+        </ThemedText>
       </View>
-      <IconSymbol name="chevron.right" size={24} color={Colors.light.gray} />
+      <IconSymbol name="chevron.right" size={24} color={Colors[colorScheme].gray} />
     </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ThemedView style={styles.container}>
       <Stack.Screen
         options={{
           title: t('surgery_screen.title', { petName }),
@@ -66,7 +71,7 @@ export default function SurgeryScreen() {
         contentContainerStyle={styles.listContentContainer}
         ListEmptyComponent={() => (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>{t('no_surgeries_message')}</Text> 
+            <ThemedText style={styles.emptyText}>{t('no_surgeries_message')}</ThemedText> 
           </View>
         )}
       />
@@ -78,33 +83,33 @@ export default function SurgeryScreen() {
             params: { petId, petName },
           })}
         >
-          <IconSymbol name="add" size={24} color={Colors.light.text} />
+          <IconSymbol name="add" size={20} color="white" />
           <Text style={styles.addButtonText}>{t('surgery_screen.add_button')}</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </ThemedView>
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.light.background,
+    backgroundColor: Colors[colorScheme === 'dark' ? 'dark' : 'light'].background,
   },
   listContentContainer: {
     padding: 16,
     paddingBottom: 100, // To avoid footer overlap
   },
   card: {
-    backgroundColor: Colors.light.white,
+    backgroundColor: Colors[colorScheme === 'dark' ? 'dark' : 'light'].card,
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: Colors.light.border,
     padding: 16,
     marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: Colors[colorScheme === 'dark' ? 'dark' : 'light'].border,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
@@ -117,12 +122,12 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: Colors.light.text,
     marginBottom: 4,
   },
   cardSubtitle: {
     fontSize: 14,
-    color: Colors.light.gray,
+    color: Colors[colorScheme === 'dark' ? 'dark' : 'light'].secondaryText,
+    marginTop: 4,
   },
   footer: {
     position: 'absolute',
@@ -130,20 +135,24 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     padding: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    borderTopWidth: 0,
+    backgroundColor: 'transparent',
+    borderTopWidth: 1,
+    borderTopColor: Colors[colorScheme === 'dark' ? 'dark' : 'light'].border,
   },
   addButton: {
-    backgroundColor: '#3B82F6',
-    paddingVertical: 14,
-    borderRadius: 8,
+    backgroundColor: Colors[colorScheme].blue,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
   },
   addButtonText: {
-    color: '#FFFFFF',
+    color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+    marginLeft: 8,
   },
   emptyContainer: {
     flex: 1,

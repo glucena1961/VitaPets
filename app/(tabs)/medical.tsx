@@ -53,6 +53,7 @@ const MedicalHistoryScreen = () => {
       exams: '/exam-screen',
       medicines: '/medicine-screen',
       parasite_treatment: '/parasite-treatment-screen',
+      vaccines: '/vaccine-screen',
       // Futuras pantallas se pueden añadir aquí
     };
 

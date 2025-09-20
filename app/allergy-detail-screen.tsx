@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useRouter, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { deleteMedicalRecord } from '../src/data/MedicalRecordService';
 
 const AllergyDetailScreen = () => {
   const router = useRouter();
+  const navigation = useNavigation();
   const { t } = useTranslation();
   const params = useLocalSearchParams<{ petId: string, id: string, name: string, date: string, vet?: string, clinic?: string }>();
 
@@ -41,25 +42,25 @@ const AllergyDetailScreen = () => {
     );
   };
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.headerActions}>
+          <TouchableOpacity onPress={handleEdit} style={styles.headerButton}>
+            <Ionicons name="pencil" size={22} color="#111827" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleDelete} style={styles.headerButton}>
+            <Ionicons name="trash-outline" size={24} color="#EF4444" />
+          </TouchableOpacity>
+        </View>
+      ),
+    });
+  }, [navigation, handleEdit, handleDelete]);
+
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.headerButton}>
-            <Ionicons name="arrow-back" size={24} color="#111827" />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>{t('allergy_detail_screen.title')}</Text>
-          <View style={styles.headerActions}>
-            <TouchableOpacity onPress={handleEdit} style={styles.headerButton}>
-              <Ionicons name="pencil" size={22} color="#111827" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleDelete} style={styles.headerButton}>
-              <Ionicons name="trash-outline" size={24} color="#EF4444" />
-            </TouchableOpacity>
-          </View>
-        </View>
-
         {/* Content */}
         <View style={styles.contentContainer}>
           <View style={styles.detailItem}>
@@ -87,18 +88,8 @@ const AllergyDetailScreen = () => {
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#FFFFFF' },
   container: { flex: 1 },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
-  },
-  headerButton: { width: 40, height: 40, alignItems: 'center', justifyContent: 'center' },
-  headerTitle: { fontSize: 18, fontWeight: 'bold', color: '#111827' },
   headerActions: { flexDirection: 'row' },
+  headerButton: { width: 40, height: 40, alignItems: 'center', justifyContent: 'center' },
   contentContainer: { padding: 20 },
   detailItem: {
     backgroundColor: '#F9FAFB',

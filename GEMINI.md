@@ -32,52 +32,59 @@
 - El proyecto MiAppSimple está 100% estable y funcional en el entorno de desarrollo (Expo Go/emulador). Todos los problemas de persistencia de datos, UI/UX y errores de inicio han sido resueltos. El historial de Git está actualizado. Mañana, el siguiente paso es generar el archivo .apk instalable.
 - El 10/09/2025, la aplicación MiAppSimple está en condición estable 100% operativa, con el commit actualizado a la versión: a37e5be.
 - El último commit (ID: 81f109f45432454fcebc7a34630dfed9f37870bd) incluye mejoras significativas de UI/UX, internacionalización completa de formularios y pantallas, y la aplicación se considera estable a la fecha 13/NOV/2025.
-- Se implementó un módulo de autenticación completo (login, registro, recuperación de contraseña) en la rama `feature/auth-module` usando Supabase. El trabajo se guardó en el commit f11a273 y la rama se dejó aparcada a petición del usuario para no interferir con otros desarrollos. Se resolvió un conflicto de dependencias complejo relacionado con `react-native-reanimated` y la configuración de Babel.
+- Se implementó un módulo de autenticación completo (login, registro, recuperación de contraseña) en la rama `feature/auth-module` usando Supabase. El trabajo se guardó en el commit f11a273 y la rama se dejó aparcada a petición del usuario para no interferir con otros desarrollos.
 - A fecha del 15 de septiembre de 2025, la pantalla de Detalle de QR de VitaPet fue implementada por completo (generación de QR legible, visualización de datos, descarga y compartición). La app es considerada 100% estable y robusta por el usuario, a la espera de la definición de nuevas funcionalidades.
-- Se implementó la funcionalidad completa (CRUD: Crear, Leer, Actualizar, Borrar) para la sección 'Alergias' del historial médico. Esto incluyó la creación de las pantallas `allergy-screen.tsx` (lista), `allergy-detail-screen.tsx` (detalle) y `add-allergy-form.tsx` (formulario de añadir/editar). Se desarrolló un nuevo `MedicalRecordService.ts` para la persistencia de datos en AsyncStorage. Se manejó la navegación entre estas pantallas, incluyendo el paso de parámetros. Se corrigieron múltiples problemas de internacionalización (i18n) y una ruta de importación. El usuario confirmó una satisfacción de 10/10 con la funcionalidad. Todos los cambios fueron subidos a la rama `feature/medical-history`.
+- Se implementó la funcionalidad completa (CRUD: Crear, Leer, Actualizar, Borrar) para la sección 'Alergias' del historial médico. Esto incluyó la creación de las pantallas `allergy-screen.tsx` (lista), `allergy-detail-screen.tsx` (detalle) y `add-allergy-form.tsx` (formulario de añadir/editar). Se desarrolló un nuevo `MedicalRecordService.ts` para la persistencia de datos en AsyncStorage. Se manejó la navegación entre estas pantallas, incluyendo el paso de parámetros. Se corrigieron múltiples problemas de internacionalización (i18n) y una ruta de importación. El usuario confirmó una satisfacción de 10/10 con la funcionalidad.
 - Implementación completa de la gestión de Cirugías y Exámenes, y unificación de UI (18 de septiembre de 2025). Se implementaron pantallas de lista y formularios multifuncionales (añadir/ver/editar) para Cirugías y Exámenes, con persistencia de datos (CRUD), selectores de fecha, notificaciones Toast y funcionalidad para adjuntar documentos en Exámenes. Se unificó el diseño de UI de botones 'Añadir', pies de página y encabezados en pantallas clave (Historial Médico, Alergias, Cirugías, Exámenes). Se refactorizó el formulario 'Añadir Alergia' a react-hook-form y Toast. Se corrigieron errores técnicos como resolución de módulos, sintaxis e instalación/configuración de librerías.
-
----
-
-## Actualizaciones Recientes del Proyecto VitaPet (19 de septiembre de 2025)
-
-El proyecto VitaPet ha sido actualizado con éxito, incorporando nuevas funcionalidades y resolviendo problemas críticos de internacionalización y visualización. La aplicación se considera **100% estable y funcional** a la fecha.
-
-### 1. Implementación de la Funcionalidad "Medicinas"
-
-Se ha añadido un módulo completo para la gestión de registros de medicamentos de mascotas.
-*   **Componentes Creados:**
-    *   `app/medicine-screen.tsx`: Pantalla de lista de medicamentos.
-    *   `app/add-medicine-form.tsx`: Formulario para añadir y editar medicamentos.
-    *   `app/medicine-detail-screen.tsx`: Pantalla de detalle de un medicamento.
-*   **Modelo de Datos:** Se extendió `src/data/MedicalRecordService.ts` para incluir la interfaz `MedicineDetails` (con `name`, `dose`, `duration`, `notes`) y `MedicineRecord`.
-*   **Internacionalización (i18n):** Se agregaron todas las claves de traducción necesarias en `es.json` y `en.json`.
-*   **Navegación:** Integrada en la pantalla "Historial Médico" (`app/(tabs)/medical.tsx`).
-*   **Rama de Desarrollo:** `feature/medicines`.
-
-### 2. Implementación de la Funcionalidad "Tratamiento Parásitos"
-
-Se ha añadido un módulo completo para la gestión de registros de tratamientos antiparasitarios de mascotas.
-*   **Componentes Creados:**
-    *   `app/parasite-treatment-screen.tsx`: Pantalla de lista de tratamientos.
-    *   `app/add-parasite-treatment-form.tsx`: Formulario para añadir y editar tratamientos.
-    *   `app/parasite-treatment-detail-screen.tsx`: Pantalla de detalle de un tratamiento.
-*   **Modelo de Datos:** Se extendió `src/data/MedicalRecordService.ts` para incluir la interfaz `ParasiteTreatmentDetails` (con `name`, `lastDoseDate`, `nextDoseDate`, `notes`) y `ParasiteTreatmentRecord`.
-*   **Internacionalización (i18n):** Se agregaron todas las claves de traducción necesarias en `es.json` y `en.json`.
-*   **Navegación:** Integrada en la pantalla "Historial Médico" (`app/(tabs)/medical.tsx`).
-*   **Rama de Desarrollo:** `feature/parasite-treatment`.
-
-### 3. Mejoras y Correcciones Generales
-
-*   **Paleta de Colores:** Se expandió `constants/Colors.ts` con una paleta de colores más completa (`blue`, `gray`, `red`, `card`, `secondaryText`, `tertiaryText`, `inputBackground`, `inputText`, `inputBorder`, `placeholderText`, `border`) para asegurar una consistencia visual y adaptabilidad al tema (claro/oscuro) en toda la aplicación.
-*   **Corrección de Problemas de Internacionalización (i18n):**
-    *   Se resolvió el error `Invalid subtag: common.locale` añadiendo la clave `locale` y otras claves comunes faltantes en `es.json` y `en.json`.
-    *   Se solucionó el problema persistente de que los placeholders y textos aparecieran en inglés (ej. "Notas") cuando el idioma era español. La causa raíz fue la **sintaxis JSON inválida** (comas faltantes) en los archivos `es.json` y `en.json` en objetos específicos. Una vez corregida la sintaxis, y tras una limpieza agresiva de la caché, el sistema de i18n funciona correctamente utilizando los archivos `.json`.
-    *   Se revirtió un intento de migrar los archivos de traducción a `.js` debido a que introdujo nuevos problemas de idioma, confirmando que la solución estable reside en la correcta validación y carga de los archivos `.json`.
-*   **Limpieza de Código:** Se eliminaron archivos `.js` de traducción redundantes generados durante el proceso de depuración.
-
-### 4. Estado del Proyecto
-
-La aplicación se encuentra en un estado **100% estable y funcional**, con todas las nuevas características integradas y los problemas de visualización e idioma resueltos.
-
----
+ 
+ ## Actualizaciones Recientes del Proyecto VitaPet (19 de septiembre de 2025)
+ 
+ El proyecto VitaPet ha sido actualizado con éxito, incorporando nuevas funcionalidades y resolviendo problemas críticos de internacionalización y visualización. La aplicación se considera **100% estable y funcional** a la fecha.
+ 
+ ### 1. Implementación de la Funcionalidad "Medicinas"
+ 
+ Se ha añadido un módulo completo para la gestión de registros de medicamentos de mascotas.
+ *   **Componentes Creados:**
+     *   `app/medicine-screen.tsx`: Pantalla de lista de medicamentos.
+     *   `app/add-medicine-form.tsx`: Formulario para añadir y editar medicamentos.
+     *   `app/medicine-detail-screen.tsx`: Pantalla de detalle de un medicamento.
+ *   **Modelo de Datos:** Se extendió `src/data/MedicalRecordService.ts` para incluir la interfaz `MedicineDetails` (con `name`, `dose`, `duration`, `notes`) y `MedicineRecord`.
+ *   **Internacionalización (i18n):** Se agregaron todas las claves de traducción necesarias en `es.json` y `en.json`.
+ *   **Navegación:** Integrada en la pantalla "Historial Médico" (`app/(tabs)/medical.tsx`).
+ *   **Rama de Desarrollo:** `feature/medicines`.
+ 
+ ### 2. Implementación de la Funcionalidad "Tratamiento Parásitos"
+ 
+ Se ha añadido un módulo completo para la gestión de registros de tratamientos antiparasitarios de mascotas.
+ *   **Componentes Creados:**
+     *   `app/parasite-treatment-screen.tsx`: Pantalla de lista de tratamientos.
+     *   `app/add-parasite-treatment-form.tsx`: Formulario para añadir y editar tratamientos.
+     *   `app/parasite-treatment-detail-screen.tsx`: Pantalla de detalle de un tratamiento.
+ *   **Modelo de Datos:** Se extendió `src/data/MedicalRecordService.ts` para incluir la interfaz `ParasiteTreatmentDetails` (con `name`, `lastDoseDate`, `nextDoseDate`, `notes`) y `ParasiteTreatmentRecord`.
+ *   **Internacionalización (i18n):** Se agregaron todas las claves de traducción necesarias en `es.json` y `en.json`.
+ *   **Navegación:** Integrada en la pantalla "Historial Médico" (`app/(tabs)/medical.tsx`).
+ *   **Rama de Desarrollo:** `feature/parasite-treatment`.
+ 
+ ### 3. Mejoras y Correcciones Generales
+ 
+ *   **Paleta de Colores:** Se expandió `constants/Colors.ts` con una paleta de colores más completa (`blue`, `gray`, `red`, `card`, `secondaryText`, `tertiaryText`, `inputBackground`, `inputText`, `inputBorder`, `placeholderText`, `border`) para asegurar una consistencia visual y adaptabilidad al tema (claro/oscuro) en toda la aplicación.
+ *   **Corrección de Problemas de Internacionalización (i18n):**
+     *   Se resolvió el error `Invalid subtag: common.locale` añadiendo la clave `locale` y otras claves comunes faltantes en `es.json` y `en.json`.
+     *   Se solucionó el problema persistente de que los placeholders y textos aparecieran en inglés (ej. "Notas") cuando el idioma era español. La causa raíz fue la **sintaxis JSON inválida** (comas faltantes) en los archivos `es.json` y `en.json` en objetos específicos. Una vez corregida la sintaxis, y tras una limpieza agresiva de la caché, el sistema de i18n funciona correctamente utilizando los archivos `.json`.
+     *   Se revirtió un intento de migrar los archivos de traducción a `.js` debido a que introdujo nuevos problemas de idioma, confirmando que la solución estable reside en la correcta validación y carga de los archivos `.json`.
+ *   **Limpieza de Código:** Se eliminaron archivos `.js` de traducción redundantes generados durante el proceso de depuración.
+ 
+ ### 4. Estado del Proyecto
+ 
+ La aplicación se encuentra en un estado **100% estable y funcional**, con todas las nuevas características integradas y los problemas de visualización e idioma resueltos.
+ 
+ ## Reversión de la Funcionalidad "Vacunas" (19 de septiembre de 2025)
+ 
+ Se ha revertido completamente la implementación de la funcionalidad de "Registro de Vacunas" y "Añadir Vacuna".
+ 
+ **Motivo:** La introducción de esta funcionalidad generó una serie de errores críticos en el entorno de desarrollo, incluyendo:
+ *   `ReferenceError: Property 'StyleSheet' doesn't exist`
+ *   Problemas de resolución de hooks de `expo-router` (`useSearchParams`, `useLocalSearchParams`)
+ *   Errores de `ENOENT` en archivos internos del bundler.
+ 
+ Estos problemas no pudieron ser resueltos sin una limpieza profunda y agresiva del entorno (`node_modules`), la cual no fue autorizada por el usuario. Para asegurar la estabilidad de la aplicación, se decidió eliminar todo rastro de esta funcionalidad y regresar el proyecto a su estado anterior.
