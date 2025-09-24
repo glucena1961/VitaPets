@@ -29,3 +29,5 @@ La rama `master` se mantiene como una base 100% estable y funcional que **INCLUY
     *   Vacunas
 
 Todo nuevo desarrollo partirá de este estado estable.
+
+- Se implementó la funcionalidad de ajuste de tamaño de fuente. Esto incluyó la creación de un `FontSizeContext`, la modificación de `ThemedText` para usarlo, la integración de botones de control en `SettingsScreen`, y la adaptación de `app/_layout.tsx`, `app/(tabs)/index.tsx`, `app/(tabs)/pets.tsx`, `app/(tabs)/medical.tsx` y `components/NavigationTitle.tsx` para usar `ThemedText`. Se corrigieron errores de sobrescritura de estilos y se fijó el tamaño de fuente del menú de navegación del pie de página.
