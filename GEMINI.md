@@ -13,11 +13,7 @@ A fecha de hoy, se ha tomado la decisión de **resetear el ciclo de desarrollo**
 El siguiente trabajo fue descartado y deberá ser reconstruido desde cero:
 
 *   **Módulo de Autenticación Completo** (previamente en `feature/auth-module`).
-*   **Toda la Pantalla y Lógica de Ajustes**, incluyendo:
-    *   Pantalla base de Ajustes.
-    *   Ajuste de tamaño de fuente.
-    *   Cambio de idioma.
-    *   Términos y Condiciones.
+*   **Lógica de la Pantalla de Ajustes** (la pantalla `app/(tabs)/settings.tsx` existe con una UI básica, pero su lógica de navegación y funcionalidad para 'Tamaño de Fuente', 'Cambio de Idioma', 'Términos y Condiciones' y 'Cerrar Sesión' está pendiente de implementación).
 
 ## Funcionalidad Base en `master` (Estado Actual)
 
