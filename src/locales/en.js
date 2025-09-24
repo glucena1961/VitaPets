@@ -15,6 +15,15 @@ export default {
     "medical": "Medical Record",
     "settings": "Settings"
   },
+  "settings": {
+    "font_size": "Font Size",
+    "font_size_normal": "Normal",
+    "font_size_medium": "Medium",
+    "font_size_large": "Large",
+    "language_change": "Language Change",
+    "terms_and_conditions": "Terms and Conditions",
+    "logout": "Log Out"
+  },
   "home": {
     "welcome": "Welcome to VitaPet",
     "add_pet_button": "Register New Pet & Generate QR"

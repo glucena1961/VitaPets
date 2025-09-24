@@ -55,8 +55,8 @@ export default function PetListScreen() {
 
         {/* Columna Derecha: Textos */}
         <View style={styles.textContainer}>
-          <Text style={styles.petName}>{item.basicInfo?.name || t('pet_form.unnamed')}</Text>
-          <Text style={styles.petBreed}>{item.basicInfo?.breed || t('pet_form.no_species')}</Text>
+          <ThemedText style={styles.petName}>{item.basicInfo?.name || t('pet_form.unnamed')}</ThemedText>
+          <ThemedText style={styles.petBreed}>{item.basicInfo?.breed || t('pet_form.no_species')}</ThemedText>
         </View>
       </View>
 

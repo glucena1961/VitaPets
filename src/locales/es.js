@@ -15,6 +15,15 @@ export default {
     "medical": "Expediente",
     "settings": "Ajustes"
   },
+  "settings": {
+    "font_size": "Tamaño de Fuente",
+    "font_size_normal": "Normal",
+    "font_size_medium": "Mediano",
+    "font_size_large": "Grande",
+    "language_change": "Cambio de Idioma",
+    "terms_and_conditions": "Términos y Condiciones",
+    "logout": "Cerrar Sesión"
+  },
   "home": {
     "welcome": "Bienvenido a VitaPet",
     "add_pet_button": "Registrar Nueva Mascota y Generar QR"

@@ -1,8 +1,8 @@
-import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
+import { ThemedText } from '@/components/ThemedText';
 
 export default function HomeScreen() {
   const { t } = useTranslation();
@@ -10,9 +10,9 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text variant="headlineLarge" style={styles.title}>
+      <ThemedText type="title" style={styles.title}>
         {t('home.welcome')}
-      </Text>
+      </ThemedText>
       <Button
         mode="contained"
         icon="plus-circle"

@@ -1,11 +1,13 @@
 
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Platform } from 'react-native';
+import React, { useState, useEffect, useMemo } from 'react';
+import { View, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
 import { getPets, Pet } from '../../src/data/PetService';
+import { ThemedText } from '@/components/ThemedText';
+import { useFontSize } from '@/src/contexts/FontSizeContext';
 
 const MedicalHistoryScreen = () => {
   const { t } = useTranslation();
@@ -13,6 +15,7 @@ const MedicalHistoryScreen = () => {
   const [selectedPetId, setSelectedPetId] = useState<string | undefined>();
   const [selectedPetData, setSelectedPetData] = useState<Pet | null>(null);
   const [pets, setPets] = useState<Pet[]>([]);
+  const { getFontSizeIncrement } = useFontSize();
 
   useEffect(() => {
     const loadPets = async () => {
@@ -69,6 +72,20 @@ const MedicalHistoryScreen = () => {
     }
   };
 
+  const dynamicStyles = useMemo(() => StyleSheet.create({
+    pickerItem: {
+      height: 120,
+      fontSize: getFontSizeIncrement(16),
+    },
+    buttonText: {
+      fontSize: getFontSizeIncrement(16),
+      fontWeight: '500',
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+      color: '#374151',
+    },
+  }), [getFontSizeIncrement]);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -77,7 +94,7 @@ const MedicalHistoryScreen = () => {
             selectedValue={selectedPetId}
             onValueChange={(itemValue) => handlePetSelection(itemValue)}
             style={styles.picker}
-            itemStyle={styles.pickerItem}
+            itemStyle={dynamicStyles.pickerItem}
           >
             <Picker.Item label={t('medical_history.select_pet')} value={undefined} />
             {pets.map((pet) => (
@@ -96,9 +113,9 @@ const MedicalHistoryScreen = () => {
               onPress={() => handleCategoryPress(category)}
               disabled={!selectedPetId}
             >
-              <Text style={[styles.buttonText, !selectedPetId && styles.disabledText]}>
+              <ThemedText style={[dynamicStyles.buttonText, !selectedPetId && styles.disabledText]}>
                 {t(`medical_history.categories.${category}`)}
-              </Text>
+              </ThemedText>
               <Ionicons name="chevron-forward" size={20} color={!selectedPetId ? '#D1D5DB' : '#6b7280'} />
             </TouchableOpacity>
           ))}
@@ -136,10 +153,10 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? 120 : 50,
     color: '#111827',
   },
-  pickerItem: {
-    height: 120,
-    fontSize: 16,
-  },
+  // pickerItem: {
+  //   height: 120,
+  //   fontSize: 16,
+  // }, // Eliminado para ser dinámico
   title: {
     fontSize: 28,
     fontWeight: 'bold',
@@ -167,13 +184,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 2,
     elevation: 1,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: '500',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    color: '#374151',
   },
   disabledText: {
     color: '#9CA3AF',

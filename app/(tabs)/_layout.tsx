@@ -29,7 +29,7 @@ export default function TabLayout() {
         options={{
           title: 'Principal',
           headerTitle: () => <NavigationTitle i18nKey="tabs.home" />,
-          tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.home" style={{ color }} />,
+          tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.home" style={{ color, fontSize: 12 }} />,
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
       />
@@ -38,7 +38,7 @@ export default function TabLayout() {
         options={{
           title: 'Mis Mascotas',
           headerTitle: () => <NavigationTitle i18nKey="tabs.pets" />,
-          tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.pets" style={{ color }} />,
+          tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.pets" style={{ color, fontSize: 12 }} />,
           tabBarIcon: ({ color }) => <TabBarIcon name="paw" color={color} />,
         }}
       />
@@ -47,7 +47,7 @@ export default function TabLayout() {
         options={{
           title: 'Expediente',
           headerTitle: () => <NavigationTitle i18nKey="tabs.medical" />,
-          tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.medical" style={{ color }} />,
+          tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.medical" style={{ color, fontSize: 12 }} />,
           tabBarIcon: ({ color }) => <TabBarIcon name="medkit" color={color} />,
         }}
       />
@@ -56,7 +56,7 @@ export default function TabLayout() {
         options={{
           title: 'Ajustes',
           headerTitle: () => <NavigationTitle i18nKey="tabs.settings" />,
-          tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.settings" style={{ color }} />,
+          tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.settings" style={{ color, fontSize: 12 }} />,
           tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
         }}
       />

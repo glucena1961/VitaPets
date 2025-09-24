@@ -1,7 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
+import { View, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+import { useFontSize } from '@/src/contexts/FontSizeContext';
+import { ThemedText } from '@/components/ThemedText';
 
 // Define el tipo para un solo ítem de ajuste
 type SettingItemProps = {
@@ -15,34 +18,79 @@ type SettingItemProps = {
 const SettingItem = ({ icon, label, color = '#20df6c', onPress }: SettingItemProps) => (
   <Pressable onPress={onPress} style={({ pressed }) => [styles.itemContainer, pressed && styles.itemPressed]}>
     <MaterialIcons name={icon} size={24} color={color} />
-    <Text style={[styles.itemLabel, { color: color === '#ef4444' ? '#ef4444' : '#1f2937' }]}>{label}</Text>
+    <ThemedText style={[styles.itemLabel, { color: color === '#ef4444' ? '#ef4444' : '#1f2937' }]}>{label}</ThemedText>
     <MaterialIcons name="chevron-right" size={24} color="#9ca3af" />
   </Pressable>
 );
 
-export default function SettingsScreen() {
+function SettingsContent() {
   const router = useRouter();
+  const { t } = useTranslation();
+  const { fontSize, setFontSize } = useFontSize();
 
   // Datos para los ítems de ajuste
   const settingsData = [
     {
       icon: 'format-size' as const,
-      label: 'Tamaño de Fuente',
+      label: t('settings.font_size'),
       onPress: () => { /* Lógica de navegación futura */ },
+      renderCustomContent: () => (
+        <View style={styles.fontSizeButtonsContainer}>
+          <Pressable
+            onPress={() => setFontSize('normal')}
+            style={({ pressed }) => [
+              styles.fontSizeButton,
+              fontSize === 'normal' && styles.fontSizeButtonActive,
+              pressed && styles.fontSizeButtonPressed,
+            ]}
+          >
+            <ThemedText style={[
+              styles.fontSizeButtonText,
+              fontSize === 'normal' && styles.fontSizeButtonTextActive,
+            ]}>{t('settings.font_size_normal')}</ThemedText>
+          </Pressable>
+          <Pressable
+            onPress={() => setFontSize('medium')}
+            style={({ pressed }) => [
+              styles.fontSizeButton,
+              fontSize === 'medium' && styles.fontSizeButtonActive,
+              pressed && styles.fontSizeButtonPressed,
+            ]}
+          >
+            <ThemedText style={[
+              styles.fontSizeButtonText,
+              fontSize === 'medium' && styles.fontSizeButtonTextActive,
+            ]}>{t('settings.font_size_medium')}</ThemedText>
+          </Pressable>
+          <Pressable
+            onPress={() => setFontSize('large')}
+            style={({ pressed }) => [
+              styles.fontSizeButton,
+              fontSize === 'large' && styles.fontSizeButtonActive,
+              pressed && styles.fontSizeButtonPressed,
+            ]}
+          >
+            <ThemedText style={[
+              styles.fontSizeButtonText,
+              fontSize === 'large' && styles.fontSizeButtonTextActive,
+            ]}>{t('settings.font_size_large')}</ThemedText>
+          </Pressable>
+        </View>
+      ),
     },
     {
       icon: 'language' as const,
-      label: 'Cambio de Idioma',
+      label: t('settings.language_change'),
       onPress: () => { /* Lógica de navegación futura */ },
     },
     {
       icon: 'description' as const,
-      label: 'Términos y Condiciones',
+      label: t('settings.terms_and_conditions'),
       onPress: () => { /* Lógica de navegación futura */ },
     },
     {
       icon: 'logout' as const,
-      label: 'Cerrar Sesión',
+      label: t('settings.logout'),
       color: '#ef4444', // Color rojo para logout
       onPress: () => { /* Lógica de logout futura */ },
     },
@@ -52,16 +100,24 @@ export default function SettingsScreen() {
     <ScrollView style={styles.container}>
       <View style={styles.mainContent}>
         {settingsData.map((item, index) => (
-          <SettingItem
-            key={index}
-            icon={item.icon}
-            label={item.label}
-            color={item.color}
-            onPress={item.onPress}
-          />
+          <React.Fragment key={index}>
+            <SettingItem
+              icon={item.icon}
+              label={item.label}
+              color={item.color}
+              onPress={item.onPress}
+            />
+            {item.renderCustomContent && item.renderCustomContent()}
+          </React.Fragment>
         ))}
       </View>
     </ScrollView>
+  );
+}
+
+export default function SettingsScreen() {
+  return (
+    <SettingsContent />
   );
 }
 
@@ -69,31 +125,56 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9fafb', // bg-gray-50
+    backgroundColor: '#f9fafb',
   },
   mainContent: {
-    padding: 16, // p-4
-    gap: 16, // space-y-4
+    padding: 16,
+    gap: 16,
   },
   itemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ffffff', // bg-white
-    padding: 16, // p-4
-    borderRadius: 8, // rounded-lg
-    gap: 16, // gap-4
+    backgroundColor: '#ffffff',
+    padding: 16,
+    borderRadius: 8,
+    gap: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.20,
     shadowRadius: 1.41,
-    elevation: 2, // Sombra sutil
+    elevation: 2,
   },
   itemPressed: {
-    backgroundColor: '#f3f4f6', // Corresponde a hover:bg-gray-100
+    backgroundColor: '#f3f4f6',
   },
   itemLabel: {
     flex: 1,
-    fontSize: 16, // text-base
-    fontWeight: '500', // font-medium
+    fontWeight: '500',
+  },
+  fontSizeButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: -8,
+    marginBottom: 8,
+    paddingHorizontal: 16,
+  },
+  fontSizeButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    backgroundColor: '#e5e7eb',
+  },
+  fontSizeButtonActive: {
+    backgroundColor: '#20df6c',
+  },
+  fontSizeButtonPressed: {
+    opacity: 0.7,
+  },
+  fontSizeButtonText: {
+    fontWeight: '500',
+    color: '#4b5563',
+  },
+  fontSizeButtonTextActive: {
+    color: '#ffffff',
   },
 });

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Text, type TextProps } from 'react-native';
+import { type TextProps } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { ThemedText } from '@/components/ThemedText';
 
 interface NavigationTitleProps extends TextProps {
   i18nKey: string;
@@ -12,7 +13,7 @@ interface NavigationTitleProps extends TextProps {
  */
 const NavigationTitle = ({ i18nKey, style, ...props }: NavigationTitleProps) => {
   const { t } = useTranslation();
-  return <Text style={style} {...props}>{t(i18nKey)}</Text>;
+  return <ThemedText style={style} {...props}>{t(i18nKey)}</ThemedText>;
 };
 
 export default NavigationTitle;
