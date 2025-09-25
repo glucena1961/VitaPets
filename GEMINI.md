@@ -43,3 +43,4 @@ Todo nuevo desarrollo partirá de este estado estable.
 
 - **Actualización de Base:** La rama `feature/settings-rebuild` fue actualizada para incluir todas las mejoras de la rama `feature/sdk-54-upgrade`, notablemente la actualización a Expo SDK 54. Esto se realizó mediante un `git merge`.
 - **Implementación de Cambio de Idioma:** Se activó la opción "Cambio de Idioma" en la pantalla de Ajustes. La funcionalidad opera como un interruptor (toggle) que alterna entre 'Español' e 'Inglés' y actualiza el idioma de toda la aplicación en tiempo real. Se añadió una etiqueta secundaria para mostrar el idioma activo.
+- **Implementación de Términos y Condiciones:** Se creó una nueva pantalla para mostrar los Términos y Condiciones y la Política de Privacidad. El contenido se maneja íntegramente a través del sistema i18n, asegurando su traducción. Se activó la navegación desde la pantalla de Ajustes y el título de la nueva pantalla también es dinámico y se traduce.
