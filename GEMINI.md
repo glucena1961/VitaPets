@@ -38,3 +38,8 @@ Todo nuevo desarrollo partirá de este estado estable.
   - El proceso se ejecutó de forma manual utilizando los comandos `yarn add expo@^54.0.0` y `npx expo install --fix`, seguido de correcciones de dependencias y una verificación con `npx expo-doctor`, debido a que el comando `npx expo upgrade` no estaba soportado en el entorno.
 - **Limpieza de Código:** Se eliminaron múltiples sentencias `console.log` de depuración de los componentes `FontSizeContext.tsx` y `ThemedText.tsx`. Esto ha limpiado la salida de la consola, que se inundaba de mensajes durante el renderizado.
 - **Estado Actual:** Todo el trabajo se ha consolidado en la rama `feature/sdk-54-upgrade`. El proyecto es estable, compila y se ejecuta correctamente en la nueva SDK.
+---
+# Avances en `feature/settings-rebuild` al 25 de Septiembre de 2025
+
+- **Actualización de Base:** La rama `feature/settings-rebuild` fue actualizada para incluir todas las mejoras de la rama `feature/sdk-54-upgrade`, notablemente la actualización a Expo SDK 54. Esto se realizó mediante un `git merge`.
+- **Implementación de Cambio de Idioma:** Se activó la opción "Cambio de Idioma" en la pantalla de Ajustes. La funcionalidad opera como un interruptor (toggle) que alterna entre 'Español' e 'Inglés' y actualiza el idioma de toda la aplicación en tiempo real. Se añadió una etiqueta secundaria para mostrar el idioma activo.
