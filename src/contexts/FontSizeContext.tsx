@@ -16,10 +16,8 @@ interface FontSizeProviderProps {
 
 export const FontSizeProvider = ({ children }: FontSizeProviderProps) => {
   const [fontSize, setFontSize] = useState<FontSize>('normal');
-  console.log('FontSizeProvider initialized with fontSize:', fontSize); // Debug log
 
   const handleSetFontSize = (size: FontSize) => {
-    console.log('setFontSize called with:', size); // Debug log
     setFontSize(size);
   };
 
@@ -36,7 +34,6 @@ export const FontSizeProvider = ({ children }: FontSizeProviderProps) => {
         newSize = baseSize + 4;
         break;
     }
-    console.log(`Calculating font size for base ${baseSize} with current fontSize ${fontSize}: ${newSize}`); // Debug log
     return newSize;
   };
 
@@ -50,7 +47,6 @@ export const FontSizeProvider = ({ children }: FontSizeProviderProps) => {
 export const useFontSize = () => {
   const context = useContext(FontSizeContext);
   if (context === undefined) {
-    console.error('useFontSize must be used within a FontSizeProvider'); // Debug log
     throw new Error('useFontSize must be used within a FontSizeProvider');
   }
   return context;

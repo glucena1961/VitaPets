@@ -45,8 +45,6 @@ export function ThemedText({
     },
   });
 
-  console.log(`ThemedText type: ${type}, calculated fontSize: ${dynamicStyles[type]?.fontSize}`); // Debug log
-
   return (
     <Text
       style={[
