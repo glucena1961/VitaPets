@@ -22,7 +22,114 @@ export default {
     "font_size_large": "Large",
     "language_change": "Language Change",
     "terms_and_conditions": "Terms and Conditions",
-    "logout": "Log Out"
+    "logout": "Log Out",
+    "terms_screen_title": "Terms and Conditions"
+  },
+  "terms_and_conditions": {
+    "content": `
+TERMS AND CONDITIONS OF USE OF MOTQR
+Last Update: September 25, 2025
+
+1.ACCEPTANCE OF THE TERMS
+This document sets forth the terms and conditions (hereinafter, the "Terms") that govern the use of the “VitaPets” mobile application (hereinafter, "the Application"), owned by GestionaiA.
+By downloading, installing, registering for, or using the Application, you (hereinafter, "the User") enter into a legally binding agreement and signify your full and unconditional acceptance of these Terms. If you do not agree with any of the provisions contained herein, you must refrain from using the Application.
+
+2.PURPOSE OF THE APPLICATION
+The Application is a tool that allows the User to manage medical and contact information for their pets, generate a QR code with said data, and maintain an accessible record. The core functionality is designed to operate locally on the User's device, allowing access to the information even without an internet connection.
+
+3.DATA HANDLING AND PRIVACY
+The privacy and security of your information are fundamental to “VitaPets”. It is crucial that the User understands which data is managed locally and which data is collected.
+3.1. Locally Stored Data: All information that the User enters about their pets (name, medical history, contact details, etc.) is stored in an encrypted format exclusively on the User's mobile device. “VitaPets” does not access, collect, or transmit this information to its servers or to any third parties. The User is solely responsible for the management and security of the data on their device.
+3.2. Data Collected for Registration: To create and manage a user account, “VitaPets” collects the following data:
+•Username
+•Email address
+•Password (stored in a hashed format)
+This data is used solely for the purpose of authenticating the User, enabling account recovery, and ensuring the security of your access. For more details on how we handle this data, please consult our Privacy Policy [Note: A hyperlink to a separate, more detailed Privacy Policy should be included here].
+
+4.INTELLECTUAL PROPERTY AND LICENSE TO USE
+4.1. Ownership: The Application, including its source code, design, interfaces, graphics, the “VitaPets” name, logo, and all associated content, are the exclusive property of GestionaiA and are protected by applicable intellectual property laws.
+4.2. License to Use: The User is granted a personal, limited, non-exclusive, non-transferable, and revocable license to install and use the Application on a mobile device that they own or control, exclusively for personal, non-commercial purposes, in accordance with these Terms.
+5.USER OBLIGATIONS
+•The User agrees to:
+Be at least 18 years old, or have the permission of a parent or legal guardian to use the Application.
+Provide accurate registration information and keep it updated.
+Be solely responsible for the truthfulness and accuracy of the information entered about their pets.
+Safeguard their access credentials and not share them with third parties.
+Not use the Application for any illegal, fraudulent, or rights-infringing purposes.
+Not attempt to decompile, reverse engineer, or otherwise alter the functioning of the Application.
+
+6.LIMITATION OF LIABILITY
+The Application is provided "as is" and "as available," without warranties of any kind. To the maximum extent permitted by applicable law, GestionaiA and its developers shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising from: (i) your access to or use of the Application; (ii) the loss or corruption of data stored on your device; (iii) any interruption or error in the Application's operation; (iv) unauthorized access to your registration account.
+
+7. MODIFICATIONS TO THE TERMS
+“VitaPets” reserves the right to modify these Terms at any time. We will provide reasonable notice of any material changes, for example, through an in-app notification. Your continued use of the Application after the new terms take effect will constitute your acceptance of the changes.
+
+8.TERMINATION
+The User may stop using the service at any time by uninstalling the Application from their device. “VitaPets” reserves the right to suspend or terminate a User's access to registration services if a violation of these Terms is detected.
+
+9.GOVERNING LAW AND JURISDICTION
+These Terms shall be governed by and construed in accordance with the laws of the Bolivarian Republic of Venezuela. Any dispute arising in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of that country.
+
+10.CONTACT
+For any questions regarding these Terms, you can contact us via email at: info@gestionaia.com.
+©2025 GestionaiA. All rights reserved.
+
+“VitaPets” PRIVACY POLICY
+Effective Date: September 22, 2025
+
+1.Our Commitment to Your Privacy
+Welcome to "VitaPets," a product by GestionaiA. This Privacy Policy explains how we handle information in our application. Our foundational principle is privacy by design, which means the application was built from the ground up with the goal of protecting your information and your pet's information.
+This policy is designed to be as clear and straightforward as possible. We ask that you read it carefully to understand what data we handle and, more importantly, what data we do not.
+
+2.The Information We Handle
+It is crucial to distinguish between the data you manage on your device and the minimal information we need for your account to function.
+A. Information YOU Store Locally (Data We CANNOT Access):
+The primary function of "VitaPets" is to be a local information manager. All sensitive information about your pets that you enter into the application is stored in an encrypted format exclusively on your mobile device.
+We DO NOT collect, view, or have access to:
+•The names or photos of your pets.
+•Their medical history, vaccinations, or treatments.
+•Your veterinarian's contact details.
+•Any other notes or documents you save in the app.
+This information remains under your complete and total control. If you uninstall the application, this data will be deleted from your device (unless you have made a backup on your own).
+B. Information We DO Collect for Your Account to Function:
+To create your account, protect it, and allow you to recover it, we collect the following minimal personal information:
+•Email Address: We use this as your unique user ID and to communicate with you about important matters regarding your account (such as password recovery).
+•Password: We require this to protect your account. Your password is a always stored using strong hashing techniques, which means that even we cannot see your actual password.
+
+3.How and Why We Use Your Information
+We use the registration information we collect (email address and password) solely for the following purposes:
+•To Create and Maintain Your Account: To allow you to log in securely.
+•For Security and Authentication: To verify that it is you accessing the account.
+•Service-related Communications: To send you important notifications about your account, such as registration confirmations, security alerts, or password reset instructions. We will never send you marketing emails unless you give us your explicit consent.
+•To Provide Technical Support: To be able to assist you if you encounter problems with your account.
+
+4.How We Share Your Information? The Simple Answer: We Don't
+Your trust is our most important asset. Therefore:
+•We DO NOT sell, rent, or share your personal information (email address) with third-party companies for their marketing purposes.
+•We will only disclose your information if we are legally compelled to do so by a court order or valid governmental request.
+
+5.Data Security
+We take the security of your account information very seriously. We implement industry-standard security measures to protect your data, including:
+•Encryption in Transit: All communication between the application and our servers is carried out over secure protocols (HTTPS).
+•Secure Storage: Passwords are stored in a hashed format so they cannot be read.
+•Limited Access: Only authorized personnel have access to the systems where account information is stored, and only for the purposes described in this policy.
+
+6.Your Rights and Control Over Your Information
+We believe you should have control over your data. You have the following rights:
+•Right to Access and Rectification: You can view and update your email address directly from your account settings within the application.
+•Right to Deletion (Erasure): You can request the complete deletion of your account and your registration information at any time. To do so, please contact our support team at the address listed below. Once deleted, this action cannot be undone.
+
+7.Children's Privacy
+Our services are not directed to individuals under the age of 18. We do not knowingly collect personal information from children. If you are a parent or guardian and you discover that your child has provided us with personal information without your consent, please contact us so we can delete it.
+
+8.Changes to This Privacy Policy
+We may update this policy from time to time to reflect changes in our practices or for legal reasons. If we make significant changes, we will notify you through the application or by sending an email to the address associated with your account before the change becomes effective.
+
+9.Contact Us
+If you have any questions, concerns, or requests regarding this Privacy Policy, please do not hesitate to contact us at:
+info@gestionaia.com
+©2025 GestionaiA. All rights reserved.
+`
   },
   "home": {
     "welcome": "Welcome to VitaPet",

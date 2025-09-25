@@ -94,7 +94,7 @@ function SettingsContent() {
     {
       icon: 'description' as const,
       label: t('settings.terms_and_conditions'),
-      onPress: () => { /* Lógica de navegación futura */ },
+      onPress: () => router.push('/terms-and-conditions'),
     },
     {
       icon: 'logout' as const,

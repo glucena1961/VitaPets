@@ -65,6 +65,7 @@ function AppContent() {
           <Stack.Screen name="add-parasite-treatment-form" options={{ title: 'Añadir Tratamiento' }} />
           <Stack.Screen name="parasite-treatment-detail-screen" options={{ title: 'Detalle del Tratamiento' }} />
 
+          <Stack.Screen name="terms-and-conditions" />
           <Stack.Screen name="+not-found" />
         </Stack>
       </ThemeProvider>
