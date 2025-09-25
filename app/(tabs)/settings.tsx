@@ -10,23 +10,30 @@ import { ThemedText } from '@/components/ThemedText';
 type SettingItemProps = {
   icon: React.ComponentProps<typeof MaterialIcons>['name'];
   label: string;
+  subLabel?: string;
   color?: string;
   onPress: () => void;
 };
 
 // Componente reutilizable para cada fila de ajuste
-const SettingItem = ({ icon, label, color = '#20df6c', onPress }: SettingItemProps) => (
+const SettingItem = ({ icon, label, subLabel, color = '#20df6c', onPress }: SettingItemProps) => (
   <Pressable onPress={onPress} style={({ pressed }) => [styles.itemContainer, pressed && styles.itemPressed]}>
     <MaterialIcons name={icon} size={24} color={color} />
     <ThemedText style={[styles.itemLabel, { color: color === '#ef4444' ? '#ef4444' : '#1f2937' }]}>{label}</ThemedText>
+    {subLabel && <ThemedText style={styles.subLabel}>{subLabel}</ThemedText>}
     <MaterialIcons name="chevron-right" size={24} color="#9ca3af" />
   </Pressable>
 );
 
 function SettingsContent() {
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { fontSize, setFontSize } = useFontSize();
+
+  const handleLanguageChange = () => {
+    const newLang = i18n.language === 'es' ? 'en' : 'es';
+    i18n.changeLanguage(newLang);
+  };
 
   // Datos para los ítems de ajuste
   const settingsData = [
@@ -81,7 +88,8 @@ function SettingsContent() {
     {
       icon: 'language' as const,
       label: t('settings.language_change'),
-      onPress: () => { /* Lógica de navegación futura */ },
+      subLabel: i18n.language === 'es' ? 'Español' : 'English',
+      onPress: handleLanguageChange,
     },
     {
       icon: 'description' as const,
@@ -150,6 +158,10 @@ const styles = StyleSheet.create({
   itemLabel: {
     flex: 1,
     fontWeight: '500',
+  },
+  subLabel: {
+    color: '#9ca3af',
+    fontWeight: '400',
   },
   fontSizeButtonsContainer: {
     flexDirection: 'row',
