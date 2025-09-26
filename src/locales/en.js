@@ -84,7 +84,7 @@ This policy is designed to be as clear and straightforward as possible. We ask t
 2.The Information We Handle
 It is crucial to distinguish between the data you manage on your device and the minimal information we need for your account to function.
 A. Information YOU Store Locally (Data We CANNOT Access):
-The primary function of "VitaPets" is to be a local information manager. All sensitive information about your pets that you enter into the application is stored in an encrypted format exclusively on your mobile device.
+ The primary function of "VitaPets" is to be a local information manager. All sensitive information about your pets that you enter into the application is stored in an encrypted format exclusively on your mobile device.
 We DO NOT collect, view, or have access to:
 •The names or photos of your pets.
 •Their medical history, vaccinations, or treatments.
@@ -199,7 +199,22 @@ info@gestionaia.com
     "not_specified": "Not specified",
     "save_success_message": "Record saved successfully.",
     "save_error_message": "Could not save record.",
-    "delete_success_message": "Record deleted successfully."
+    "delete_success_message": "Record deleted successfully.",
+    "notImplemented": "Function not implemented"
+  },
+  "login": {
+    "errorTitle": "Authentication Error",
+    "errorEmptyFields": "Please fill in all fields.",
+    "errorUnexpected": "An unexpected error occurred.",
+    "title": "Welcome",
+    "subtitle": "Sign in to continue",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "forgotPassword": "Forgot my password?",
+    "loading": "Signing in...",
+    "loginButton": "Sign In",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Sign Up"
   },
   "qrReport": {
     "basic_info_title": "== BASIC INFORMATION ==",
