@@ -3,6 +3,7 @@ import { View, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/src/contexts/AuthContext';
 import { useFontSize } from '@/src/contexts/FontSizeContext';
 import { ThemedText } from '@/components/ThemedText';
 
@@ -28,6 +29,7 @@ const SettingItem = ({ icon, label, subLabel, color = '#20df6c', onPress }: Sett
 function SettingsContent() {
   const router = useRouter();
   const { t, i18n } = useTranslation();
+  const { logout } = useAuth();
   const { fontSize, setFontSize } = useFontSize();
 
   const handleLanguageChange = () => {
@@ -100,7 +102,7 @@ function SettingsContent() {
       icon: 'logout' as const,
       label: t('settings.logout'),
       color: '#ef4444', // Color rojo para logout
-      onPress: () => { /* Lógica de logout futura */ },
+      onPress: logout,
     },
   ];
 

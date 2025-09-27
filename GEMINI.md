@@ -1,46 +1,22 @@
-# Estado del Proyecto al 24 de Septiembre de 2025: Reseteo de Desarrollo
+# Estado del Proyecto al 27 de Septiembre de 2025: Módulo de Autenticación Completo y Estable
 
-Este documento registra una decisión estratégica clave en el proyecto VitaPet.
+Este documento registra la finalización y estabilización del módulo de autenticación y la resolución de problemas críticos de UI.
 
-## Resumen del Estado Actual: Reseteo a Base Maestra
+## Resumen del Estado Actual: Autenticación Funcional
 
-A fecha de hoy, se ha tomado la decisión de **resetear el ciclo de desarrollo** del proyecto. Todas las ramas de funcionalidades que estaban en progreso han sido eliminadas de forma deliberada, tanto local como remotamente, debido a conflictos de fusión irresolubles.
+A fecha de hoy, la rama `feature/authentication` ha sido exitosamente fusionada en `master`. La aplicación se encuentra en un estado estable y funcional con las siguientes características y correcciones implementadas:
 
-**La única línea de desarrollo activa y válida es la rama `master`.**
+*   **Módulo de Autenticación Completo:**
+    *   **Registro de Usuario:** Funcionalidad completa con Supabase, incluyendo envío de correo de confirmación.
+    *   **Inicio de Sesión (Login):** Funcional, con persistencia de sesión.
+    *   **Recuperación de Contraseña:** Pantalla y lógica implementadas para solicitar el reseteo vía email a través de Supabase.
+    *   **Cerrar Sesión (Logout):** Implementado en la pantalla de Ajustes, finalizando la sesión del usuario y redirigiendo a la pantalla de login.
 
-## Funcionalidad Eliminada (Para ser Re-desarrollada)
+*   **Correcciones Críticas de UI y Estabilidad:**
+    *   **Fallo de Login Silencioso:** Resuelto al cambiar el adaptador de almacenamiento de Supabase a `AsyncStorage`, evitando el límite de tamaño de `SecureStore` que corrompía la sesión.
+    *   **Errores de Bundling y Arranque:** Solucionado al reestructurar `app/_layout.tsx` para garantizar una secuencia de carga correcta (fuentes e i18n primero, luego el renderizado de la app).
+    *   **Inconsistencias en Títulos y Fuentes:** Resuelto como consecuencia de la reestructuración del layout principal. Todos los títulos de la aplicación ahora se gestionan dinámicamente a través de `i18n`, asegurando consistencia y traducción.
 
-El siguiente trabajo fue descartado y deberá ser reconstruido desde cero:
+## Estado del Proyecto
 
-*   **Módulo de Autenticación Completo** (previamente en `feature/auth-module`).
-*   **Lógica de la Pantalla de Ajustes** (la pantalla `app/(tabs)/settings.tsx` existe con una UI básica, pero su lógica de navegación y funcionalidad para 'Tamaño de Fuente', 'Cambio de Idioma', 'Términos y Condiciones' y 'Cerrar Sesión' está pendiente de implementación).
-
-## Funcionalidad Base en `master` (Estado Actual)
-
-La rama `master` se mantiene como una base 100% estable y funcional que **INCLUYE**:
-
-*   **Gestión de Mascotas** (CRUD básico).
-*   **Módulo de Historial Médico Completo:**
-    *   Alergias
-    *   Cirugías
-    *   Exámenes (con subida de adjuntos)
-    *   Tratamientos Antiparasitarios
-    *   Medicamentos
-    *   Vacunas
-
-Todo nuevo desarrollo partirá de este estado estable.
-
-- Se implementó la funcionalidad de ajuste de tamaño de fuente. Esto incluyó la creación de un `FontSizeContext`, la modificación de `ThemedText` para usarlo, la integración de botones de control en `SettingsScreen`, y la adaptación de `app/_layout.tsx`, `app/(tabs)/index.tsx`, `app/(tabs)/pets.tsx`, `app/(tabs)/medical.tsx` y `components/NavigationTitle.tsx` para usar `ThemedText`. Se corrigieron errores de sobrescritura de estilos y se fijó el tamaño de fuente del menú de navegación del pie de página.
----
-# Estado del Proyecto al 25 de Septiembre de 2025: Actualización de SDK
-
-- **Actualización a Expo SDK 54:** El proyecto ha sido actualizado exitosamente de Expo SDK 53 a 54. Esto se realizó para resolver una incompatibilidad con la versión más reciente de Expo Go y para mantener el proyecto alineado con las últimas mejoras de la plataforma.
-  - El proceso se ejecutó de forma manual utilizando los comandos `yarn add expo@^54.0.0` y `npx expo install --fix`, seguido de correcciones de dependencias y una verificación con `npx expo-doctor`, debido a que el comando `npx expo upgrade` no estaba soportado en el entorno.
-- **Limpieza de Código:** Se eliminaron múltiples sentencias `console.log` de depuración de los componentes `FontSizeContext.tsx` y `ThemedText.tsx`. Esto ha limpiado la salida de la consola, que se inundaba de mensajes durante el renderizado.
-- **Estado Actual:** Todo el trabajo se ha consolidado en la rama `feature/sdk-54-upgrade`. El proyecto es estable, compila y se ejecuta correctamente en la nueva SDK.
----
-# Avances en `feature/settings-rebuild` al 25 de Septiembre de 2025
-
-- **Actualización de Base:** La rama `feature/settings-rebuild` fue actualizada para incluir todas las mejoras de la rama `feature/sdk-54-upgrade`, notablemente la actualización a Expo SDK 54. Esto se realizó mediante un `git merge`.
-- **Implementación de Cambio de Idioma:** Se activó la opción "Cambio de Idioma" en la pantalla de Ajustes. La funcionalidad opera como un interruptor (toggle) que alterna entre 'Español' e 'Inglés' y actualiza el idioma de toda la aplicación en tiempo real. Se añadió una etiqueta secundaria para mostrar el idioma activo.
-- **Implementación de Términos y Condiciones:** Se creó una nueva pantalla para mostrar los Términos y Condiciones y la Política de Privacidad. El contenido se maneja íntegramente a través del sistema i18n, asegurando su traducción. Se activó la navegación desde la pantalla de Ajustes y el título de la nueva pantalla también es dinámico y se traduce.
+La aplicación se considera **estable**. El ciclo de autenticación está completo y los principales problemas de UI que afectaban la experiencia de usuario han sido solucionados. El próximo paso es continuar con el desarrollo de nuevas funcionalidades o realizar pruebas exhaustivas del flujo actual.

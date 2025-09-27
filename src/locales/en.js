@@ -216,6 +216,37 @@ info@gestionaia.com
     "noAccount": "Don't have an account?",
     "registerLink": "Sign Up"
   },
+  "screen_titles": {
+    "login": "Sign In",
+    "register": "Create Account",
+    "forgot_password": "Recover Password",
+    "terms": "Terms & Conditions",
+    "allergies": "Allergies",
+    "add_allergy": "Add Allergy",
+    "allergy_detail": "Allergy Detail",
+    "surgeries": "Surgeries",
+    "add_surgery": "Add Surgery",
+    "exams": "Exams",
+    "add_exam": "Add Exam",
+    "medicines": "Medications",
+    "add_medicine": "Add Medication",
+    "medicine_detail": "Medication Detail",
+    "parasite_treatments": "Parasite Treatments",
+    "add_parasite_treatment": "Add Treatment",
+    "parasite_treatment_detail": "Treatment Detail"
+  },
+  "forgot_password": {
+    "screenTitle": "Recover Password",
+    "title": "Recover Password",
+    "subtitle": "Enter your email address to reset your password.",
+    "emailPlaceholder": "Email Address",
+    "buttonText": "Reset Password",
+    "backToLogin": "Back to Sign In",
+    "successTitle": "Check your email",
+    "successMessage": "If the email is registered, you will receive a reset link.",
+    "errorTitle": "Error",
+    "errorEmptyField": "Please enter your email address."
+  },
   "qrReport": {
     "basic_info_title": "== BASIC INFORMATION ==",
     "medical_info_title": "== MEDICAL INFORMATION ==",
