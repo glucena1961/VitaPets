@@ -29,7 +29,6 @@ export default function RootLayout() {
   useEffect(() => {
     async function prepare() {
       try {
-        // Inicializar i18n
         const storedLang = await AsyncStorage.getItem('selectedLanguage');
         const lng = storedLang || 'es';
         await i18n.init({
@@ -40,7 +39,7 @@ export default function RootLayout() {
           interpolation: { escapeValue: false },
         });
       } catch (e) {
-        console.warn(e);
+        console.warn('Error initializing i18n:', e);
       } finally {
         setI18nInitialized(true);
       }
@@ -71,7 +70,6 @@ export default function RootLayout() {
           </ThemeProvider>
         </FontSizeProvider>
       </AuthProvider>
-      <Toast />
     </I18nextProvider>
   );
 }
@@ -95,34 +93,37 @@ function MainLayout() {
   }
 
   return (
-    <Stack>
-      {isAuthenticated ? (
-        <Stack.Group>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="allergy-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.allergies'} /> }} />
-          <Stack.Screen name="add-allergy-form" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.add_allergy'} /> }} />
-          <Stack.Screen name="allergy-detail-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.allergy_detail'} /> }} />
-          <Stack.Screen name="surgery-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.surgeries'} /> }} />
-          <Stack.Screen name="add-surgery-form" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.add_surgery'} /> }} />
-          <Stack.Screen name="exam-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.exams'} /> }} />
-          <Stack.Screen name="add-exam-form" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.add_exam'} /> }} />
-          <Stack.Screen name="medicine-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.medicines'} /> }} />
-          <Stack.Screen name="add-medicine-form" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.add_medicine'} /> }} />
-          <Stack.Screen name="medicine-detail-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.medicine_detail'} /> }} />
-          <Stack.Screen name="parasite-treatment-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.parasite_treatments'} /> }} />
-          <Stack.Screen name="add-parasite-treatment-form" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.add_parasite_treatment'} /> }} />
-          <Stack.Screen name="parasite-treatment-detail-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.parasite_treatment_detail'} /> }} />
-          <Stack.Screen name="terms-and-conditions" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.terms'} /> }} />
-        </Stack.Group>
-      ) : (
-        <Stack.Group>
-          <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-          <Stack.Screen name="login" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.login'} /> }} />
-          <Stack.Screen name="register" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.register'} /> }} />
-          <Stack.Screen name="forgot-password" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.forgot_password'} /> }} />
-        </Stack.Group>
-      )}
-      <Stack.Screen name="+not-found" />
-    </Stack>
+    <>
+      <Stack>
+        {isAuthenticated ? (
+          <Stack.Group>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="allergy-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.allergies'} /> }} />
+            <Stack.Screen name="add-allergy-form" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.add_allergy'} /> }} />
+            <Stack.Screen name="allergy-detail-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.allergy_detail'} /> }} />
+            <Stack.Screen name="surgery-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.surgeries'} /> }} />
+            <Stack.Screen name="add-surgery-form" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.add_surgery'} /> }} />
+            <Stack.Screen name="exam-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.exams'} /> }} />
+            <Stack.Screen name="add-exam-form" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.add_exam'} /> }} />
+            <Stack.Screen name="medicine-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.medicines'} /> }} />
+            <Stack.Screen name="add-medicine-form" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.add_medicine'} /> }} />
+            <Stack.Screen name="medicine-detail-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.medicine_detail'} /> }} />
+            <Stack.Screen name="parasite-treatment-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.parasite_treatments'} /> }} />
+            <Stack.Screen name="add-parasite-treatment-form" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.add_parasite_treatment'} /> }} />
+            <Stack.Screen name="parasite-treatment-detail-screen" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.parasite_treatment_detail'} /> }} />
+            <Stack.Screen name="terms-and-conditions" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.terms'} /> }} />
+          </Stack.Group>
+        ) : (
+          <Stack.Group>
+            <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+            <Stack.Screen name="login" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.login'} /> }} />
+            <Stack.Screen name="register" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.register'} /> }} />
+            <Stack.Screen name="forgot-password" options={{ headerTitle: () => <NavigationTitle i18nKey={'screen_titles.forgot_password'} /> }} />
+          </Stack.Group>
+        )}
+        <Stack.Screen name="+not-found" />
+      </Stack>
+      <Toast />
+    </>
   );
 }
