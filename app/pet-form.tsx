@@ -17,7 +17,8 @@ import { getPet, savePet } from '../src/data/PetService';
 export default function PetFormScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { id } = useLocalSearchParams();
+  const params = useLocalSearchParams();
+  const id = params.id;
   const isEditMode = !!id;
 
   const { control, handleSubmit, reset, setValue, watch } = useForm();
