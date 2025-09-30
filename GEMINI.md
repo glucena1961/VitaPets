@@ -1,18 +1,25 @@
-# Estado del Proyecto al 28 de Septiembre de 2025: Refactorización y Estabilidad Confirmada
+# Estado del Proyecto al 29 de Septiembre de 2025: Persistencia de Datos del Diario Implementada
 
 Este documento registra el estado actual del proyecto VitaPet.
 
 ## Resumen del Estado Actual
 
-A fecha de hoy, la aplicación se encuentra en un estado **100% estable y funcional**. 
+A fecha de hoy, la aplicación se encuentra en un estado **estable y funcional**.
 
-Se ha realizado una importante refactorización del núcleo de la aplicación, la cual ha sido confirmada y guardada en el commit `9f9093d`. Los cambios principales son:
+Se ha implementado la funcionalidad completa de persistencia de datos para la función "Mi Diario" (CRUD de entradas), utilizando `DiaryService` (basado en `AsyncStorage`) y `DiaryContext` para la gestión del estado global. Esto incluye:
 
-1.  **Centralización de Proveedores:** Toda la lógica de los proveedores de contexto (Autenticación, Tema, Idioma, Fuentes) y la inicialización de la app se ha movido al nuevo componente `components/Providers.tsx`.
-2.  **Simplificación del Layout Raíz:** El archivo `app/_layout.tsx` ha sido simplificado enormemente, delegando la lógica de configuración y enfocándose únicamente en la gestión de las rutas de navegación.
+1.  **`DiaryService.ts`:** Servicio para interactuar con `AsyncStorage`.
+2.  **`DiaryContext.tsx`:** Contexto para proveer y gestionar las entradas del diario en toda la aplicación.
+3.  **`Providers.tsx`:** Actualizado para incluir el `DiaryProvider`.
+4.  **`my-diary-screen.tsx`:** Modificado para mostrar las entradas reales del diario y permitir la navegación a los detalles.
+5.  **`add-diary-entry-form.tsx`:** Adaptado para crear y editar entradas del diario.
+6.  **`diary-entry-detail-screen.tsx`:** Pantalla para ver los detalles de una entrada, con botones "Editar" y "Borrar" en el pie de página.
+7.  **Internacionalización:** Todos los textos nuevos han sido traducidos en `es.js` y `en.js`.
 
-Esta mejora arquitectónica hace que el código sea más limpio, mantenible y sigue las mejores prácticas de desarrollo.
+## Tareas Pendientes / Observaciones
+
+*   **Revisar ubicación de botones en `diary-entry-detail-screen.tsx`:** Se intentó mover los botones "Editar" y "Borrar" del pie de página al encabezado para una mayor consistencia con el resto de la aplicación. Sin embargo, esta modificación generó un error de sintaxis persistente en el entorno de desarrollo del usuario, por lo que se revirtió a la versión estable con los botones en el pie de página. Este tema queda pendiente de una revisión futura para encontrar una solución que no cause inestabilidad.
 
 ## Próximos Pasos
 
-El proyecto está listo para iniciar un nuevo ciclo de desarrollo con nuevas funcionalidades o para realizar una fase de pruebas de regresión exhaustivas.
+El proyecto está listo para continuar con nuevas funcionalidades o para realizar una fase de pruebas de regresión exhaustivas.

@@ -110,6 +110,33 @@ export default {
     "notImplemented": "Función no implementada",
     "notImplementedMessage": "Esta funcionalidad estará disponible en una futura versión."
   },
+  "diary_form": {
+    "title_label": "Título de la Entrada",
+    "title_placeholder": "Título de la aventura de hoy",
+    "date_label": "Fecha",
+    "date_placeholder": "DD/MM/YYYY",
+    "location_label": "Lugar",
+    "location_placeholder": "Parque para perros",
+    "content_label": "Contenido del Diario",
+    "content_placeholder": "Escribe aquí los detalles del día de tu mascota...",
+    "sentiment_label": "Sentimiento",
+    "sentiment_excited": "Excitado",
+    "sentiment_happy": "Feliz",
+    "sentiment_sad": "Triste",
+    "sentiment_angry": "Enojado",
+    "save_button": "Guardar Entrada"
+  },
+  "diary": {
+    "no_entries": "Aún no hay entradas en el diario. ¡Crea la primera!"
+  },
+  "diary_detail": {
+    "not_found": "Entrada del diario no encontrada.",
+    "date_label": "Fecha",
+    "location_label": "Lugar",
+    "sentiment_label": "Sentimiento",
+    "delete_alert_title": "Borrar Entrada",
+    "delete_alert_message": "¿Estás seguro de que quieres borrar la entrada \"{{title}}\"? Esta acción no se puede deshacer."
+  },
   "login": {
     "errorTitle": "Error de Autenticación",
     "errorEmptyFields": "Por favor, rellene todos los campos.",

@@ -38,6 +38,7 @@ function RootLayoutNav() {
         <Stack.Screen name="pet-qr-detail" />
         <Stack.Screen name="my-diary-screen" options={{ title: 'Diario Mis Mascotas', headerShown: true }} />
         <Stack.Screen name="add-diary-entry-form" options={{ title: 'Crear Entrada', headerShown: true }} />
+        <Stack.Screen name="diary-entry-detail-screen" options={{ title: 'Detalle de Entrada', headerShown: true }} />
       </Stack>
   );
 }

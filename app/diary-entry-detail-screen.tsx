@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter, useNavigation } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { ThemedText } from '@/components/ThemedText';
@@ -8,29 +8,22 @@ import { ThemedView } from '@/components/ThemedView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { useDiary } from '@/src/contexts/DiaryContext';
+import { IconSymbol } from '@/components/ui/IconSymbol';
 
 export default function DiaryEntryDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  const navigation = useNavigation();
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
+  const theme = Colors[colorScheme ?? 'light'];
   const styles = createStyles(colorScheme);
   const { diaryEntries, deleteDiaryEntry } = useDiary();
 
   const entry = diaryEntries.find(e => e.id === id);
 
-  if (!entry) {
-    return (
-      <ThemedView style={styles.container}>
-        <ThemedText type="subtitle">{t('diary_detail.not_found')}</ThemedText>
-        <TouchableOpacity style={styles.button} onPress={() => router.back()}>
-          <ThemedText style={styles.buttonText}>{t('common.back')}</ThemedText>
-        </TouchableOpacity>
-      </ThemedView>
-    );
-  }
-
   const handleDelete = () => {
+    if (!entry) return;
     Alert.alert(
       t('diary_detail.delete_alert_title'),
       t('diary_detail.delete_alert_message', { title: entry.title }),
@@ -55,6 +48,34 @@ export default function DiaryEntryDetailScreen() {
     );
   };
 
+  const handleEdit = () => {
+    if (!entry) return;
+    router.push({ pathname: '/add-diary-entry-form', params: { id: entry.id } });
+  };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.headerRightContainer}>
+          <TouchableOpacity onPress={handleEdit} style={styles.headerButton}>
+            <IconSymbol name="edit" size={24} color={theme.tint} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleDelete} style={styles.headerButton}>
+            <IconSymbol name="delete" size={24} color={theme.red} />
+          </TouchableOpacity>
+        </View>
+      ),
+    });
+  }, [navigation, entry, colorScheme]);
+
+  if (!entry) {
+    return (
+      <ThemedView style={styles.container}>
+        <ThemedText type="subtitle">{t('diary_detail.not_found')}</ThemedText>
+      </ThemedView>
+    );
+  }
+
   return (
     <ThemedView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -64,17 +85,6 @@ export default function DiaryEntryDetailScreen() {
         <ThemedText style={styles.subtitle}>{t('diary_detail.sentiment_label')}: {entry.sentiment}</ThemedText>
         <ThemedText style={styles.content}>{entry.content}</ThemedText>
       </ScrollView>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.button, styles.editButton]}
-          onPress={() => router.push({ pathname: '/add-diary-entry-form', params: { id: entry.id } })}
-        >
-          <ThemedText style={styles.buttonText}>{t('common.edit')}</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={handleDelete}>
-          <ThemedText style={styles.buttonText}>{t('common.delete')}</ThemedText>
-        </TouchableOpacity>
-      </View>
     </ThemedView>
   );
 }
@@ -87,7 +97,6 @@ const createStyles = (colorScheme: 'light' | 'dark' | null) => {
     },
     scrollContent: {
       padding: 20,
-      paddingBottom: 100, // Space for buttons
     },
     title: {
       marginBottom: 10,
@@ -102,36 +111,13 @@ const createStyles = (colorScheme: 'light' | 'dark' | null) => {
       marginTop: 20,
       lineHeight: 24,
     },
-    buttonContainer: {
+    headerRightContainer: {
       flexDirection: 'row',
-      justifyContent: 'space-around',
-      padding: 20,
-      borderTopWidth: 1,
-      borderColor: theme.border,
-      backgroundColor: theme.background,
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
+      gap: 20,
+      marginRight: 15,
     },
-    button: {
-      flex: 1,
-      paddingVertical: 12,
-      borderRadius: 8,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginHorizontal: 5,
-    },
-    editButton: {
-      backgroundColor: theme.tint,
-    },
-    deleteButton: {
-      backgroundColor: '#FF3B30',
-    },
-    buttonText: {
-      color: '#FFFFFF',
-      fontWeight: 'bold',
-      fontSize: 16,
+    headerButton: {
+      padding: 5,
     },
   });
 };

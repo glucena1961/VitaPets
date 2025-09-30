@@ -1,39 +1,93 @@
 
-import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, TextInput, Text } from 'react-native';
-import { useRouter } from 'expo-router';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, ScrollView, TouchableOpacity, TextInput, Text, Alert } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
+import { useDiary } from '@/src/contexts/DiaryContext';
 
 const sentiments = [
-  { emoji: '🤩', label: 'Excitado' },
-  { emoji: '😊', label: 'Feliz' },
-  { emoji: '😢', label: 'Triste' },
-  { emoji: '😠', label: 'Enojado' },
+  { emoji: '🤩', labelKey: 'diary_form.sentiment_excited' },
+  { emoji: '😊', labelKey: 'diary_form.sentiment_happy' },
+  { emoji: '😢', labelKey: 'diary_form.sentiment_sad' },
+  { emoji: '😠', labelKey: 'diary_form.sentiment_angry' },
 ];
 
 export default function AddDiaryEntryForm() {
   const router = useRouter();
+  const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const styles = createStyles(colorScheme);
+  const { addDiaryEntry, diaryEntries, updateDiaryEntry } = useDiary();
+  const { id } = useLocalSearchParams();
+  const isEditing = !!id;
 
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [location, setLocation] = useState('');
   const [content, setContent] = useState('');
-  const [selectedSentiment, setSelectedSentiment] = useState('Feliz');
+  const [selectedSentiment, setSelectedSentiment] = useState(sentiments[1].labelKey); // Default to Happy
+
+  useEffect(() => {
+    if (isEditing && id) {
+      const entryToEdit = diaryEntries.find(entry => entry.id === id);
+      if (entryToEdit) {
+        setTitle(entryToEdit.title);
+        setDate(entryToEdit.date);
+        setLocation(entryToEdit.location);
+        setContent(entryToEdit.content);
+        // Find the labelKey for the sentiment
+        const sentimentKey = sentiments.find(s => t(s.labelKey) === entryToEdit.sentiment)?.labelKey;
+        if (sentimentKey) {
+          setSelectedSentiment(sentimentKey);
+        }
+      } else {
+        Alert.alert(t('common.error'), t('common.record_not_found'));
+        router.back();
+      }
+    }
+  }, [isEditing, id, diaryEntries, router, t]);
+
+  const handleSaveEntry = async () => {
+    if (!title || !date || !content) {
+      Alert.alert(t('common.error'), t('common.field_required'));
+      return;
+    }
+
+    try {
+      const entryData = {
+        title,
+        date,
+        location,
+        content,
+        sentiment: t(selectedSentiment),
+      };
+
+      if (isEditing && id) {
+        await updateDiaryEntry({ ...entryData, id: id as string, createdAt: diaryEntries.find(e => e.id === id)?.createdAt || new Date().toISOString() });
+      } else {
+        await addDiaryEntry(entryData);
+      }
+      Alert.alert(t('common.success'), t('common.save_success_message'));
+      router.back();
+    } catch (error) {
+      Alert.alert(t('common.error'), t('common.save_error_message'));
+      console.error('Error saving diary entry:', error);
+    }
+  };
 
   return (
     <ThemedView style={styles.screen}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.formGroup}>
-          <ThemedText style={styles.label}>Título de la Entrada</ThemedText>
+          <ThemedText style={styles.label}>{t('diary_form.title_label')}</ThemedText>
           <TextInput
             style={styles.input}
-            placeholder="Título de la aventura de hoy"
+            placeholder={t('diary_form.title_placeholder')}
             placeholderTextColor={styles.placeholder.color}
             value={title}
             onChangeText={setTitle}
@@ -41,10 +95,10 @@ export default function AddDiaryEntryForm() {
         </View>
 
         <View style={styles.formGroup}>
-          <ThemedText style={styles.label}>Fecha</ThemedText>
+          <ThemedText style={styles.label}>{t('diary_form.date_label')}</ThemedText>
           <TextInput
             style={styles.input}
-            placeholder="DD/MM/YYYY"
+            placeholder={t('diary_form.date_placeholder')}
             placeholderTextColor={styles.placeholder.color}
             value={date}
             onChangeText={setDate}
@@ -52,10 +106,10 @@ export default function AddDiaryEntryForm() {
         </View>
 
         <View style={styles.formGroup}>
-          <ThemedText style={styles.label}>Lugar</ThemedText>
+          <ThemedText style={styles.label}>{t('diary_form.location_label')}</ThemedText>
           <TextInput
             style={styles.input}
-            placeholder="Parque para perros"
+            placeholder={t('diary_form.location_placeholder')}
             placeholderTextColor={styles.placeholder.color}
             value={location}
             onChangeText={setLocation}
@@ -63,10 +117,10 @@ export default function AddDiaryEntryForm() {
         </View>
 
         <View style={styles.formGroup}>
-          <ThemedText style={styles.label}>Contenido del Diario</ThemedText>
+          <ThemedText style={styles.label}>{t('diary_form.content_label')}</ThemedText>
           <TextInput
             style={[styles.input, styles.textArea]}
-            placeholder="Escribe aquí los detalles del día de tu mascota..."
+            placeholder={t('diary_form.content_placeholder')}
             placeholderTextColor={styles.placeholder.color}
             multiline
             numberOfLines={6}
@@ -76,27 +130,27 @@ export default function AddDiaryEntryForm() {
         </View>
 
         <View style={styles.formGroup}>
-          <ThemedText style={styles.label}>Sentimiento</ThemedText>
+          <ThemedText style={styles.label}>{t('diary_form.sentiment_label')}</ThemedText>
           <View style={styles.sentimentsContainer}>
             {sentiments.map(sentiment => (
               <TouchableOpacity
-                key={sentiment.label}
+                key={sentiment.labelKey}
                 style={[
                   styles.sentimentButton,
-                  selectedSentiment === sentiment.label && styles.sentimentButtonSelected,
+                  selectedSentiment === sentiment.labelKey && styles.sentimentButtonSelected,
                 ]}
-                onPress={() => setSelectedSentiment(sentiment.label)}
+                onPress={() => setSelectedSentiment(sentiment.labelKey)}
               >
                 <Text style={styles.sentimentEmoji}>{sentiment.emoji}</Text>
-                <ThemedText style={styles.sentimentLabel}>{sentiment.label}</ThemedText>
+                <ThemedText style={styles.sentimentLabel}>{t(sentiment.labelKey)}</ThemedText>
               </TouchableOpacity>
             ))}
           </View>
         </View>
       </ScrollView>
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.saveButton} onPress={() => router.back()}>
-          <ThemedText style={styles.saveButtonText}>Guardar Entrada</ThemedText>
+        <TouchableOpacity style={styles.saveButton} onPress={handleSaveEntry}>
+          <ThemedText style={styles.saveButtonText}>{t('diary_form.save_button')}</ThemedText>
         </TouchableOpacity>
       </View>
     </ThemedView>

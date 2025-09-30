@@ -1,54 +1,46 @@
 
-import React from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { useTranslation } from 'react-i18next';
-
+import React, { useEffect } from 'react';
+import { View, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-
-// Mock data for diary entries
-const diaryEntries = [
-  {
-    id: '1',
-    title: 'Visita al veterinario',
-    date: '2024-01-15',
-    location: 'Clínica Veterinaria Central',
-  },
-  {
-    id: '2',
-    title: 'Paseo en el parque',
-    date: '2024-01-10',
-    location: 'Parque de las Mascotas',
-  },
-  {
-    id: '3',
-    title: 'Baño en casa',
-    date: '2024-01-05',
-    location: 'Casa',
-  },
-];
+import { useDiary } from '@/src/contexts/DiaryContext';
 
 export default function MyDiaryScreen() {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const router = useRouter();
   const styles = createStyles(colorScheme);
+  const { diaryEntries, isLoading } = useDiary();
+
+  if (isLoading) {
+    return (
+      <ThemedView style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={Colors[colorScheme ?? 'light'].tint} />
+        <ThemedText>{t('common.loading')}</ThemedText>
+      </ThemedView>
+    );
+  }
 
   return (
     <ThemedView style={styles.screen}>
       <ScrollView contentContainerStyle={styles.mainContent}>
-        {diaryEntries.map(entry => (
-          <View key={entry.id} style={styles.card}>
-            <ThemedText type="subtitle">{entry.title}</ThemedText>
-            <ThemedText style={styles.cardSubtitle}>
-              {entry.date} - {entry.location}
-            </ThemedText>
-          </View>
-        ))}
+        {diaryEntries.length === 0 ? (
+          <ThemedText style={styles.noEntriesText}>{t('diary.no_entries')}</ThemedText>
+        ) : (
+          diaryEntries.map(entry => (
+            <TouchableOpacity key={entry.id} style={styles.card} onPress={() => router.push({ pathname: '/diary-entry-detail-screen', params: { id: entry.id } })}>
+              <ThemedText type="subtitle">{entry.title}</ThemedText>
+              <ThemedText style={styles.cardSubtitle}>
+                {entry.date} - {entry.location}
+              </ThemedText>
+            </TouchableOpacity>
+          ))
+        )}
       </ScrollView>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.createButton} onPress={() => router.push('/add-diary-entry-form')}>
@@ -65,8 +57,19 @@ const createStyles = (colorScheme: 'light' | 'dark' | null) => {
     screen: {
       flex: 1,
     },
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     mainContent: {
       padding: 16,
+      flexGrow: 1,
+    },
+    noEntriesText: {
+      textAlign: 'center',
+      marginTop: 50,
+      opacity: 0.7,
     },
     card: {
       backgroundColor: theme.card,
@@ -75,12 +78,10 @@ const createStyles = (colorScheme: 'light' | 'dark' | null) => {
       marginBottom: 16,
       borderWidth: 1,
       borderColor: theme.border,
-      // Shadow for iOS
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.18,
       shadowRadius: 1.00,
-      // Elevation for Android
       elevation: 1,
     },
     cardSubtitle: {
@@ -103,7 +104,7 @@ const createStyles = (colorScheme: 'light' | 'dark' | null) => {
       justifyContent: 'center',
     },
     createButtonText: {
-        color: theme.background, // Assuming tint is a solid color, text on it should be contrasting
+        color: theme.background,
         fontWeight: 'bold',
         fontSize: 16,
     },

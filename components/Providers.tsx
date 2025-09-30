@@ -11,6 +11,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import i18n, { resources } from '@/src/lib/i18n';
 import { AuthProvider, useAuth } from '@/src/contexts/AuthContext';
 import { FontSizeProvider } from '@/src/contexts/FontSizeContext';
+import { DiaryProvider } from '@/src/contexts/DiaryContext';
 
 // Este componente interno maneja la lógica de carga y el splash screen
 function SplashController({ children }: { children: React.ReactNode }) {
@@ -71,10 +72,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <I18nextProvider i18n={i18n}>
       <AuthProvider>
         <FontSizeProvider>
-          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <SplashController>{children}</SplashController>
-            <Toast />
-          </ThemeProvider>
+          <DiaryProvider>
+            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+              <SplashController>{children}</SplashController>
+              <Toast />
+            </ThemeProvider>
+          </DiaryProvider>
         </FontSizeProvider>
       </AuthProvider>
     </I18nextProvider>

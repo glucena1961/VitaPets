@@ -110,6 +110,33 @@ export default {
     "notImplemented": "Function not implemented",
     "notImplementedMessage": "This feature will be available in a future version."
   },
+  "diary_form": {
+    "title_label": "Entry Title",
+    "title_placeholder": "Title of today's adventure",
+    "date_label": "Date",
+    "date_placeholder": "DD/MM/YYYY",
+    "location_label": "Location",
+    "location_placeholder": "Dog park",
+    "content_label": "Diary Content",
+    "content_placeholder": "Write here the details of your pet's day...",
+    "sentiment_label": "Sentiment",
+    "sentiment_excited": "Excited",
+    "sentiment_happy": "Happy",
+    "sentiment_sad": "Sad",
+    "sentiment_angry": "Angry",
+    "save_button": "Save Entry"
+  },
+  "diary": {
+    "no_entries": "No diary entries yet. Create the first one!"
+  },
+  "diary_detail": {
+    "not_found": "Diary entry not found.",
+    "date_label": "Date",
+    "location_label": "Location",
+    "sentiment_label": "Sentiment",
+    "delete_alert_title": "Delete Entry",
+    "delete_alert_message": "Are you sure you want to delete the entry \"{{title}}\"? This action cannot be undone."
+  },
   "login": {
     "errorTitle": "Authentication Error",
     "errorEmptyFields": "Please fill in all fields.",
