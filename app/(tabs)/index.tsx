@@ -44,7 +44,7 @@ export default function HomeScreen() {
     {
       icon: 'smart-toy',
       label: t('home_new.ask_ai'),
-      onPress: handleNotImplemented,
+      onPress: () => router.push('/ai-consultation-screen'),
     },
      {
       icon: 'auto-stories',
