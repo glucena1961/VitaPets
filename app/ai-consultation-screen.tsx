@@ -1,22 +1,48 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, View, useColorScheme, KeyboardAvoidingView, Platform, ScrollView, Text } from 'react-native';
+import {
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+  useColorScheme,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { Colors } from '@/constants/Colors';
 import { useTranslation } from 'react-i18next';
+import { getVetResponse } from '../src/services/GeminiService'; // Corrected import path
 
 export default function AiConsultationScreen() {
   const { t } = useTranslation();
   const colorScheme = useColorScheme() ?? 'light';
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSend = () => {
-    console.log('Query sent:', query);
-    setResponse(t('ai.simulatedResponse'));
+  const handleSend = async () => {
+    if (!query.trim() || isLoading) return;
+
+    setIsLoading(true);
+    setResponse('');
+    try {
+      const aiResponse = await getVetResponse(query);
+      setResponse(aiResponse);
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "No se pudo obtener una respuesta de la IA.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleClear = () => {
+    if (isLoading) return;
     setQuery('');
     setResponse('');
   };
@@ -56,6 +82,9 @@ export default function AiConsultationScreen() {
       backgroundColor: '#007AFF',
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    disabledButton: {
+      backgroundColor: '#A9A9A9',
     },
     sendButtonText: {
       color: '#FFFFFF',
@@ -110,9 +139,18 @@ export default function AiConsultationScreen() {
                 value={query}
                 onChangeText={setQuery}
                 multiline
+                editable={!isLoading}
               />
-              <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
-                <Text style={styles.sendButtonText}>{t('ai.send')}</Text>
+              <TouchableOpacity
+                style={[styles.sendButton, isLoading && styles.disabledButton]}
+                onPress={handleSend}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <ActivityIndicator color="#FFFFFF" />
+                ) : (
+                  <Text style={styles.sendButtonText}>{t('ai.send')}</Text>
+                )}
               </TouchableOpacity>
             </View>
 
@@ -120,14 +158,18 @@ export default function AiConsultationScreen() {
               <ThemedText type="subtitle">{t('ai.responseTitle')}</ThemedText>
               <View style={styles.responseBox}>
                 <ThemedText style={styles.responseText}>
-                  {response || t('ai.emptyResponse')}
+                  {isLoading ? `${t('ai.loading')}...` : (response || t('ai.emptyResponse'))}
                 </ThemedText>
               </View>
             </View>
           </View>
 
           <View style={styles.footer}>
-            <TouchableOpacity style={styles.clearButton} onPress={handleClear}>
+            <TouchableOpacity
+              style={[styles.clearButton, isLoading && styles.disabledButton]}
+              onPress={handleClear}
+              disabled={isLoading}
+            >
               <Text style={styles.clearButtonText}>{t('ai.clear')}</Text>
             </TouchableOpacity>
           </View>

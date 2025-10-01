@@ -35,7 +35,8 @@ export default {
     "responseTitle": "AI Response",
     "emptyResponse": "The AI has not generated a response yet. Please ask a question and press 'Send'.",
     "clear": "Clear Query",
-    "simulatedResponse": "This is a simulated response. The logic to connect with the AI will be implemented soon."
+    "simulatedResponse": "This is a simulated response. The logic to connect with the AI will be implemented soon.",
+    "loading": "Thinking"
   },
   "home": {
     "welcome": "Welcome to VitaPet",
