@@ -12,16 +12,37 @@ import i18n, { resources } from '@/src/lib/i18n';
 import { AuthProvider, useAuth } from '@/src/contexts/AuthContext';
 import { FontSizeProvider } from '@/src/contexts/FontSizeContext';
 import { DiaryProvider } from '@/src/contexts/DiaryContext';
+import { AIConversationProvider } from '@/src/contexts/AIConversationContext';
 
-// Este componente interno maneja la lógica de carga y el splash screen
+// SplashController now only worries about fonts and auth state
 function SplashController({ children }: { children: React.ReactNode }) {
   const { isLoading: isAuthLoading } = useAuth();
   const [fontsLoaded, fontError] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
+
+  useEffect(() => {
+    if (fontError) throw fontError;
+  }, [fontError]);
+
+  useEffect(() => {
+    if (fontsLoaded && !isAuthLoading) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, isAuthLoading]);
+
+  if (!fontsLoaded || isAuthLoading) {
+    return null; // Keep splash screen visible
+  }
+
+  return <>{children}</>;
+}
+
+// The main provider component, now handling i18n initialization
+export function Providers({ children }: { children: React.ReactNode }) {
+  const colorScheme = useColorScheme();
   const [i18nInitialized, setI18nInitialized] = useState(false);
 
-  // Efecto para inicializar i18n
   useEffect(() => {
     async function prepareI18n() {
       try {
@@ -43,40 +64,22 @@ function SplashController({ children }: { children: React.ReactNode }) {
     prepareI18n();
   }, []);
 
-  // Efecto para manejar errores de fuentes
-  useEffect(() => {
-    if (fontError) throw fontError;
-  }, [fontError]);
-
-  // Efecto para ocultar el Splash Screen
-  useEffect(() => {
-    if (fontsLoaded && i18nInitialized && !isAuthLoading) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded, i18nInitialized, isAuthLoading]);
-
-  // Mientras algo carga, no se renderiza nada, mostrando el splash screen nativo
-  if (!fontsLoaded || !i18nInitialized || isAuthLoading) {
+  // Do not render anything until i18n is ready
+  if (!i18nInitialized) {
     return null;
   }
-
-  // Cuando todo está listo, renderiza los hijos (la app)
-  return <>{children}</>;
-}
-
-// El componente que exportamos, con todos los proveedores
-export function Providers({ children }: { children: React.ReactNode }) {
-  const colorScheme = useColorScheme();
 
   return (
     <I18nextProvider i18n={i18n}>
       <AuthProvider>
         <FontSizeProvider>
           <DiaryProvider>
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-              <SplashController>{children}</SplashController>
-              <Toast />
-            </ThemeProvider>
+            <AIConversationProvider>
+              <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+                <SplashController>{children}</SplashController>
+                <Toast />
+              </ThemeProvider>
+            </AIConversationProvider>
           </DiaryProvider>
         </FontSizeProvider>
       </AuthProvider>

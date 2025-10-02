@@ -137,7 +137,8 @@ export default {
     "save_button": "Save Entry"
   },
   "diary": {
-    "no_entries": "No diary entries yet. Create the first one!"
+    "no_entries": "No diary entries yet. Create the first one!",
+    "create_entry": "Create Entry"
   },
   "diary_detail": {
     "not_found": "Diary entry not found.",

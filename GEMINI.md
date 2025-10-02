@@ -1,3 +1,33 @@
+# Estado del Proyecto al 2 de Octubre de 2025: Persistencia en IA y Bug Crítico de i18n
+
+Este documento registra el estado actual del proyecto VitaPet.
+
+## Resumen del Estado Actual
+
+Se han implementado nuevas funcionalidades y se ha intentado una corrección importante, pero la aplicación presenta un **bug crítico no resuelto**.
+
+**Commit de Respaldo:** `55dbb0a`
+
+### Nuevas Funcionalidades Implementadas
+
+1.  **Persistencia en Consulta a IA:** Se implementó un `AIConversationContext` para que la pantalla de consulta con la IA mantenga el estado de la última pregunta y respuesta si el usuario navega fuera de la pantalla y vuelve a entrar.
+2.  **Renderizado de Markdown:** Se creó un componente `MarkdownRenderer` para formatear las respuestas de la IA, mostrando correctamente negritas y listas para una mejor legibilidad.
+3.  **Instrucción de Idioma a la IA:** La consulta a la IA ahora incluye una instrucción para que responda en el idioma actual de la aplicación.
+
+### Bug Crítico No Resuelto
+
+*   **Problema de Reactividad de i18n:** A pesar de una refactorización profunda del componente `Providers.tsx` para asegurar el orden de inicialización, la aplicación **NO** actualiza el idioma de la interfaz de usuario en tiempo real en varias pantallas (ej. `AiConsultationScreen`, `MyDiaryScreen`) cuando se cambia el idioma en los Ajustes. La interfaz permanece en el idioma con el que se inició la app. **Este es el principal problema a resolver.**
+
+### Otros Cambios
+
+*   Se corrigió un texto estático (hardcoded) en la pantalla `my-diary-screen.tsx`.
+
+## Próximos Pasos
+
+*   Investigar y resolver el problema de raíz de la falta de reactividad en la internacionalización (i18n).
+
+---
+
 # Estado del Proyecto al 1 de Octubre de 2025: Funcionalidad de Consulta a IA Integrada en Master
 
 Este documento registra el estado actual del proyecto VitaPet.

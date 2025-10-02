@@ -44,7 +44,7 @@ export default function MyDiaryScreen() {
       </ScrollView>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.createButton} onPress={() => router.push('/add-diary-entry-form')}>
-          <ThemedText style={styles.createButtonText}>Crear Entrada</ThemedText>
+          <ThemedText style={styles.createButtonText}>{t('diary.create_entry')}</ThemedText>
         </TouchableOpacity>
       </View>
     </ThemedView>

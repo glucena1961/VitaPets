@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -10,42 +10,26 @@ import {
   ScrollView,
   Text,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { Colors } from '@/constants/Colors';
 import { useTranslation } from 'react-i18next';
-import { getVetResponse } from '../src/services/GeminiService'; // Corrected import path
+import { useAIConversation } from '../src/contexts/AIConversationContext'; // Import the hook
+import MarkdownRenderer from '@/components/ui/MarkdownRenderer'; // Import the new renderer
 
 export default function AiConsultationScreen() {
   const { t } = useTranslation();
   const colorScheme = useColorScheme() ?? 'light';
-  const [query, setQuery] = useState('');
-  const [response, setResponse] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSend = async () => {
-    if (!query.trim() || isLoading) return;
-
-    setIsLoading(true);
-    setResponse('');
-    try {
-      const aiResponse = await getVetResponse(query);
-      setResponse(aiResponse);
-    } catch (error) {
-      console.error(error);
-      Alert.alert("Error", "No se pudo obtener una respuesta de la IA.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleClear = () => {
-    if (isLoading) return;
-    setQuery('');
-    setResponse('');
-  };
+  
+  // Consume the context
+  const {
+    conversation,
+    isLoading,
+    setQuery,
+    handleSend,
+    clearConversation,
+  } = useAIConversation();
 
   const styles = StyleSheet.create({
     container: {
@@ -136,14 +120,14 @@ export default function AiConsultationScreen() {
                 style={styles.input}
                 placeholder={t('ai.placeholder')}
                 placeholderTextColor={Colors[colorScheme].secondaryText}
-                value={query}
+                value={conversation.query}
                 onChangeText={setQuery}
                 multiline
                 editable={!isLoading}
               />
               <TouchableOpacity
                 style={[styles.sendButton, isLoading && styles.disabledButton]}
-                onPress={handleSend}
+                onPress={() => handleSend()}
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -157,9 +141,13 @@ export default function AiConsultationScreen() {
             <View style={styles.responseSection}>
               <ThemedText type="subtitle">{t('ai.responseTitle')}</ThemedText>
               <View style={styles.responseBox}>
-                <ThemedText style={styles.responseText}>
-                  {isLoading ? `${t('ai.loading')}...` : (response || t('ai.emptyResponse'))}
-                </ThemedText>
+                {isLoading ? (
+                  <ThemedText style={styles.responseText}>{`${t('ai.loading')}...`}</ThemedText>
+                ) : conversation.response ? (
+                  <MarkdownRenderer content={conversation.response} />
+                ) : (
+                  <ThemedText style={styles.responseText}>{t('ai.emptyResponse')}</ThemedText>
+                )}
               </View>
             </View>
           </View>
@@ -167,7 +155,7 @@ export default function AiConsultationScreen() {
           <View style={styles.footer}>
             <TouchableOpacity
               style={[styles.clearButton, isLoading && styles.disabledButton]}
-              onPress={handleClear}
+              onPress={clearConversation}
               disabled={isLoading}
             >
               <Text style={styles.clearButtonText}>{t('ai.clear')}</Text>
