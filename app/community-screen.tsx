@@ -7,9 +7,11 @@ import { getPosts, interactWithPost } from '@/src/services/MockCommunityService'
 
 import { PostItem } from '@/components/community/PostItem';
 import { CreatePostForm } from '@/components/community/CreatePostForm';
+import { useRouter } from 'expo-router';
 
 
 export default function CommunityScreen() {
+  const router = useRouter();
   const [posts, setPosts] = useState<CommunityPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,6 +32,21 @@ export default function CommunityScreen() {
 
   const handlePostCreated = (newPost: CommunityPost) => {
     setPosts(currentPosts => [newPost, ...currentPosts]);
+  };
+
+  const handleCommentCountUpdated = (postId: string, newCommentCount: number) => {
+    setPosts(currentPosts =>
+      currentPosts.map(p =>
+        p.id === postId ? { ...p, stats: { ...p.stats, comments: newCommentCount } } : p
+      )
+    );
+  };
+
+  const handleCommentPress = (postId: string) => {
+    router.push({
+      pathname: '/post-detail-screen',
+      params: { id: postId, onCommentCountUpdated: handleCommentCountUpdated as any }, // Pass callback as param
+    });
   };
 
   const handleInteraction = async (postId: string, interaction: 'like' | 'dislike') => {
@@ -71,7 +88,7 @@ export default function CommunityScreen() {
     <ThemedView style={styles.container}>
       <FlatList
         data={posts}
-        renderItem={({ item }) => <PostItem post={item} onInteraction={handleInteraction} />}
+        renderItem={({ item }) => <PostItem post={item} onInteraction={handleInteraction} onCommentPress={handleCommentPress} />}
         keyExtractor={item => item.id}
         ListHeaderComponent={<CreatePostForm onPostCreated={handlePostCreated} />}
         onRefresh={() => { /* Logic for pull-to-refresh */ }}

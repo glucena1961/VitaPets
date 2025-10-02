@@ -28,8 +28,9 @@ const formatTimeAgo = (isoDate: string) => {
 };
 
 export default function PostDetailScreen() {
-  const { id } = useLocalSearchParams();
+  const { id, onCommentCountUpdated } = useLocalSearchParams();
   const postId = typeof id === 'string' ? id : undefined;
+  const handleCommentCountUpdated = typeof onCommentCountUpdated === 'function' ? onCommentCountUpdated : () => {};
   const colorScheme = useColorScheme() ?? 'light';
   const theme = Colors[colorScheme];
 
@@ -101,6 +102,7 @@ export default function PostDetailScreen() {
       setNewCommentText('');
       // Also update the comment count on the post itself
       setPost(currentPost => currentPost ? { ...currentPost, stats: { ...currentPost.stats, comments: currentPost.stats.comments + 1 } } : null);
+      handleCommentCountUpdated(postId, (post?.stats.comments || 0) + 1); // Call the callback
     } catch (error) {
       console.error("Failed to add comment:", error);
     } finally {

@@ -1,15 +1,15 @@
-import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { CommunityPost } from '@/src/types/community';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import { useRouter } from 'expo-router';
+// Removed useRouter as navigation will be handled by parent via prop
 
 interface PostItemProps {
   post: CommunityPost;
   onInteraction: (postId: string, interaction: 'like' | 'dislike') => void;
+  onCommentPress: (postId: string) => void; // New prop
 }
 
 // A helper function to format time (in a real app, use a library like date-fns)
@@ -29,8 +29,8 @@ const formatTimeAgo = (isoDate: string) => {
   return Math.floor(seconds) + "s";
 };
 
-export const PostItem: React.FC<PostItemProps> = ({ post, onInteraction }) => {
-  const router = useRouter();
+export const PostItem: React.FC<PostItemProps> = ({ post, onInteraction, onCommentPress }) => {
+  // Removed useRouter
   const colorScheme = useColorScheme() ?? 'light';
   const theme = Colors[colorScheme];
 
@@ -38,9 +38,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post, onInteraction }) => {
     return post.viewerInteraction === interaction ? theme.tint : theme.icon;
   };
 
-  const handleCommentPress = () => {
-    router.push({ pathname: '/post-detail-screen', params: { id: post.id } });
-  };
+  // Removed handleCommentPress as it's now passed via prop
 
   const styles = StyleSheet.create({
     card: {
@@ -122,7 +120,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post, onInteraction }) => {
           <MaterialIcons name="thumb-down" size={20} color={interactionIconColor('dislike')} />
           <ThemedText>{post.stats.dislikes}</ThemedText>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton} onPress={handleCommentPress}>
+        <TouchableOpacity style={styles.actionButton} onPress={() => onCommentPress(post.id)}>
           <MaterialIcons name="comment" size={20} color={theme.icon} />
           <ThemedText>{post.stats.comments}</ThemedText>
         </TouchableOpacity>

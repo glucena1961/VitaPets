@@ -1,7 +1,16 @@
-import { CommunityPost } from '../types/community';
+import { CommunityPost, CommunityComment } from '../types/community';
+
+// --- Configuración de Logging ---
+const ENABLE_MOCK_LOGS = false; // Cambiar a true para ver los logs del mock service
+
+const mockLog = (...args: any[]) => {
+  if (ENABLE_MOCK_LOGS) {
+    console.log('[MockService]', ...args);
+  }
+};
 
 // --- Base de datos Falsa (Mock Database) ---
-const mockUsers = {
+export let mockUsers = {
   'user-1': { id: 'user-1', name: 'Gonzalo', avatarUrl: 'https://i.pravatar.cc/150?u=gonzalo' },
   'user-2': { id: 'user-2', name: 'Sofía', avatarUrl: 'https://i.pravatar.cc/150?u=sofia' },
   'user-3': { id: 'user-3', name: 'Laura', avatarUrl: 'https://i.pravatar.cc/150?u=laura' },
@@ -21,7 +30,7 @@ export let mockPosts: CommunityPost[] = [
   {
     id: 'post-2',
     content: '¡Miren qué grande está mi cachorro! Parece que fue ayer cuando llegó a casa.',
-    imageUrl: 'https://placedog.net/500/300?id=1', // Imagen con aspect ratio variable
+    imageUrl: 'https://placedog.net/500/300?id=1',
     createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(), // Hace 5 horas
     author: mockUsers['user-3'],
     stats: { likes: 42, dislikes: 1, comments: 8 },
@@ -39,7 +48,7 @@ export let mockPosts: CommunityPost[] = [
   {
     id: 'post-4',
     content: '¡Hoy es el cumpleaños número 5 de Rocky! 🎉 Le hemos preparado una tarta especial para perros.',
-    imageUrl: 'https://placedog.net/500/500?id=2', // Imagen cuadrada
+    imageUrl: 'https://placedog.net/500/500?id=2',
     createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // Hace 2 días
     author: mockUsers['user-1'],
     stats: { likes: 112, dislikes: 3, comments: 25 },
@@ -56,7 +65,7 @@ export let mockPosts: CommunityPost[] = [
  * @returns Una promesa que resuelve con una lista de publicaciones y un indicador de si hay más páginas.
  */
 export const getPosts = (page: number = 1, limit: number = 5): Promise<{ posts: CommunityPost[]; hasMore: boolean }> => {
-  console.log(`[MockService] Fetching posts for page ${page} with limit ${limit}`);
+  mockLog(`Fetching posts for page ${page} with limit ${limit}`);
   return new Promise(resolve => {
     setTimeout(() => {
       const startIndex = (page - 1) * limit;
@@ -74,7 +83,7 @@ export const getPosts = (page: number = 1, limit: number = 5): Promise<{ posts: 
  * @returns La nueva publicación creada.
  */
 export const createPost = (content: string): Promise<CommunityPost> => {
-  console.log(`[MockService] Creating new post with content: "${content}"`);
+  mockLog(`Creating new post with content: "${content}"`);
   return new Promise(resolve => {
     setTimeout(() => {
       const newPost: CommunityPost = {
@@ -170,7 +179,7 @@ const mockComments: { [postId: string]: CommunityComment[] } = {
  * @returns Una promesa que resuelve con una lista de comentarios.
  */
 export const getComments = (postId: string): Promise<CommunityComment[]> => {
-  console.log(`[MockService] Fetching comments for post ${postId}`);
+  mockLog(`Fetching comments for post ${postId}`);
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(mockComments[postId] || []);
