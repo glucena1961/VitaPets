@@ -39,7 +39,7 @@ export default function HomeScreen() {
     {
       icon: 'groups',
       label: t('home_new.community'),
-      onPress: handleNotImplemented,
+      onPress: () => router.push('/community-screen'),
     },
     {
       icon: 'smart-toy',

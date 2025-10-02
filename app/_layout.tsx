@@ -40,6 +40,8 @@ function RootLayoutNav() {
         <Stack.Screen name="add-diary-entry-form" options={{ title: 'Crear Entrada', headerShown: true }} />
         <Stack.Screen name="diary-entry-detail-screen" options={{ title: 'Detalle de Entrada', headerShown: true }} />
         <Stack.Screen name="ai-consultation-screen" options={{ title: 'Consulta con la IA', headerShown: true }} />
+        <Stack.Screen name="community-screen" options={{ title: 'Comunidad', headerShown: true }} />
+        <Stack.Screen name="post-detail-screen" options={{ title: 'Publicación', headerShown: true }} />
       </Stack>
   );
 }
