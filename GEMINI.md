@@ -1,3 +1,79 @@
+# Estado del Proyecto al 2 de Octubre de 2025: Implementación de Comunidad (Mock), Corrección de Bug y Nuevo Bug
+
+Este documento registra el estado actual del proyecto VitaPet.
+
+## Resumen del Estado Actual
+
+Se ha completado la implementación del frontend de la pantalla "Comunidad" utilizando un servicio mock. Se ha corregido un bug crítico, pero se ha identificado un nuevo bug.
+
+**Commit de Respaldo:** `1050279` (en la rama `feature/community-screen`)
+
+### Funcionalidades de Comunidad Implementadas (Frontend Mock)
+
+1.  **Contrato de Datos:** Definidas interfaces `CommunityUser`, `CommunityPost`, `CommunityComment`.
+2.  **Servicio Mock:** Implementado `MockCommunityService.ts` con datos y lógica simulada para posts (con paginación), creación de posts, interacciones (likes/dislikes), obtención y adición de comentarios.
+3.  **Componentes UI:** `PostItem` (tarjeta de publicación), `CreatePostForm` (formulario de creación).
+4.  **Pantallas:**
+    *   `CommunityScreen.tsx`: Feed principal con `CreatePostForm` y `PostItem`s. Implementa paginación, scroll infinito, pull-to-refresh, creación de posts e interacciones (likes/dislikes).
+    *   `PostDetailScreen.tsx`: Detalle de publicación con `PostItem`, lista de comentarios y formulario para añadir comentarios.
+5.  **Navegación:** Integrada y accesible desde la pantalla de inicio.
+6.  **UI/UX:** Corrección de superposición de título en `CommunityScreen`.
+
+### Bug Corregido
+
+*   **`TypeError` en `PostDetailScreen`:** Se corrigió el error `TypeError: allPosts.find is not a function` que ocurría al navegar a la pantalla de detalle de una publicación. La función `getPosts()` ahora se desestructura correctamente para obtener el array de posts.
+
+### Bug Crítico Identificado
+
+*   **Contador de Comentarios No Actualizado:** El contador de comentarios en la pantalla principal de la Comunidad (`CommunityScreen`) no se actualiza automáticamente después de añadir un comentario en la pantalla de detalle (`PostDetailScreen`).
+
+### Tareas Pendientes / Observaciones
+
+*   **Problema de Reactividad de i18n (Persistente):** El bug de i18n (la UI no se actualiza al cambiar el idioma) sigue sin resolverse. Es una tarea de alta prioridad.
+*   Resolver el bug del contador de comentarios no actualizado.
+
+## Próximos Pasos
+
+*   Corregir el bug del contador de comentarios no actualizado en `CommunityScreen`.
+
+---
+
+# Estado del Proyecto al 2 de Octubre de 2025: Implementación de Comunidad (Mock) y Bug en Detalle de Post
+
+Este documento registra el estado actual del proyecto VitaPet.
+
+## Resumen del Estado Actual
+
+Se ha completado la implementación del frontend de la pantalla "Comunidad" utilizando un servicio mock. Sin embargo, se ha identificado un nuevo bug crítico.
+
+**Commit de Respaldo:** `69b5ae9` (en la rama `feature/community-screen`)
+
+### Funcionalidades de Comunidad Implementadas (Frontend Mock)
+
+1.  **Contrato de Datos:** Definidas interfaces `CommunityUser`, `CommunityPost`, `CommunityComment`.
+2.  **Servicio Mock:** Implementado `MockCommunityService.ts` con datos y lógica simulada para posts (con paginación), creación de posts, interacciones (likes/dislikes), obtención y adición de comentarios.
+3.  **Componentes UI:** `PostItem` (tarjeta de publicación), `CreatePostForm` (formulario de creación).
+4.  **Pantallas:**
+    *   `CommunityScreen.tsx`: Feed principal con `CreatePostForm` y `PostItem`s. Implementa paginación, scroll infinito, pull-to-refresh, creación de posts e interacciones (likes/dislikes).
+    *   `PostDetailScreen.tsx`: Detalle de publicación con `PostItem`, lista de comentarios y formulario para añadir comentarios.
+5.  **Navegación:** Integrada y accesible desde la pantalla de inicio.
+6.  **UI/UX:** Corrección de superposición de título en `CommunityScreen`.
+
+### Bug Crítico Identificado
+
+*   **`TypeError` en `PostDetailScreen`:** Al intentar navegar a la pantalla de detalle de una publicación para ver/añadir comentarios, la aplicación falla con un `TypeError: allPosts.find is not a function (it is undefined)`. Esto ocurre porque la función `getPosts()` del servicio mock ahora devuelve un objeto `{ posts: [], hasMore: boolean }` y no directamente un array, lo que causa un error al intentar usar `.find()` sobre él.
+
+### Tareas Pendientes / Observaciones
+
+*   **Problema de Reactividad de i18n (Persistente):** El bug de i18n (la UI no se actualiza al cambiar el idioma) sigue sin resolverse. Es una tarea de alta prioridad.
+*   Resolver el `TypeError` en `PostDetailScreen`.
+
+## Próximos Pasos
+
+*   Corregir el `TypeError` en `PostDetailScreen`.
+
+---
+
 # Estado del Proyecto al 2 de Octubre de 2025: Persistencia en IA y Bug Crítico de i18n
 
 Este documento registra el estado actual del proyecto VitaPet.

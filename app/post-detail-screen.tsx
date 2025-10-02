@@ -45,7 +45,7 @@ export default function PostDetailScreen() {
       setIsLoading(true);
       try {
         // In a real app, we'd fetch a single post by ID
-        const allPosts = await getPosts(); // Mock service only has get all posts
+        const { posts: allPosts } = await getPosts(); // Mock service only has get all posts, now correctly destructuring
         const fetchedPost = allPosts.find(p => p.id === postId);
         setPost(fetchedPost || null);
 
