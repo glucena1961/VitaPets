@@ -1,3 +1,28 @@
+# Estado del Proyecto al 3 de Octubre de 2025: Solución de i18n y Fusión a Master
+
+Este documento registra el estado actual del proyecto VitaPet.
+
+## Resumen del Estado Actual
+
+La rama `master` se encuentra **estable y funcional**.
+
+Se ha solucionado el problema crítico de reactividad en la internacionalización (i18n) y la rama `feature/community-screen` ha sido exitosamente fusionada a `master`.
+
+1.  **Solución del Bug de i18n:**
+    *   **Causa Raíz Identificada:** El problema principal era que las `options` de las pantallas en los navegadores de `expo-router` (específicamente `Stack` y `Tabs`) se evalúan una sola vez y no reaccionan a cambios en contextos externos como el de `i18n`.
+    *   **Solución Implementada:** Se aplicó una `key` dinámica (`key={i18n.language}`) al navegador `<Stack>` raíz en `app/_layout.tsx`. Esto fuerza un re-montaje completo del árbol de navegación cada vez que el idioma cambia, garantizando que todas las pantallas y sus respectivos títulos se actualicen con las traducciones correctas.
+    *   **Correcciones Adicionales:** Se añadieron las claves de traducción que faltaban en los archivos `es.js` y `en.js` para los títulos de las pantallas.
+
+2.  **Fusión de Rama:**
+    *   La rama `feature/community-screen`, que contiene la funcionalidad de "Comunidad" y todas las correcciones de i18n, fue fusionada en la rama `master`.
+    *   La rama de funcionalidad ya ha sido eliminada del repositorio local.
+
+## Próximos Pasos
+
+*   Abordar la falta de persistencia de datos de usuario en la base de datos remota (Supabase), migrando la lógica de `AsyncStorage` a Supabase para asegurar que los datos estén vinculados a la cuenta de cada usuario.
+
+---
+
 # Estado del Proyecto al 2 de Octubre de 2025: Implementación de Comunidad (Mock) y Corrección de Bugs
 
 Este documento registra el estado actual del proyecto VitaPet.
