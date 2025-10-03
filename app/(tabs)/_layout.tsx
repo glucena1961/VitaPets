@@ -2,6 +2,8 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
+import { useTranslation } from 'react-i18next';
+
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import NavigationTitle from '@/components/NavigationTitle'; // Importamos el nuevo componente
@@ -13,6 +15,7 @@ function TabBarIcon({ name, color }: { name: React.ComponentProps<typeof Ionicon
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { t } = useTranslation();
 
   return (
     <Tabs
@@ -27,7 +30,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index" // Asumiendo que index.tsx es la pantalla "Principal"
         options={{
-          headerTitle: () => <NavigationTitle i18nKey="tabs.home" />,
+          title: t('tabs.home'),
           tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.home" style={{ color, fontSize: 12 }} />,
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
@@ -35,7 +38,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="pets"
         options={{
-          headerTitle: () => <NavigationTitle i18nKey="tabs.pets" />,
+          title: t('tabs.pets'),
           tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.pets" style={{ color, fontSize: 12 }} />,
           tabBarIcon: ({ color }) => <TabBarIcon name="paw" color={color} />,
         }}
@@ -43,7 +46,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="medical"
         options={{
-          headerTitle: () => <NavigationTitle i18nKey="tabs.medical" />,
+          title: t('tabs.medical'),
           tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.medical" style={{ color, fontSize: 12 }} />,
           tabBarIcon: ({ color }) => <TabBarIcon name="medkit" color={color} />,
         }}
@@ -51,7 +54,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          headerTitle: () => <NavigationTitle i18nKey="tabs.settings" />,
+          title: t('tabs.settings'),
           tabBarLabel: ({ color }) => <NavigationTitle i18nKey="tabs.settings" style={{ color, fontSize: 12 }} />,
           tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
         }}

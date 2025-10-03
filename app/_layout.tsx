@@ -4,6 +4,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useAuth } from '../src/contexts/AuthContext';
 import { useEffect } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -11,6 +13,7 @@ function RootLayoutNav() {
   const segments = useSegments();
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
+  const { t, i18n } = useTranslation(); // Hook para traducciones y el objeto i18n
 
   useEffect(() => {
     if (isLoading) return;
@@ -29,19 +32,19 @@ function RootLayoutNav() {
   }, [isAuthenticated, isLoading, segments, router]);
 
   return (
-      <Stack screenOptions={{ headerShown: false }}>
+      <Stack key={i18n.language} screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="login" />
         <Stack.Screen name="onboarding" />
         <Stack.Screen name="register" />
         <Stack.Screen name="pet-form" />
         <Stack.Screen name="pet-qr-detail" />
-        <Stack.Screen name="my-diary-screen" options={{ title: 'Diario Mis Mascotas', headerShown: true }} />
-        <Stack.Screen name="add-diary-entry-form" options={{ title: 'Crear Entrada', headerShown: true }} />
-        <Stack.Screen name="diary-entry-detail-screen" options={{ title: 'Detalle de Entrada', headerShown: true }} />
-        <Stack.Screen name="ai-consultation-screen" options={{ title: 'Consulta con la IA', headerShown: true }} />
-        <Stack.Screen name="community-screen" options={{ title: 'Comunidad', headerShown: true }} />
-        <Stack.Screen name="post-detail-screen" options={{ title: 'Publicación', headerShown: true }} />
+        <Stack.Screen name="my-diary-screen" options={{ title: t('diary.title'), headerShown: true }} />
+        <Stack.Screen name="add-diary-entry-form" options={{ title: t('diary.add_title'), headerShown: true }} />
+        <Stack.Screen name="diary-entry-detail-screen" options={{ title: t('diary.detail_title'), headerShown: true }} />
+        <Stack.Screen name="ai-consultation-screen" options={{ title: t('ai.title'), headerShown: true }} />
+        <Stack.Screen name="community-screen" options={{ title: t('community.title'), headerShown: true }} />
+        <Stack.Screen name="post-detail-screen" options={{ title: t('community.post_detail_title'), headerShown: true }} />
       </Stack>
   );
 }

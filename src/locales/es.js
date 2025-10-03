@@ -42,6 +42,10 @@ export default {
     "welcome": "Bienvenido a VitaPet",
     "add_pet_button": "Registrar Nueva Mascota y Generar QR"
   },
+  "community": {
+    "title": "Comunidad",
+    "post_detail_title": "Publicación"
+  },
   "home_new": {
     "my_pets": "Mis Mascotas",
     "digital_card": "Tarjeta Digital (QR)",
@@ -137,6 +141,9 @@ export default {
     "save_button": "Guardar Entrada"
   },
   "diary": {
+    "title": "Mi Diario",
+    "add_title": "Nueva Entrada al Diario",
+    "detail_title": "Detalle de la Entrada",
     "no_entries": "Aún no hay entradas en el diario. ¡Crea la primera!",
     "create_entry": "Crear Entrada"
   },

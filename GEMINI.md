@@ -1,12 +1,12 @@
-# Estado del Proyecto al 2 de Octubre de 2025: Implementación de Comunidad (Mock), Corrección de Bug y Nuevo Bug
+# Estado del Proyecto al 2 de Octubre de 2025: Implementación de Comunidad (Mock) y Corrección de Bugs
 
 Este documento registra el estado actual del proyecto VitaPet.
 
 ## Resumen del Estado Actual
 
-Se ha completado la implementación del frontend de la pantalla "Comunidad" utilizando un servicio mock. Se ha corregido un bug crítico, pero se ha identificado un nuevo bug.
+Se ha completado la implementación del frontend de la pantalla "Comunidad" utilizando un servicio mock. Se han corregido bugs críticos y se ha mejorado la experiencia de desarrollo.
 
-**Commit de Respaldo:** `1050279` (en la rama `feature/community-screen`)
+**Commit de Respaldo:** `2087f3f` (en la rama `feature/community-screen`)
 
 ### Funcionalidades de Comunidad Implementadas (Frontend Mock)
 
@@ -19,26 +19,26 @@ Se ha completado la implementación del frontend de la pantalla "Comunidad" util
 5.  **Navegación:** Integrada y accesible desde la pantalla de inicio.
 6.  **UI/UX:** Corrección de superposición de título en `CommunityScreen`.
 
-### Bug Corregido
+### Bugs Corregidos
 
 *   **`TypeError` en `PostDetailScreen`:** Se corrigió el error `TypeError: allPosts.find is not a function` que ocurría al navegar a la pantalla de detalle de una publicación. La función `getPosts()` ahora se desestructura correctamente para obtener el array de posts.
+*   **Contador de Comentarios No Actualizado:** El contador de comentarios en la pantalla principal de la Comunidad (`CommunityScreen`) ahora se actualiza automáticamente después de añadir un comentario en la pantalla de detalle (`PostDetailScreen`).
 
-### Bug Crítico Identificado
+### Mejoras Adicionales
 
-*   **Contador de Comentarios No Actualizado:** El contador de comentarios en la pantalla principal de la Comunidad (`CommunityScreen`) no se actualiza automáticamente después de añadir un comentario en la pantalla de detalle (`PostDetailScreen`).
+*   **Control de Logs del MockService:** Se añadió un flag de configuración (`ENABLE_MOCK_LOGS`) en `MockCommunityService.ts` para controlar la verbosidad de los logs en la consola, reduciendo el ruido durante el desarrollo.
 
 ### Tareas Pendientes / Observaciones
 
 *   **Problema de Reactividad de i18n (Persistente):** El bug de i18n (la UI no se actualiza al cambiar el idioma) sigue sin resolverse. Es una tarea de alta prioridad.
-*   Resolver el bug del contador de comentarios no actualizado.
 
 ## Próximos Pasos
 
-*   Corregir el bug del contador de comentarios no actualizado en `CommunityScreen`.
+*   Investigar y resolver el problema de raíz de la falta de reactividad en la internacionalización (i18n).
 
 ---
 
-# Estado del Proyecto al 2 de Octubre de 2025: Implementación de Comunidad (Mock) y Bug en Detalle de Post
+# Estado del Proyecto al 2 de Octubre de 2025: Implementación de Comunidad (Mock), Corrección de Bug y Nuevo Bug
 
 Este documento registra el estado actual del proyecto VitaPet.
 

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/src/contexts/AuthContext';
 import { useFontSize } from '@/src/contexts/FontSizeContext';
 import { ThemedText } from '@/components/ThemedText';
+import { useLanguage } from '@/src/contexts/LanguageContext';
 
 // Define el tipo para un solo ítem de ajuste
 type SettingItemProps = {
