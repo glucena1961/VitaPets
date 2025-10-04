@@ -65,7 +65,7 @@ const MedicalHistoryScreen = () => {
     if (path) {
       router.push({
         pathname: path,
-        params: { petId: selectedPetData.id, petName: selectedPetData.basicInfo.name },
+        params: { petId: selectedPetData.id, petName: selectedPetData.name }, // CORREGIDO
       });
     } else {
       console.log(`Navegación para la categoría '${category}' aún no implementada.`);
@@ -98,7 +98,7 @@ const MedicalHistoryScreen = () => {
           >
             <Picker.Item label={t('medical_history.select_pet')} value={undefined} />
             {pets.map((pet) => (
-              <Picker.Item key={pet.id} label={pet.basicInfo.name || 'Sin nombre'} value={pet.id} />
+              <Picker.Item key={pet.id} label={pet.name || 'Sin nombre'} value={pet.id} /> // CORREGIDO
             ))}
           </Picker>
         </View>

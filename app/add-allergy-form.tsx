@@ -29,13 +29,18 @@ const AddAllergyFormScreen = () => {
   const [date, setDate] = React.useState(params.date || '');
 
   useEffect(() => {
-    if (isEditMode) {
-      reset({
-        name: params.name || '',
-        vet: params.vet || '',
-        clinic: params.clinic || '',
-      });
-    }
+    const loadAllergyData = async () => {
+      if (isEditMode && params.petId && params.id) {
+        const fetchedRecord = await getMedicalRecord(params.petId, params.id);
+        if (fetchedRecord) {
+          // Asumiendo que fetchedRecord.details es AllergyDetails
+          const allergyDetails = fetchedRecord.details as AllergyDetails;
+          reset(allergyDetails);
+          setDate(fetchedRecord.date); // Actualizar el estado local de la fecha
+        }
+      }
+    };
+    loadAllergyData();
   }, [isEditMode, params, reset]);
 
   const onSubmit = async (data: FormData) => {
@@ -48,28 +53,41 @@ const AddAllergyFormScreen = () => {
       return;
     }
 
+    // Formatear la fecha a YYYY-MM-DD para la base de datos
+    const [day, month, year] = date.split('/');
+    const formattedDate = `${year}-${month}-${day}`;
+
     try {
+      let result: MedicalRecord | null = null;
       if (isEditMode && params.id) {
         const updatedRecord: MedicalRecord = {
           id: params.id,
-          petId: params.petId,
+          pet_id: params.petId,
           type: 'allergy',
-          date: date,
+          date: formattedDate,
           details: data,
         };
-        await updateMedicalRecord(params.petId, updatedRecord);
+        result = await updateMedicalRecord(params.petId, updatedRecord);
       } else {
-        const newRecord: Omit<MedicalRecord, 'id' | 'petId'> = {
+        const newRecord: Omit<MedicalRecord, 'id' | 'user_id' | 'created_at'> = {
+          pet_id: params.petId,
           type: 'allergy',
-          date: date,
+          date: formattedDate,
           details: data,
         };
-        await saveMedicalRecord(params.petId, newRecord);
+        result = await saveMedicalRecord(params.petId, newRecord);
       }
-      Toast.show({ type: 'success', text1: t('common.success'), text2: t('common.save_success_message') });
-      router.back(); // Solo necesita un back, ya que el focus effect recargará la lista.
+
+      if (result) {
+        Toast.show({ type: 'success', text1: t('common.success'), text2: t('common.save_success_message') });
+        router.back(); // Solo necesita un back, ya que el focus effect recargará la lista.
+      } else {
+        // Si result es null, significa que hubo un error en el servicio pero no lanzó excepción
+        Toast.show({ type: 'error', text1: t('common.error'), text2: t('common.save_error_message') });
+      }
 
     } catch (error) {
+      console.error("Error saving medical record:", error);
       Toast.show({ type: 'error', text1: t('common.error'), text2: t('common.save_error_message') });
     }
   };

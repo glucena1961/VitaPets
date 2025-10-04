@@ -48,15 +48,15 @@ export default function PetListScreen() {
         {/* Columna Izquierda: Imagen */}
         <View style={styles.imageContainer}>
           <Image
-            source={item.photo_uri ? { uri: item.photo_uri } : require('../../assets/images/icon.png')} // CORREGIDO
+            source={item.photo_uri ? { uri: item.photo_uri } : require('../../assets/images/icon.png')}
             style={styles.petImage}
           />
         </View>
 
         {/* Columna Derecha: Textos */}
         <View style={styles.textContainer}>
-          <ThemedText style={styles.petName}>{item.name || t('pet_form.unnamed')}</ThemedText> // CORREGIDO
-          <ThemedText style={styles.petBreed}>{item.breed || t('pet_form.no_species')}</ThemedText> // CORREGIDO
+          <ThemedText style={styles.petName}>{item.name || t('pet_form.unnamed')}</ThemedText>
+          <ThemedText style={styles.petBreed}>{item.breed || t('pet_form.no_species')}</ThemedText>
         </View>
       </View>
 

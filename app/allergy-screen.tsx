@@ -35,11 +35,7 @@ const AllergyScreen = () => {
         pathname: '/allergy-detail-screen',
         params: { 
           petId: petId,
-          id: item.id, 
-          name: item.details.name, 
-          date: item.date, 
-          vet: item.details.vet, 
-          clinic: item.details.clinic 
+          id: item.id,
         }
       })}
     >

@@ -107,6 +107,24 @@ export const getMedicalRecords = async (petId: string): Promise<MedicalRecord[]>
 };
 
 /**
+ * Obtiene un registro médico específico por su ID y el ID de la mascota.
+ */
+export const getMedicalRecord = async (petId: string, recordId: string): Promise<MedicalRecord | null> => {
+  const { data, error } = await supabase
+    .from('medical_records')
+    .select('*')
+    .eq('pet_id', petId)
+    .eq('id', recordId)
+    .single();
+
+  if (error) {
+    console.error(`Error fetching medical record ${recordId} for pet ${petId}:`, error.message);
+    return null;
+  }
+  return data as MedicalRecord | null;
+};
+
+/**
  * Guarda un nuevo registro médico para una mascota.
  */
 export const saveMedicalRecord = async (
