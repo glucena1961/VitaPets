@@ -1,63 +1,85 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-// @ts-ignore - react-native-uuid no tiene tipos actualizados, ignoramos el error.
-import uuid from 'react-native-uuid';
+import { supabase } from '../lib/supabase';
 
-const APPOINTMENTS_STORAGE_KEY = 'VitaPet:appointments';
-
-// Definimos la estructura de una cita
+// Estructura de una cita, alineada con la tabla de Supabase
 export interface Appointment {
   id: string;
-  petId: string; // Clave foránea para asociar con una mascota
-  date: string; // Opcionalmente, podría ser un objeto Date
-  type: 'Vaccine' | 'Deworming' | 'MedicalVisit'; // Tipo de cita
+  pet_id: string;
+  user_id: string;
+  created_at: string;
+  date: string; // TIMESTAMPTZ se maneja como string en JS
+  type: 'Vaccine' | 'Deworming' | 'MedicalVisit';
   notes: string;
 }
 
+/**
+ * Obtiene todas las citas para una mascota específica.
+ */
 export const getAppointments = async (petId: string): Promise<Appointment[]> => {
-  try {
-    const jsonValue = await AsyncStorage.getItem(APPOINTMENTS_STORAGE_KEY);
-    const allAppointments: Appointment[] = jsonValue != null ? JSON.parse(jsonValue) : [];
-    // Filtra las citas que corresponden al ID de la mascota
-    return allAppointments.filter(appt => appt.petId === petId);
-  } catch (e) {
-    console.error('Error fetching appointments', e);
+  const { data, error } = await supabase
+    .from('appointments')
+    .select('*')
+    .eq('pet_id', petId)
+    .order('date', { ascending: false });
+
+  if (error) {
+    console.error(`Error fetching appointments for pet ${petId}:`, error.message);
     return [];
   }
+  return data || [];
 };
 
-export const saveAppointment = async (appointment: Partial<Appointment>): Promise<Appointment | undefined> => {
-  try {
-    const jsonValue = await AsyncStorage.getItem(APPOINTMENTS_STORAGE_KEY);
-    const allAppointments: Appointment[] = jsonValue != null ? JSON.parse(jsonValue) : [];
+/**
+ * Guarda una nueva cita para una mascota.
+ */
+export const saveAppointment = async (
+  appointment: Omit<Appointment, 'id' | 'user_id' | 'created_at'>
+): Promise<Appointment | null> => {
+  const { data, error } = await supabase
+    .from('appointments')
+    .insert(appointment)
+    .select()
+    .single();
 
-    if (appointment.id) {
-      // Actualizar cita existente
-      const index = allAppointments.findIndex((a) => a.id === appointment.id);
-      if (index > -1) {
-        allAppointments[index] = appointment as Appointment;
-      }
-    } else {
-      // Crear nueva cita
-      const newAppointment = { ...appointment, id: uuid.v4() as string } as Appointment;
-      allAppointments.push(newAppointment);
-      appointment = newAppointment;
-    }
-    const newJsonValue = JSON.stringify(allAppointments);
-    await AsyncStorage.setItem(APPOINTMENTS_STORAGE_KEY, newJsonValue);
-    return appointment as Appointment;
-  } catch (e) {
-    console.error('Error saving appointment', e);
+  if (error) {
+    console.error('Error saving appointment:', error.message);
+    return null;
   }
+  return data;
 };
 
-export const deleteAppointment = async (id: string): Promise<void> => {
-  try {
-    const jsonValue = await AsyncStorage.getItem(APPOINTMENTS_STORAGE_KEY);
-    const allAppointments: Appointment[] = jsonValue != null ? JSON.parse(jsonValue) : [];
-    const filteredAppointments = allAppointments.filter((appt) => appt.id !== id);
-    const newJsonValue = JSON.stringify(filteredAppointments);
-    await AsyncStorage.setItem(APPOINTMENTS_STORAGE_KEY, newJsonValue);
-  } catch (e) {
-    console.error('Error deleting appointment', e);
+/**
+ * Actualiza una cita existente.
+ */
+export const updateAppointment = async (
+  appointmentId: string,
+  updates: Partial<Omit<Appointment, 'id' | 'pet_id' | 'user_id' | 'created_at'>>
+): Promise<Appointment | null> => {
+  const { data, error } = await supabase
+    .from('appointments')
+    .update(updates)
+    .eq('id', appointmentId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(`Error updating appointment ${appointmentId}:`, error.message);
+    return null;
   }
+  return data;
+};
+
+/**
+ * Elimina una cita específica.
+ */
+export const deleteAppointment = async (appointmentId: string): Promise<boolean> => {
+  const { error } = await supabase
+    .from('appointments')
+    .delete()
+    .eq('id', appointmentId);
+
+  if (error) {
+    console.error(`Error deleting appointment ${appointmentId}:`, error.message);
+    return false;
+  }
+  return true;
 };

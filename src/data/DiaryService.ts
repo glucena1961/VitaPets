@@ -1,78 +1,98 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { supabase } from '../lib/supabase';
 
+// La interfaz refleja la tabla 'diary_entries' en Supabase
 export interface DiaryEntry {
-  id: string;
+  id: string; // UUID
+  user_id: string;
+  created_at: string;
   title: string;
-  date: string;
-  location: string;
+  date: string; // Formato YYYY-MM-DD
+  location?: string;
   content: string;
-  sentiment: string;
-  createdAt: string;
+  sentiment?: string;
 }
 
-const DIARY_STORAGE_KEY = '@VitaPet:diaryEntries';
-
+// El servicio ahora usa Supabase para todas las operaciones CRUD
 export const DiaryService = {
   async getDiaryEntries(): Promise<DiaryEntry[]> {
-    try {
-      const jsonValue = await AsyncStorage.getItem(DIARY_STORAGE_KEY);
-      return jsonValue != null ? JSON.parse(jsonValue) : [];
-    } catch (e) {
-      console.error('Error getting diary entries', e);
+    const { data, error } = await supabase
+      .from('diary_entries')
+      .select('*')
+      .order('date', { ascending: false });
+
+    if (error) {
+      console.error('Error getting diary entries', error.message);
       return [];
     }
+    return data || [];
   },
 
-  async saveDiaryEntry(entry: Omit<DiaryEntry, 'id' | 'createdAt'>): Promise<DiaryEntry[]> {
-    try {
-      const currentEntries = await this.getDiaryEntries();
-      const newEntry: DiaryEntry = {
-        id: Date.now().toString(), // Simple unique ID
-        createdAt: new Date().toISOString(),
-        ...entry,
-      };
-      const updatedEntries = [...currentEntries, newEntry];
-      await AsyncStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(updatedEntries));
-      return updatedEntries;
-    } catch (e) {
-      console.error('Error saving diary entry', e);
-      throw e; // Re-throw to handle in UI
+  async getDiaryEntry(id: string): Promise<DiaryEntry | null> {
+    const { data, error } = await supabase
+      .from('diary_entries')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error) {
+      console.error('Error getting single diary entry', error.message);
+      return null;
     }
+    return data;
   },
 
-  // Optional: Add update and delete functions later if needed
-  async updateDiaryEntry(updatedEntry: DiaryEntry): Promise<DiaryEntry[]> {
-    try {
-      const currentEntries = await this.getDiaryEntries();
-      const updatedEntries = currentEntries.map(entry =>
-        entry.id === updatedEntry.id ? updatedEntry : entry
-      );
-      await AsyncStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(updatedEntries));
-      return updatedEntries;
-    } catch (e) {
-      console.error('Error updating diary entry', e);
-      throw e;
+  async saveDiaryEntry(
+    entry: Omit<DiaryEntry, 'id' | 'user_id' | 'created_at'>
+  ): Promise<DiaryEntry | null> {
+    const { data, error } = await supabase
+      .from('diary_entries')
+      .insert(entry)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error saving diary entry', error.message);
+      return null;
     }
+    return data;
   },
 
-  async deleteDiaryEntry(id: string): Promise<DiaryEntry[]> {
-    try {
-      const currentEntries = await this.getDiaryEntries();
-      const updatedEntries = currentEntries.filter(entry => entry.id !== id);
-      await AsyncStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(updatedEntries));
-      return updatedEntries;
-    } catch (e) {
-      console.error('Error deleting diary entry', e);
-      throw e;
+  async updateDiaryEntry(
+    id: string,
+    updates: Partial<Omit<DiaryEntry, 'id' | 'user_id' | 'created_at'>>
+  ): Promise<DiaryEntry | null> {
+    const { data, error } = await supabase
+      .from('diary_entries')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error updating diary entry', error.message);
+      return null;
     }
+    return data;
   },
 
-  async clearAllDiaryEntries(): Promise<void> {
-    try {
-      await AsyncStorage.removeItem(DIARY_STORAGE_KEY);
-    } catch (e) {
-      console.error('Error clearing all diary entries', e);
-      throw e;
+  async deleteDiaryEntry(id: string): Promise<boolean> {
+    const { error } = await supabase.from('diary_entries').delete().eq('id', id);
+
+    if (error) {
+      console.error('Error deleting diary entry', error.message);
+      return false;
     }
+    return true;
+  },
+
+  async clearAllDiaryEntries(): Promise<boolean> {
+    // RLS se encarga de que solo se borren las entradas del usuario actual.
+    const { error } = await supabase.from('diary_entries').delete().neq('id', '00000000-0000-0000-0000-000000000000'); // Afecta a todas las filas a las que el usuario tiene acceso
+
+    if (error) {
+      console.error('Error clearing all diary entries', error.message);
+      return false;
+    }
+    return true;
   },
 };

@@ -1,3 +1,38 @@
+# Estado del Proyecto al 4 de Octubre de 2025: Migración de Datos a Supabase Completada
+
+Este documento registra la finalización exitosa de la migración de la capa de persistencia de datos.
+
+## Resumen del Estado Actual
+
+La aplicación se encuentra en un estado **estable y verificado**. La tarea de migrar todos los datos de `AsyncStorage` a una base de datos `Supabase` ha sido completada.
+
+### Hitos Alcanzados
+
+1.  **Migración de Servicios Completada:**
+    *   Se han refactorizado los 4 servicios de datos para usar Supabase, eliminando la dependencia de `AsyncStorage`:
+        *   `PetService.ts`
+        *   `DiaryService.ts`
+        *   `MedicalRecordService.ts`
+        *   `AppointmentService.ts`
+
+2.  **Diseño e Implementación de Base de Datos:**
+    *   Se diseñaron e implementaron esquemas SQL relacionales para las tablas `pets`, `diary_entries`, `medical_records` y `appointments`.
+    *   Se utilizó el tipo `JSONB` de manera efectiva en `medical_records` para manejar estructuras de datos complejas y polimórficas.
+
+3.  **Seguridad Implementada:**
+    *   Todas las nuevas tablas están protegidas con Políticas de **Row Level Security (RLS)**, asegurando que los usuarios solo puedan acceder y modificar su propia información.
+
+4.  **Calidad y Cobertura de Pruebas:**
+    *   Se aumentó significativamente la calidad y la resiliencia del código mediante la creación y actualización de pruebas unitarias para todos los servicios afectados.
+    *   Se crearon 3 nuevas suites de pruebas desde cero (`DiaryService.spec.ts`, `MedicalRecordService.spec.ts`, `AppointmentService.spec.ts`).
+    *   Se estabilizó el entorno de pruebas de Jest y se estableció un patrón de mockeo robusto para el cliente de Supabase, lo que facilitará futuros desarrollos.
+
+## Próximos Pasos
+
+*   El núcleo de datos de la aplicación es estable y está verificado. El proyecto está listo para la siguiente fase de planificación o el desarrollo de nuevas funcionalidades.
+
+---
+
 # Estado del Proyecto al 3 de Octubre de 2025: Solución de i18n y Fusión a Master
 
 Este documento registra el estado actual del proyecto VitaPet.
