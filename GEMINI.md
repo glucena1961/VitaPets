@@ -1,3 +1,40 @@
+# Estado del Proyecto al 4 de Octubre de 2025 (Parte 2): Estabilización del Flujo de Datos
+
+Este documento registra la sesión de depuración y estabilización que se realizó después de la migración inicial a Supabase.
+
+## Resumen del Estado Actual
+
+Tras la migración inicial, se detectaron y solucionaron una serie de bugs críticos relacionados con la inconsistencia entre la estructura de datos de la UI y el nuevo esquema de la base de datos.
+
+### Hitos Alcanzados en esta Fase
+
+1.  **Corrección de Política de Seguridad (RLS):**
+    *   Se diagnosticó y corrigió un error crítico `violates row-level security policy` que ocurría al crear nuevos registros.
+    *   La causa era la omisión del `user_id` en las operaciones de `INSERT`. Se aplicó la corrección en los 4 servicios de datos (`PetService`, `DiaryService`, `MedicalRecordService`, `AppointmentService`).
+
+2.  **Reconstrucción del Esquema `pets`:**
+    *   Se detectó que el esquema inicial de la tabla `pets` era incompleto, omitiendo campos importantes (raza, peso, datos del dueño, etc.).
+    *   Se proveyó y ejecutó un script `DROP/CREATE` para reconstruir la tabla `pets` con una estructura completa y correcta, solucionando la causa raíz de múltiples errores de datos.
+
+3.  **Implementación del Patrón Adaptador (Flujo de Datos):**
+    *   Se refactorizó `PetService` para que actúe como un "Adaptador" robusto, traduciendo la estructura de datos anidada de la UI a la estructura plana de la base de datos al escribir, y viceversa al leer.
+
+4.  **Corrección de la Interfaz de Usuario (UI):**
+    *   Se refactorizaron las siguientes pantallas para que sean consistentes con la nueva estructura de datos plana, solucionando todos los bugs reportados:
+        *   `pet-form.tsx`: Solucionado el bug que creaba duplicados al editar y el problema al guardar/mostrar la foto.
+        *   `pet-qr-detail.tsx`: Solucionado el crash `Cannot read property 'name' of undefined`.
+        *   `app/(tabs)/pets.tsx`: Solucionada la visualización de datos en la lista de mascotas.
+
+## Estado Actual
+
+*   Con estas correcciones, el flujo completo de gestión de mascotas (Crear, Leer, Actualizar, Borrar y Visualizar) es ahora funcional y considerablemente más estable.
+
+## Próximos Pasos
+
+*   Continuar con la auditoría de la capa de autenticación o abordar nuevas funcionalidades, según se priorice.
+
+---
+
 # Estado del Proyecto al 4 de Octubre de 2025: Migración de Datos a Supabase Completada
 
 Este documento registra la finalización exitosa de la migración de la capa de persistencia de datos.

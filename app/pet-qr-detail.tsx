@@ -30,26 +30,25 @@ const formatQrDataAsText = (p: Pet | null, t: TFunction): string => {
   const report: string[] = [];
 
   report.push(t('qrReport.basic_info_title'));
-  report.push(`${t('qrReport.name')} ${p.basicInfo?.name || NA}`);
-  report.push(`${t('qrReport.species')} ${p.basicInfo?.species || NA}`);
-  report.push(`${t('qrReport.breed')} ${p.basicInfo?.breed || NA}`);
-  report.push(`${t('qrReport.dob')} ${p.basicInfo?.dob || NA}`);
-  report.push(`${t('qrReport.sex')} ${p.basicInfo?.sex || NA}`);
-  report.push(`${t('qrReport.chipId')} ${p.basicInfo?.chipId || NA}`);
+  report.push(`${t('qrReport.name')} ${p.name || NA}`);
+  report.push(`${t('qrReport.species')} ${p.species || NA}`);
+  report.push(`${t('qrReport.breed')} ${p.breed || NA}`);
+  report.push(`${t('qrReport.dob')} ${p.dob || NA}`);
+  report.push(`${t('qrReport.sex')} ${p.sex || NA}`);
+  report.push(`${t('qrReport.chipId')} ${p.chip_id || NA}`);
   report.push('');
 
   report.push(t('qrReport.medical_info_title'));
-  report.push(`${t('qrReport.weight')} ${p.medicalInfo?.weightKg || NA} ${t('qrReport.kg')}`);
-  report.push(`${t('qrReport.allergies')} ${p.medicalInfo?.allergies || NONE}`);
-  report.push(`${t('qrReport.medications')} ${p.medicalInfo?.medications || NONE}`);
-  report.push(`${t('qrReport.specialCondition')} ${p.medicalInfo?.specialCondition || NONE}`);
-  report.push(`${t('qrReport.others')} ${p.medicalInfo?.others || NONE}`);
+  report.push(`${t('qrReport.weight')} ${p.weight_kg || NA} ${t('qrReport.kg')}`);
+  report.push(`${t('qrReport.allergies')} ${p.allergies || NONE}`);
+  report.push(`${t('qrReport.medications')} ${p.medications || NONE}`);
+  report.push(`${t('qrReport.specialCondition')} ${p.special_condition || NONE}`);
   report.push('');
 
   report.push(t('qrReport.owner_info_title'));
-  report.push(`${t('qrReport.ownerName')} ${p.ownerInfo?.name || NA}`);
-  report.push(`${t('qrReport.phone')} ${p.ownerInfo?.phone || NA}`);
-  report.push(`${t('qrReport.email')} ${p.ownerInfo?.email || NA}`);
+  report.push(`${t('qrReport.ownerName')} ${p.owner_name || NA}`);
+  report.push(`${t('qrReport.phone')} ${p.owner_phone || NA}`);
+  report.push(`${t('qrReport.email')} ${p.owner_email || NA}`);
 
   return report.join('\n');
 };
@@ -108,7 +107,7 @@ export default function PetQRDetailScreen() {
     try {
       if (!qrCodeRef.current) return;
       const uri = await captureRef(qrCodeRef, { format: 'png', quality: 1.0 });
-      await Share.share({ title: t('qrDetail.share_title', { petName: pet?.basicInfo.name }), url: uri });
+      await Share.share({ title: t('qrDetail.share_title', { petName: pet?.name }), url: uri });
     } catch (error) {
       console.error('Error al compartir el QR:', error);
       Alert.alert(t('common.error'), t('qrDetail.share_error_message'));
@@ -123,9 +122,9 @@ export default function PetQRDetailScreen() {
     return <View style={[styles.container, styles.centerContent]}><Text>{t('common.pet_not_found')}</Text></View>;
   }
 
-  const petName = pet.basicInfo?.name || t('pet_form.unnamed');
-  const petBreed = pet.basicInfo?.breed || t('pet_form.no_species');
-  const petAvatar = pet.photoUri ? { uri: pet.photoUri } : require('../assets/images/icon.png');
+  const petName = pet.name || t('pet_form.unnamed');
+  const petBreed = pet.breed || t('pet_form.no_species');
+  const petAvatar = pet.photo_uri ? { uri: pet.photo_uri } : require('../assets/images/icon.png');
   const instructionText = t('qrDetail.scanInstruction', { petName: petName });
   const qrData = formatQrDataAsText(pet, t);
 
@@ -173,32 +172,31 @@ export default function PetQRDetailScreen() {
                 <Ionicons name="paw-outline" size={22} color="#495057" />
                 <Text style={styles.sectionTitle}>{t('pet_form.basic_info_section')}</Text>
               </View>
-              <DetailRow label={t('pet_form.name')} value={pet.basicInfo.name} />
-              <DetailRow label={t('pet_form.species')} value={pet.basicInfo.species} />
-              <DetailRow label={t('pet_form.breed')} value={pet.basicInfo.breed} />
-              <DetailRow label={t('pet_form.dob')} value={pet.basicInfo.dob} />
-              <DetailRow label={t('pet_form.sex')} value={pet.basicInfo.sex} />
-              <DetailRow label={t('pet_form.chip_id')} value={pet.basicInfo.chipId} />
+              <DetailRow label={t('pet_form.name')} value={pet.name} />
+              <DetailRow label={t('pet_form.species')} value={pet.species} />
+              <DetailRow label={t('pet_form.breed')} value={pet.breed} />
+              <DetailRow label={t('pet_form.dob')} value={pet.dob} />
+              <DetailRow label={t('pet_form.sex')} value={pet.sex} />
+              <DetailRow label={t('pet_form.chip_id')} value={pet.chip_id} />
             </View>
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
                 <Ionicons name="medkit-outline" size={22} color="#495057" />
                 <Text style={styles.sectionTitle}>{t('pet_form.medical_info_section')}</Text>
               </View>
-              <DetailRow label={t('pet_form.weight_kg')} value={pet.medicalInfo?.weightKg ? `${pet.medicalInfo.weightKg} kg` : undefined} />
-              <DetailRow label={t('pet_form.allergies')} value={pet.medicalInfo?.allergies} />
-              <DetailRow label={t('pet_form.medications')} value={pet.medicalInfo?.medications} />
-              <DetailRow label={t('pet_form.special_condition')} value={pet.medicalInfo?.specialCondition} />
-              <DetailRow label={t('pet_form.others')} value={pet.medicalInfo?.others} />
+              <DetailRow label={t('pet_form.weight_kg')} value={pet.weight_kg ? `${pet.weight_kg} kg` : undefined} />
+              <DetailRow label={t('pet_form.allergies')} value={pet.allergies} />
+              <DetailRow label={t('pet_form.medications')} value={pet.medications} />
+              <DetailRow label={t('pet_form.special_condition')} value={pet.special_condition} />
             </View>
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
                 <Ionicons name="person-circle-outline" size={22} color="#495057" />
                 <Text style={styles.sectionTitle}>{t('pet_form.owner_info_section')}</Text>
               </View>
-              <DetailRow label={t('pet_form.owner_name')} value={pet.ownerInfo?.name} />
-              <DetailRow label={t('pet_form.phone')} value={pet.ownerInfo?.phone} />
-              <DetailRow label={t('pet_form.email')} value={pet.ownerInfo?.email} />
+              <DetailRow label={t('pet_form.owner_name')} value={pet.owner_name} />
+              <DetailRow label={t('pet_form.phone')} value={pet.owner_phone} />
+              <DetailRow label={t('pet_form.email')} value={pet.owner_email} />
             </View>
           </View>
         )}

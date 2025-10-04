@@ -34,9 +34,12 @@ export const getAppointments = async (petId: string): Promise<Appointment[]> => 
 export const saveAppointment = async (
   appointment: Omit<Appointment, 'id' | 'user_id' | 'created_at'>
 ): Promise<Appointment | null> => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error('User not authenticated');
+
   const { data, error } = await supabase
     .from('appointments')
-    .insert(appointment)
+    .insert({ ...appointment, user_id: user.id })
     .select()
     .single();
 

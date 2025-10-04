@@ -34,12 +34,34 @@ export default function PetFormScreen() {
 
   useEffect(() => {
     const loadPetData = async () => {
-      if (isEditMode) {
-        const petData = await getPet(id as string);
-        if (petData) {
-          reset(petData);
-          if (petData.photoUri) {
-            setImageUri(petData.photoUri);
+      if (isEditMode && id) {
+        const flatPetData = await getPet(id as string);
+        if (flatPetData) {
+          // Transformar datos planos a la estructura anidada que el formulario espera
+          const nestedPetData = {
+            basicInfo: {
+              name: flatPetData.name,
+              species: flatPetData.species,
+              breed: flatPetData.breed,
+              dob: flatPetData.dob,
+              sex: flatPetData.sex,
+              chipId: flatPetData.chip_id,
+            },
+            medicalInfo: {
+              weightKg: flatPetData.weight_kg,
+              allergies: flatPetData.allergies,
+              medications: flatPetData.medications,
+              specialCondition: flatPetData.special_condition,
+            },
+            ownerInfo: {
+              name: flatPetData.owner_name,
+              phone: flatPetData.owner_phone,
+              email: flatPetData.owner_email,
+            },
+          };
+          reset(nestedPetData); // Usar los datos anidados para rellenar el formulario
+          if (flatPetData.photo_uri) {
+            setImageUri(flatPetData.photo_uri);
           }
         }
       }
@@ -111,7 +133,7 @@ export default function PetFormScreen() {
   // --- Form Submission ---
   const onSubmit = async (data: any) => {
     try {
-      await savePet({ ...data, photoUri: imageUri });
+      await savePet({ id: id as string, ...data, photo_uri: imageUri });
       Toast.show({
         type: 'success',
         text1: t('common.success'),

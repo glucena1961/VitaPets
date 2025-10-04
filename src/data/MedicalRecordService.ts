@@ -113,9 +113,12 @@ export const saveMedicalRecord = async (
   petId: string,
   record: Omit<MedicalRecord, 'id' | 'pet_id' | 'user_id' | 'created_at'>
 ): Promise<MedicalRecord | null> => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error('User not authenticated');
+
   const { data, error } = await supabase
     .from('medical_records')
-    .insert({ ...record, pet_id: petId })
+    .insert({ ...record, pet_id: petId, user_id: user.id })
     .select()
     .single();
 

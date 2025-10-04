@@ -44,9 +44,12 @@ export const DiaryService = {
   async saveDiaryEntry(
     entry: Omit<DiaryEntry, 'id' | 'user_id' | 'created_at'>
   ): Promise<DiaryEntry | null> {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('User not authenticated');
+
     const { data, error } = await supabase
       .from('diary_entries')
-      .insert(entry)
+      .insert({ ...entry, user_id: user.id })
       .select()
       .single();
 

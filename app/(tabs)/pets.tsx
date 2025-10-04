@@ -42,21 +42,21 @@ export default function PetListScreen() {
     );
   };
 
-  const renderItem = ({ item }: { item: any }) => (
+  const renderItem = ({ item }: { item: Pet }) => (
     <Card style={styles.card}>
       <View style={styles.cardLayout}>
         {/* Columna Izquierda: Imagen */}
         <View style={styles.imageContainer}>
           <Image
-            source={item.photoUri ? { uri: item.photoUri } : require('../../assets/images/icon.png')} // Usa placeholder si no hay foto
+            source={item.photo_uri ? { uri: item.photo_uri } : require('../../assets/images/icon.png')} // CORREGIDO
             style={styles.petImage}
           />
         </View>
 
         {/* Columna Derecha: Textos */}
         <View style={styles.textContainer}>
-          <ThemedText style={styles.petName}>{item.basicInfo?.name || t('pet_form.unnamed')}</ThemedText>
-          <ThemedText style={styles.petBreed}>{item.basicInfo?.breed || t('pet_form.no_species')}</ThemedText>
+          <ThemedText style={styles.petName}>{item.name || t('pet_form.unnamed')}</ThemedText> // CORREGIDO
+          <ThemedText style={styles.petBreed}>{item.breed || t('pet_form.no_species')}</ThemedText> // CORREGIDO
         </View>
       </View>
 
