@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useRouter, useLocalSearchParams, useFocusEffect, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { MedicalRecord, getMedicalRecords } from '../src/data/MedicalRecordService';
@@ -46,45 +46,46 @@ const AllergyScreen = () => {
 
   const ListEmptyComponent = () => (
     <View style={styles.emptyContainer}>
-      <Text style={styles.emptyText}>No hay alergias registradas para {petName}.</Text>
+      <Text style={styles.emptyText}>{t('allergy_screen.no_allergies', { petName: petName })}</Text>
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.container}>
       <Stack.Screen 
         options={{
             title: t('allergy_screen.title', { petName: petName || 'Mascota' }),
             headerBackTitleVisible: false,
         }}
       />
-      <View style={styles.container}>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#3B82F6" style={{ marginTop: 20 }} />
-        ) : (
-          <FlatList
-            data={allergies}
-            renderItem={renderAllergyItem}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={styles.listContent}
-            ListEmptyComponent={ListEmptyComponent}
-          />
-        )}
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#3B82F6" style={{ flex: 1 }} />
+      ) : (
+        <FlatList
+          data={allergies}
+          renderItem={renderAllergyItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContent}
+          ListEmptyComponent={ListEmptyComponent}
+          style={{ flex: 1 }} // Asegura que la lista ocupe el espacio disponible
+        />
+      )}
 
-        {/* Footer */}
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.addButton} onPress={() => router.push({ pathname: '/add-allergy-form', params: { petId, petName } })}>
-            <Text style={styles.addButtonText}>{t('allergy_screen.add_button')}</Text>
-          </TouchableOpacity>
-        </View>
+      {/* Footer */}
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.addButton} onPress={() => router.push({ pathname: '/add-allergy-form', params: { petId, petName } })}>
+          <Text style={styles.addButtonText}>{t('allergy_screen.add_button')}</Text>
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#FFFFFF' },
-  container: { flex: 1 },
+  container: { 
+    flex: 1,
+    backgroundColor: '#FFFFFF' 
+  },
   listContent: { flexGrow: 1, padding: 16 },
   itemContainer: {
     flexDirection: 'row',
@@ -105,13 +106,10 @@ const styles = StyleSheet.create({
   itemName: { fontSize: 16, color: '#111827' },
   itemDate: { fontSize: 14, color: '#6B7280' },
   footer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
     padding: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    borderTopWidth: 0,
+    backgroundColor: '#FFFFFF',
+    borderTopWidth: 1,
+    borderTopColor: '#F3F4F6',
   },
   addButton: {
     backgroundColor: '#3B82F6',

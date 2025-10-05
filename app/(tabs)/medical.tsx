@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
-import { View, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Platform } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
@@ -57,7 +56,6 @@ const MedicalHistoryScreen = () => {
       medicines: '/medicine-screen',
       parasite_treatment: '/parasite-treatment-screen',
       vaccines: '/vaccine-screen',
-      // Futuras pantallas se pueden añadir aquí
     };
 
     const path = paths[category];
@@ -65,10 +63,8 @@ const MedicalHistoryScreen = () => {
     if (path) {
       router.push({
         pathname: path,
-        params: { petId: selectedPetData.id, petName: selectedPetData.name }, // CORREGIDO
+        params: { petId: selectedPetData.id, petName: selectedPetData.name },
       });
-    } else {
-      console.log(`Navegación para la categoría '${category}' aún no implementada.`);
     }
   };
 
@@ -87,7 +83,7 @@ const MedicalHistoryScreen = () => {
   }), [getFontSizeIncrement]);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.safeArea}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.pickerContainer}>
           <Picker
@@ -98,12 +94,10 @@ const MedicalHistoryScreen = () => {
           >
             <Picker.Item label={t('medical_history.select_pet')} value={undefined} />
             {pets.map((pet) => (
-              <Picker.Item key={pet.id} label={pet.name || 'Sin nombre'} value={pet.id} /> // CORREGIDO
+              <Picker.Item key={pet.id} label={pet.name || 'Sin nombre'} value={pet.id} />
             ))}
           </Picker>
         </View>
-
-        {/* El título ahora se maneja en el encabezado del navegador */}
 
         <View style={styles.buttonsContainer}>
           {medicalCategories.map((category) => (
@@ -121,7 +115,7 @@ const MedicalHistoryScreen = () => {
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -153,10 +147,6 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? 120 : 50,
     color: '#111827',
   },
-  // pickerItem: {
-  //   height: 120,
-  //   fontSize: 16,
-  // }, // Eliminado para ser dinámico
   title: {
     fontSize: 28,
     fontWeight: 'bold',
