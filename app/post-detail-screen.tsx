@@ -98,11 +98,11 @@ export default function PostDetailScreen() {
     setIsSubmittingComment(true);
     try {
       const newComment = await addComment(postId, newCommentText);
-      setComments(currentComments => [newComment, ...currentComments]);
+      // Re-fetch comments to get the single source of truth from the service
+      const updatedComments = await getComments(postId);
+      setComments(updatedComments);
+
       setNewCommentText('');
-      // Also update the comment count on the post itself
-      setPost(currentPost => currentPost ? { ...currentPost, stats: { ...currentPost.stats, comments: currentPost.stats.comments + 1 } } : null);
-      handleCommentCountUpdated(postId, (post?.stats.comments || 0) + 1); // Call the callback
     } catch (error) {
       console.error("Failed to add comment:", error);
     } finally {
@@ -144,7 +144,7 @@ export default function PostDetailScreen() {
         )}
         ListHeaderComponent={
           <View>
-            <PostItem post={post} onInteraction={handlePostInteraction} />
+            <PostItem post={post} onInteraction={handlePostInteraction} onCommentPress={() => {}} />
             <ThemedText type="subtitle" style={styles.commentsTitle}>Comentarios</ThemedText>
           </View>
         }

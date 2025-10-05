@@ -1,63 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, FlatList, View } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, FlatList } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
 import { CommunityPost } from '@/src/types/community';
 import { getPosts, interactWithPost } from '@/src/services/MockCommunityService';
 
 import { PostItem } from '@/components/community/PostItem';
 import { CreatePostForm } from '@/components/community/CreatePostForm';
-import { useRouter } from 'expo-router';
-
+import { useRouter, useFocusEffect } from 'expo-router';
 
 export default function CommunityScreen() {
   const router = useRouter();
   const [posts, setPosts] = useState<CommunityPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const { posts: fetchedPosts } = await getPosts(); // Destructure to get only the posts array
-        setPosts(fetchedPosts);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // Usar useFocusEffect para recargar los datos cada vez que la pantalla obtiene el foco
+  useFocusEffect(
+    useCallback(() => {
+      const fetchPosts = async () => {
+        setIsLoading(true);
+        try {
+          // Siempre obtenemos la página 1 para refrescar la vista inicial
+          const { posts: fetchedPosts } = await getPosts(1);
+          setPosts(fetchedPosts);
+        } catch (error) {
+          console.error("Error fetching posts:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
 
-    fetchPosts();
-  }, []);
+      fetchPosts();
+    }, []) // El array vacío asegura que la función fetchPosts no se recree innecesariamente
+  );
 
   const handlePostCreated = (newPost: CommunityPost) => {
     setPosts(currentPosts => [newPost, ...currentPosts]);
   };
 
-  const handleCommentCountUpdated = (postId: string, newCommentCount: number) => {
-    setPosts(currentPosts =>
-      currentPosts.map(p =>
-        p.id === postId ? { ...p, stats: { ...p.stats, comments: newCommentCount } } : p
-      )
-    );
-  };
-
   const handleCommentPress = (postId: string) => {
+    // Ya no necesitamos pasar un callback, useFocusEffect se encargará de actualizar
     router.push({
       pathname: '/post-detail-screen',
-      params: { id: postId, onCommentCountUpdated: handleCommentCountUpdated as any }, // Pass callback as param
+      params: { id: postId },
     });
   };
 
   const handleInteraction = async (postId: string, interaction: 'like' | 'dislike') => {
-    // Optimistic UI Update
+    // El manejo optimista de la UI para los likes/dislikes sigue siendo útil
+    // para una respuesta instantánea mientras el usuario está en la pantalla.
     setPosts(currentPosts =>
       currentPosts.map(p => {
         if (p.id === postId) {
           const currentInteraction = p.viewerInteraction;
           const newStats = { ...p.stats };
 
-          // If clicking the same interaction, undo it
           if (currentInteraction === interaction) {
             if (interaction === 'like') newStats.likes -= 1;
             if (interaction === 'dislike') newStats.dislikes -= 1;
@@ -74,13 +70,11 @@ export default function CommunityScreen() {
       })
     );
 
-    // Call the service in the background
     try {
       await interactWithPost(postId, interaction);
-      // In a real app, you might re-fetch or sync state here if the service call returns a different state than the optimistic one.
     } catch (error) {
       console.error("Failed to save interaction:", error);
-      // Here you would revert the optimistic update on failure
+      // En una app real, aquí se revertiría el cambio optimista si falla la llamada
     }
   };
 
@@ -91,7 +85,7 @@ export default function CommunityScreen() {
         renderItem={({ item }) => <PostItem post={item} onInteraction={handleInteraction} onCommentPress={handleCommentPress} />}
         keyExtractor={item => item.id}
         ListHeaderComponent={<CreatePostForm onPostCreated={handlePostCreated} />}
-        onRefresh={() => { /* Logic for pull-to-refresh */ }}
+        onRefresh={() => { /* La lógica de pull-to-refresh podría llamar a fetchPosts aquí */ }}
         refreshing={isLoading}
         contentContainerStyle={styles.listContent}
       />
@@ -103,11 +97,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  title: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
-  },
   listContent: {
-    paddingBottom: 16, // Add some padding at the bottom
+    paddingBottom: 16,
   },
 });

@@ -58,12 +58,6 @@ export let mockPosts: CommunityPost[] = [
 
 // --- Servicio Simulado ---
 
-/**
- * Simula una llamada a la API para obtener las publicaciones del feed con paginación.
- * @param page - El número de página a obtener (base 1).
- * @param limit - El número de publicaciones por página.
- * @returns Una promesa que resuelve con una lista de publicaciones y un indicador de si hay más páginas.
- */
 export const getPosts = (page: number = 1, limit: number = 5): Promise<{ posts: CommunityPost[]; hasMore: boolean }> => {
   mockLog(`Fetching posts for page ${page} with limit ${limit}`);
   return new Promise(resolve => {
@@ -73,15 +67,10 @@ export const getPosts = (page: number = 1, limit: number = 5): Promise<{ posts: 
       const paginatedPosts = mockPosts.slice(startIndex, endIndex);
       const hasMore = endIndex < mockPosts.length;
       resolve({ posts: paginatedPosts, hasMore });
-    }, 800); // Simula una latencia de red de 800ms
+    }, 800);
   });
 };
 
-/**
- * Simula la creación de una nueva publicación.
- * @param content - El texto de la nueva publicación.
- * @returns La nueva publicación creada.
- */
 export const createPost = (content: string): Promise<CommunityPost> => {
   mockLog(`Creating new post with content: "${content}"`);
   return new Promise(resolve => {
@@ -91,23 +80,16 @@ export const createPost = (content: string): Promise<CommunityPost> => {
         content,
         imageUrl: null,
         createdAt: new Date().toISOString(),
-        author: mockUsers['user-1'], // Assume current user is user-1
+        author: mockUsers['user-1'],
         stats: { likes: 0, dislikes: 0, comments: 0 },
         viewerInteraction: null,
       };
-      // Prepend the new post to the mock data array
       mockPosts = [newPost, ...mockPosts];
       resolve(newPost);
     }, 1200);
   });
 };
 
-/**
- * Simula una interacción (like/dislike) con una publicación.
- * @param postId - El ID de la publicación a la que se le está dando like/dislike.
- * @param interaction - El tipo de interacción.
- * @returns El post actualizado.
- */
 export const interactWithPost = (
   postId: string,
   interaction: 'like' | 'dislike'
@@ -122,17 +104,14 @@ export const interactWithPost = (
       const post = { ...mockPosts[postIndex] };
       const currentInteraction = post.viewerInteraction;
 
-      // Si el usuario hace clic en la misma interacción, la deshace.
       if (currentInteraction === interaction) {
         post.viewerInteraction = null;
         if (interaction === 'like') post.stats.likes -= 1;
         if (interaction === 'dislike') post.stats.dislikes -= 1;
       } else {
-        // Si había una interacción previa, la revierte.
         if (currentInteraction === 'like') post.stats.likes -= 1;
         if (currentInteraction === 'dislike') post.stats.dislikes -= 1;
 
-        // Aplica la nueva interacción.
         post.viewerInteraction = interaction;
         if (interaction === 'like') post.stats.likes += 1;
         if (interaction === 'dislike') post.stats.dislikes += 1;
@@ -140,7 +119,7 @@ export const interactWithPost = (
 
       mockPosts[postIndex] = post;
       resolve(post);
-    }, 300); // Simula una latencia de red rápida para interacciones
+    }, 300);
   });
 };
 
@@ -151,14 +130,14 @@ const mockComments: { [postId: string]: CommunityComment[] } = {
       id: 'comment-1-1',
       postId: 'post-1',
       content: '¡Hola Sofía! Yo uso el champú de avena de la marca PetCare y le va genial a mi beagle con piel sensible.',
-      createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(), // Hace 1 hora
+      createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
       author: mockUsers['user-1'],
     },
     {
       id: 'comment-1-2',
       postId: 'post-1',
       content: 'Prueba con un suplemento de omega-3, a veces ayuda mucho con la piel seca.',
-      createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(), // Hace 30 minutos
+      createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
       author: mockUsers['user-4'],
     },
   ],
@@ -167,17 +146,12 @@ const mockComments: { [postId: string]: CommunityComment[] } = {
       id: 'comment-2-1',
       postId: 'post-2',
       content: '¡Qué monada! Se le ve muy feliz.',
-      createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // Hace 2 horas
+      createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
       author: mockUsers['user-1'],
     },
   ],
 };
 
-/**
- * Simula la obtención de comentarios para una publicación.
- * @param postId - El ID de la publicación.
- * @returns Una promesa que resuelve con una lista de comentarios.
- */
 export const getComments = (postId: string): Promise<CommunityComment[]> => {
   mockLog(`Fetching comments for post ${postId}`);
   return new Promise(resolve => {
@@ -187,12 +161,6 @@ export const getComments = (postId: string): Promise<CommunityComment[]> => {
   });
 };
 
-/**
- * Simula la adición de un nuevo comentario a una publicación.
- * @param postId - El ID de la publicación.
- * @param content - El contenido del comentario.
- * @returns El nuevo comentario creado.
- */
 export const addComment = (
   postId: string,
   content: string
@@ -204,19 +172,23 @@ export const addComment = (
         return reject(new Error('Post not found'));
       }
 
-      const newComment: CommunityComment = {
-        id: `comment-${postId}-${Date.now()}`,
-        postId,
-        content,
-        createdAt: new Date().toISOString(),
-        author: mockUsers['user-1'], // Asumimos que el usuario actual es el user-1
-      };
-
       if (!mockComments[postId]) {
         mockComments[postId] = [];
       }
-      mockComments[postId].unshift(newComment); // Añadir al principio
-      post.stats.comments += 1; // Actualizar el contador de comentarios en el post
+
+      // Lógica de ID robusta y sin estado
+      const newId = `comment-${postId}-${Date.now()}-${Math.random()}`;
+
+      const newComment: CommunityComment = {
+        id: newId,
+        postId,
+        content,
+        createdAt: new Date().toISOString(),
+        author: mockUsers['user-1'],
+      };
+
+      mockComments[postId].unshift(newComment);
+      post.stats.comments += 1;
 
       resolve(newComment);
     }, 700);

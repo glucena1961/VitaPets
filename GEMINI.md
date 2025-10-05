@@ -224,3 +224,34 @@ La funcionalidad de "Consulta a IA" ha sido completamente implementada, verifica
 ## Próximos Pasos
 
 *   Continuar con el desarrollo de nuevas funcionalidades o realizar una fase de pruebas de regresión.
+
+---
+
+# Estado del Proyecto al 5 de Octubre de 2025: Corrección Arquitectónica de Layout y Flujo de Datos
+
+Este documento registra la resolución de un bug complejo que afectaba tanto a la persistencia de datos como al layout de la UI en el flujo de "Alergias".
+
+## Resumen del Estado Final
+
+La aplicación se encuentra en un estado **estable y funcional**. Se han resuelto los siguientes problemas:
+
+1.  **Bug de Persistencia de Datos (Formulario de Alergias):**
+    *   **Síntoma:** Al crear una alergia, la app mostraba un mensaje de éxito pero el dato no se guardaba.
+    *   **Causa Raíz:** El campo de fecha era un `TextInput` que permitía formatos inválidos. El dato se enviaba como una `string` que Supabase no podía procesar.
+    *   **Solución:** Se reemplazó el `TextInput` por el componente `@react-native-community/datetimepicker`, asegurando la captura de un objeto `Date` válido. Se implementó una lógica de formato robusta (`toISOString`) antes de enviar el dato al servicio.
+
+2.  **Bug de Layout (Pantalla de Alergias):**
+    *   **Síntoma:** El contenido de la pantalla (ej. la lista vacía) se superponía al encabezado de navegación, ocultando el título.
+    *   **Causa Raíz:** Un diagnóstico profundo reveló un problema arquitectónico. La causa era una combinación de (a) la ausencia de un `SafeAreaProvider` global para toda la app, y (b) un patrón de navegación en `app/_layout.tsx` que ocultaba los encabezados por defecto (`headerShown: false`).
+    *   **Solución:** Se realizaron dos cambios estructurales clave:
+        1.  Se añadió el `<SafeAreaProvider>` en el archivo `components/Providers.tsx` para que envuelva toda la aplicación.
+        2.  Se refactorizó `app/_layout.tsx` para que los encabezados se muestren por defecto, ocultándolos explícitamente solo en las pantallas que no lo requieren (login, tabs) y declarando las pantallas del historial médico para un manejo predecible.
+
+3.  **Depuración de Errores Secundarios:**
+    *   Durante el proceso, se solucionaron errores transitorios de `SyntaxError` y `ReferenceError` introducidos por el propio proceso de depuración, demostrando la importancia de la verificación continua.
+
+## Estado Actual
+
+*   El flujo de "Alergias" es completamente funcional.
+*   La arquitectura de navegación y de gestión de áreas seguras es ahora robusta y correcta.
+*   La aplicación está estable y lista para continuar con el desarrollo.
