@@ -1,3 +1,76 @@
+# Estado del Proyecto al 5 de Octubre de 2025 (Parte 3): Limpieza de Repositorio
+
+Se identificó y eliminó una rama de feature obsoleta (`feature/community-screen`) del repositorio remoto para mantener la higiene del proyecto. Se validó previamente con `git log` que todos los commits de la rama ya estaban integrados en `master`.
+
+---
+
+# Estado del Proyecto al 5 de Octubre de 2025 (Parte 2): Estabilización de la Funcionalidad de Comunidad
+
+Este documento registra la depuración y estabilización de la sección "Comunidad", que presentaba múltiples bugs relacionados con la gestión de estado y la renderización de listas.
+
+## Resumen del Estado Final
+
+La funcionalidad de "Comunidad" es ahora **estable y funcional**.
+
+### Bugs Corregidos
+
+1.  **Crash por Clave Duplicada al Añadir Comentarios:**
+    *   **Síntoma:** La aplicación crasheaba con un error `Encountered two children with the same key` al intentar añadir más de un comentario.
+    *   **Causa Raíz:** La generación de IDs para nuevos comentarios en `MockCommunityService.ts` no era robusta y producía colisiones durante las recargas en caliente del entorno de desarrollo. Un segundo bug de mutación por referencia causaba que el mismo comentario se añadiera dos veces al estado local de la UI.
+    *   **Solución:** Se implementó una estrategia de generación de IDs sin estado y altamente única usando `Date.now() + Math.random()`. Adicionalmente, se refactorizó el manejador de eventos en `PostDetailScreen.tsx` para seguir un patrón de "fuente única de verdad", re-solicitando los datos al servicio en lugar de manipular el estado local, eliminando así la duplicación.
+
+2.  **Inconsistencia de Estado entre Pantallas:**
+    *   **Síntoma:** Los contadores de likes y comentarios no se actualizaban en la pantalla principal (`CommunityScreen`) después de realizar acciones en la pantalla de detalle.
+    *   **Causa Raíz:** La `CommunityScreen` cargaba los datos una sola vez (`useEffect`) y no los refrescaba al volver a ella.
+    *   **Solución:** Se reemplazó `useEffect` por `useFocusEffect` en `CommunityScreen.tsx`, lo que asegura que los datos de los posts se recarguen cada vez que la pantalla entra en foco.
+
+3.  **Crash por `TypeError` en `PostDetailScreen`:**
+    *   **Síntoma:** La app crasheaba al pulsar el icono de comentario en el post principal dentro de la pantalla de detalle.
+    *   **Causa Raíz:** Al componente `PostItem` le faltaba la prop `onCommentPress` requerida.
+    *   **Solución:** Se proveyó una función vacía a la prop para manejar el caso de uso.
+
+4.  **Bug de "Doble Incremento" del Contador:**
+    *   **Síntoma:** El contador de comentarios en la pantalla de detalle aumentaba en 2 en lugar de 1.
+    *   **Causa Raíz:** Otro bug de mutación por referencia, donde tanto el servicio como el componente incrementaban el contador.
+    *   **Solución:** Se eliminó el incremento manual en el componente, dejando que el servicio sea la única fuente de verdad para el conteo.
+
+## Estado Actual
+
+*   La sección "Comunidad" es estable, funcional y los datos se actualizan de forma consistente a través de la navegación.
+
+---
+
+# Estado del Proyecto al 5 de Octubre de 2025: Corrección Arquitectónica de Layout y Flujo de Datos
+
+Este documento registra la resolución de un bug complejo que afectaba tanto a la persistencia de datos como al layout de la UI en el flujo de "Alergias".
+
+## Resumen del Estado Final
+
+La aplicación se encuentra en un estado **estable y funcional**. Se han resuelto los siguientes problemas:
+
+1.  **Bug de Persistencia de Datos (Formulario de Alergias):**
+    *   **Síntoma:** Al crear una alergia, la app mostraba un mensaje de éxito pero el dato no se guardaba.
+    *   **Causa Raíz:** El campo de fecha era un `TextInput` que permitía formatos inválidos. El dato se enviaba como una `string` que Supabase no podía procesar.
+    *   **Solución:** Se reemplazó el `TextInput` por el componente `@react-native-community/datetimepicker`, asegurando la captura de un objeto `Date` válido. Se implementó una lógica de formato robusta (`toISOString`) antes de enviar el dato al servicio.
+
+2.  **Bug de Layout (Pantalla de Alergias):**
+    *   **Síntoma:** El contenido de la pantalla (ej. la lista vacía) se superponía al encabezado de navegación, ocultando el título.
+    *   **Causa Raíz:** Un diagnóstico profundo reveló un problema arquitectónico. La causa era una combinación de (a) la ausencia de un `SafeAreaProvider` global para toda la app, y (b) un patrón de navegación en `app/_layout.tsx` que ocultaba los encabezados por defecto (`headerShown: false`).
+    *   **Solución:** Se realizaron dos cambios estructurales clave:
+        1.  Se añadió el `<SafeAreaProvider>` en el archivo `components/Providers.tsx` para que envuelva toda la aplicación.
+        2.  Se refactorizó `app/_layout.tsx` para que los encabezados se muestren por defecto, ocultándolos explícitamente solo en las pantallas que no lo requieren (login, tabs) y declarando las pantallas del historial médico para un manejo predecible.
+
+3.  **Depuración de Errores Secundarios:**
+    *   Durante el proceso, se solucionaron errores transitorios de `SyntaxError` y `ReferenceError` introducidos por el propio proceso de depuración, demostrando la importancia de la verificación continua.
+
+## Estado Actual
+
+*   El flujo de "Alergias" es completamente funcional.
+*   La arquitectura de navegación y de gestión de áreas seguras es ahora robusta y correcta.
+*   La aplicación está estable y lista para continuar con el desarrollo.
+
+---
+
 # Estado del Proyecto al 4 de Octubre de 2025 (Parte 2): Estabilización del Flujo de Datos
 
 Este documento registra la sesión de depuración y estabilización que se realizó después de la migración inicial a Supabase.
@@ -224,34 +297,3 @@ La funcionalidad de "Consulta a IA" ha sido completamente implementada, verifica
 ## Próximos Pasos
 
 *   Continuar con el desarrollo de nuevas funcionalidades o realizar una fase de pruebas de regresión.
-
----
-
-# Estado del Proyecto al 5 de Octubre de 2025: Corrección Arquitectónica de Layout y Flujo de Datos
-
-Este documento registra la resolución de un bug complejo que afectaba tanto a la persistencia de datos como al layout de la UI en el flujo de "Alergias".
-
-## Resumen del Estado Final
-
-La aplicación se encuentra en un estado **estable y funcional**. Se han resuelto los siguientes problemas:
-
-1.  **Bug de Persistencia de Datos (Formulario de Alergias):**
-    *   **Síntoma:** Al crear una alergia, la app mostraba un mensaje de éxito pero el dato no se guardaba.
-    *   **Causa Raíz:** El campo de fecha era un `TextInput` que permitía formatos inválidos. El dato se enviaba como una `string` que Supabase no podía procesar.
-    *   **Solución:** Se reemplazó el `TextInput` por el componente `@react-native-community/datetimepicker`, asegurando la captura de un objeto `Date` válido. Se implementó una lógica de formato robusta (`toISOString`) antes de enviar el dato al servicio.
-
-2.  **Bug de Layout (Pantalla de Alergias):**
-    *   **Síntoma:** El contenido de la pantalla (ej. la lista vacía) se superponía al encabezado de navegación, ocultando el título.
-    *   **Causa Raíz:** Un diagnóstico profundo reveló un problema arquitectónico. La causa era una combinación de (a) la ausencia de un `SafeAreaProvider` global para toda la app, y (b) un patrón de navegación en `app/_layout.tsx` que ocultaba los encabezados por defecto (`headerShown: false`).
-    *   **Solución:** Se realizaron dos cambios estructurales clave:
-        1.  Se añadió el `<SafeAreaProvider>` en el archivo `components/Providers.tsx` para que envuelva toda la aplicación.
-        2.  Se refactorizó `app/_layout.tsx` para que los encabezados se muestren por defecto, ocultándolos explícitamente solo en las pantallas que no lo requieren (login, tabs) y declarando las pantallas del historial médico para un manejo predecible.
-
-3.  **Depuración de Errores Secundarios:**
-    *   Durante el proceso, se solucionaron errores transitorios de `SyntaxError` y `ReferenceError` introducidos por el propio proceso de depuración, demostrando la importancia de la verificación continua.
-
-## Estado Actual
-
-*   El flujo de "Alergias" es completamente funcional.
-*   La arquitectura de navegación y de gestión de áreas seguras es ahora robusta y correcta.
-*   La aplicación está estable y lista para continuar con el desarrollo.
