@@ -111,17 +111,28 @@ export default function PetQRDetailScreen() {
   const handleShare = async () => {
     try {
       if (!qrCodeRef.current) return;
+
+      // Capture the QR code as a temporary file
       const uri = await captureRef(qrCodeRef, { format: 'png', quality: 1.0 });
-      
-      if (Platform.OS === 'android') {
-        // Correctly specify encoding as a string literal 'base64'
-        const base64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
-        const base64Uri = `data:image/png;base64,${base64}`;
-        await Share.share({ title: t('qrDetail.share_title', { petName: pet?.name }), url: base64Uri });
-      } else {
-        // For iOS, sharing the file URI works well
-        await Share.share({ title: t('qrDetail.share_title', { petName: pet?.name }), url: uri });
-      }
+
+      // Determine a temporary file path
+      const fileName = `qr_vitapet_${pet?.name || 'pet'}.png`;
+      const tempFilePath = `${FileSystem.cacheDirectory}${fileName}`;
+
+      // Read the captured image and write it to a temporary file
+      const base64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
+      await FileSystem.writeAsStringAsync(tempFilePath, base64, { encoding: FileSystem.EncodingType.Base64 });
+
+      // Share the temporary file URI
+      await Share.share({
+        title: t('qrDetail.share_title', { petName: pet?.name }),
+        url: tempFilePath, // Share the file URI
+        type: 'image/png',
+      });
+
+      // Clean up the temporary file (optional, but good practice)
+      await FileSystem.deleteAsync(tempFilePath);
+
     } catch (error) {
       console.error('Error al compartir el QR:', error);
       Alert.alert(t('common.error'), t('qrDetail.share_error_message'));

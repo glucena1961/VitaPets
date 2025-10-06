@@ -1,3 +1,26 @@
+# Estado del Proyecto al 6 de Octubre de 2025: Estabilización del Diario y Funcionalidad QR
+
+Este documento registra una sesión intensiva de depuración y refactorización que abordó múltiples bugs críticos en las funcionalidades del "Diario" y del "Código QR", dejando la aplicación en un estado significativamente más estable y robusto.
+
+## Resumen de Correcciones y Mejoras
+
+1.  **Módulo del Diario:**
+    *   **Bug de Formato de Fecha:** Se reemplazó el `TextInput` de texto libre en el formulario "Nueva Entrada al Diario" por un componente `DateTimePicker`. Esto elimina la posibilidad de que el usuario introduzca formatos de fecha incorrectos, solucionando la causa raíz de errores de guardado en Supabase.
+    *   **Bug de Corrupción de Estado Post-Guardado:** Se diagnosticó y corrigió un bug crítico donde la aplicación crasheaba después de guardar una entrada. La causa era que el `DiaryContext` no recargaba la lista completa de entradas, sino que intentaba usar el registro único devuelto por el servicio, corrompiendo el estado del array. Se refactorizó el contexto para que siempre recargue la lista completa desde la base de datos después de cualquier operación de escritura (añadir, editar, borrar).
+    *   **Mejora de UI:** Se rediseñó la pantalla de detalle de la entrada del diario para ser más atractiva visualmente y consistente, mostrando el emoji del sentimiento en lugar de texto plano.
+
+2.  **Funcionalidad de Código QR:**
+    *   **Bug de "Compartir" y "Descargar":** Se abordó un bug complejo donde ambas funciones fallaban.
+        *   **Compartir:** Se corrigió la lógica para que la imagen del QR se codifique a `base64` antes de ser compartida, asegurando la compatibilidad con Android.
+        *   **Descargar:** Se diagnosticó un problema de permisos complejo y específico del entorno de Expo Go. Se implementó una solución de varias capas que robustece el manejo de errores, asegura que se muestre un mensaje claro y correcto al usuario si deniega el permiso, y deja el código preparado para funcionar correctamente en un "development build".
+    *   **Traducciones:** Se añadieron las claves de traducción que faltaban para los mensajes de error de permisos de guardado, mejorando la claridad de la comunicación con el usuario.
+
+## Estado Actual
+
+*   La aplicación es ahora mucho más estable. Los flujos de trabajo del Diario y del QR son robustos.
+*   Se ha documentado y pausado el trabajo sobre la función de "Descargar", a la espera de crear un "development build" para superar las limitaciones conocidas de Expo Go.
+*   Todo el trabajo ha sido versionado y subido al repositorio de GitHub (commit `ea437fe`).
+
 # Estado del Proyecto al 5 de Octubre de 2025 (Parte 3): Limpieza de Repositorio
 
 Se identificó y eliminó una rama de feature obsoleta (`feature/community-screen`) del repositorio remoto para mantener la higiene del proyecto. Se validó previamente con `git log` que todos los commits de la rama ya estaban integrados en `master`.
