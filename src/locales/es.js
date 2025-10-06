@@ -245,7 +245,9 @@ export default {
     "gallery_denied_title": "Permiso Denegado",
     "gallery_denied_message": "Necesitas conceder permisos a la galería para seleccionar una foto.",
     "camera_denied_title": "Permiso Denegado",
-    "camera_denied_message": "Necesitas conceder permisos a la cámara para tomar una foto."
+    "camera_denied_message": "Necesitas conceder permisos a la cámara para tomar una foto.",
+    "save_denied_title": "Permiso de Guardado Denegado",
+    "save_denied_message": "Necesitas conceder permisos para guardar fotos en tu galería."
   },
   "medical_history": {
     "select_pet": "SELECCIONA TU MASCOTA",

@@ -240,7 +240,9 @@ export default {
     "gallery_denied_title": "Permission Denied",
     "gallery_denied_message": "You need to grant gallery permissions to select a photo.",
     "camera_denied_title": "Permission Denied",
-    "camera_denied_message": "You need to grant camera permissions to take a photo."
+    "camera_denied_message": "You need to grant camera permissions to take a photo.",
+    "save_denied_title": "Save Permission Denied",
+    "save_denied_message": "You need to grant permission to save photos to your gallery."
   },
   "medical_history": {
     "select_pet": "SELECT YOUR PET",

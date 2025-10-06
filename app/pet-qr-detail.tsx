@@ -11,6 +11,7 @@ import { Pet } from '../src/data/PetService';
 import QRCodeSVG from 'react-native-qrcode-svg';
 import { captureRef } from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
+import * as FileSystem from 'expo-file-system/legacy';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -89,17 +90,21 @@ export default function PetQRDetailScreen() {
   const handleDownload = async () => {
     try {
       if (!qrCodeRef.current) return;
+
+      // The permission dialog will be triggered by createAssetAsync if needed.
       const uri = await captureRef(qrCodeRef, { format: 'png', quality: 1.0, height: 1080, width: 1080 });
-      const { status } = await MediaLibrary.requestPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert(t('permissions.gallery_denied_title'), t('permissions.gallery_denied_message'));
-        return;
-      }
-      await MediaLibrary.saveToLibraryAsync(uri);
+      const asset = await MediaLibrary.createAssetAsync(uri);
+      await MediaLibrary.createAlbumAsync('VitaPet', asset, false);
+
       Alert.alert(t('common.success'), t('qrDetail.download_success_message'));
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al descargar el QR:', error);
-      Alert.alert(t('common.error'), t('qrDetail.download_error_message'));
+      // Smart catch block to show the correct message to the user.
+      if (error.message && error.message.toLowerCase().includes('permission')) {
+        Alert.alert(t('permissions.save_denied_title'), t('permissions.save_denied_message'));
+      } else {
+        Alert.alert(t('common.error'), t('qrDetail.download_error_message'));
+      }
     }
   };
 
@@ -107,7 +112,16 @@ export default function PetQRDetailScreen() {
     try {
       if (!qrCodeRef.current) return;
       const uri = await captureRef(qrCodeRef, { format: 'png', quality: 1.0 });
-      await Share.share({ title: t('qrDetail.share_title', { petName: pet?.name }), url: uri });
+      
+      if (Platform.OS === 'android') {
+        // Correctly specify encoding as a string literal 'base64'
+        const base64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
+        const base64Uri = `data:image/png;base64,${base64}`;
+        await Share.share({ title: t('qrDetail.share_title', { petName: pet?.name }), url: base64Uri });
+      } else {
+        // For iOS, sharing the file URI works well
+        await Share.share({ title: t('qrDetail.share_title', { petName: pet?.name }), url: uri });
+      }
     } catch (error) {
       console.error('Error al compartir el QR:', error);
       Alert.alert(t('common.error'), t('qrDetail.share_error_message'));

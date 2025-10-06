@@ -1,8 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, TextInput, Text, Alert } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity, TextInput, Text, Alert, Platform } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -27,7 +28,8 @@ export default function AddDiaryEntryForm() {
   const isEditing = !!id;
 
   const [title, setTitle] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date()); // --- MODIFIED: Use Date object
+  const [showDatePicker, setShowDatePicker] = useState(false); // --- ADDED: State for picker visibility
   const [location, setLocation] = useState('');
   const [content, setContent] = useState('');
   const [selectedSentiment, setSelectedSentiment] = useState(sentiments[1].labelKey); // Default to Happy
@@ -37,10 +39,11 @@ export default function AddDiaryEntryForm() {
       const entryToEdit = diaryEntries.find(entry => entry.id === id);
       if (entryToEdit) {
         setTitle(entryToEdit.title);
-        setDate(entryToEdit.date);
+        // --- MODIFIED: Parse string date from DB to Date object
+        // Se añade T00:00:00 para evitar problemas de zona horaria al parsear.
+        setDate(new Date(entryToEdit.date + 'T00:00:00'));
         setLocation(entryToEdit.location);
         setContent(entryToEdit.content);
-        // Find the labelKey for the sentiment
         const sentimentKey = sentiments.find(s => t(s.labelKey) === entryToEdit.sentiment)?.labelKey;
         if (sentimentKey) {
           setSelectedSentiment(sentimentKey);
@@ -52,23 +55,34 @@ export default function AddDiaryEntryForm() {
     }
   }, [isEditing, id, diaryEntries, router, t]);
 
+  // --- ADDED: Handler for date picker
+  const onDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    const currentDate = selectedDate || date;
+    setShowDatePicker(Platform.OS === 'ios');
+    setDate(currentDate);
+  };
+
   const handleSaveEntry = async () => {
-    if (!title || !date || !content) {
+    // --- MODIFIED: Check title and content only, date is always valid
+    if (!title || !content) {
       Alert.alert(t('common.error'), t('common.field_required'));
       return;
     }
 
     try {
+      // --- MODIFIED: Format date object to YYYY-MM-DD string
+      const formattedDate = date.toISOString().split('T')[0];
+
       const entryData = {
         title,
-        date,
+        date: formattedDate,
         location,
         content,
         sentiment: t(selectedSentiment),
       };
 
       if (isEditing && id) {
-        await updateDiaryEntry({ ...entryData, id: id as string, createdAt: diaryEntries.find(e => e.id === id)?.createdAt || new Date().toISOString() });
+        await updateDiaryEntry({ ...entryData, id: id as string });
       } else {
         await addDiaryEntry(entryData);
       }
@@ -94,16 +108,25 @@ export default function AddDiaryEntryForm() {
           />
         </View>
 
+        {/* --- MODIFIED: Replaced TextInput with DatePicker button --- */}
         <View style={styles.formGroup}>
           <ThemedText style={styles.label}>{t('diary_form.date_label')}</ThemedText>
-          <TextInput
-            style={styles.input}
-            placeholder={t('diary_form.date_placeholder')}
-            placeholderTextColor={styles.placeholder.color}
-            value={date}
-            onChangeText={setDate}
-          />
+          <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.datePickerButton}>
+            <Text style={styles.datePickerButtonText}>{date.toLocaleDateString()}</Text>
+          </TouchableOpacity>
         </View>
+
+        {/* --- ADDED: Conditionally rendered DateTimePicker --- */}
+        {showDatePicker && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode="date"
+            is24Hour={true}
+            display="default"
+            onChange={onDateChange}
+          />
+        )}
 
         <View style={styles.formGroup}>
           <ThemedText style={styles.label}>{t('diary_form.location_label')}</ThemedText>
@@ -171,6 +194,20 @@ const createStyles = (colorScheme: 'light' | 'dark' | null) => {
       borderRadius: 8,
       paddingHorizontal: 16,
       height: 48,
+      fontSize: 16,
+      color: theme.text,
+    },
+    // --- ADDED: Styles for the date picker button ---
+    datePickerButton: {
+      backgroundColor: theme.card,
+      borderWidth: 1,
+      borderColor: theme.border,
+      borderRadius: 8,
+      paddingHorizontal: 16,
+      height: 48,
+      justifyContent: 'center',
+    },
+    datePickerButtonText: {
       fontSize: 16,
       color: theme.text,
     },

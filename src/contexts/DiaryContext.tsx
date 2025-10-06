@@ -37,33 +37,34 @@ export const DiaryProvider: React.FC<DiaryProviderProps> = ({ children }) => {
 
   const addDiaryEntry = useCallback(async (entry: Omit<DiaryEntry, 'id' | 'createdAt'>) => {
     try {
-      const updatedEntries = await DiaryService.saveDiaryEntry(entry);
-      setDiaryEntries(updatedEntries);
+      await DiaryService.saveDiaryEntry(entry);
+      await loadDiaryEntries(); // RELOAD the list
     } catch (error) {
       console.error('Failed to add diary entry', error);
       throw error;
     }
-  }, []);
+  }, [loadDiaryEntries]);
 
   const updateDiaryEntry = useCallback(async (entry: DiaryEntry) => {
     try {
-      const updatedEntries = await DiaryService.updateDiaryEntry(entry);
-      setDiaryEntries(updatedEntries);
+      // Correctly pass id and updates to the service
+      await DiaryService.updateDiaryEntry(entry.id, entry);
+      await loadDiaryEntries(); // RELOAD the list
     } catch (error) {
       console.error('Failed to update diary entry', error);
       throw error;
     }
-  }, []);
+  }, [loadDiaryEntries]);
 
   const deleteDiaryEntry = useCallback(async (id: string) => {
     try {
-      const updatedEntries = await DiaryService.deleteDiaryEntry(id);
-      setDiaryEntries(updatedEntries);
+      await DiaryService.deleteDiaryEntry(id);
+      await loadDiaryEntries(); // RELOAD the list
     } catch (error) {
       console.error('Failed to delete diary entry', error);
       throw error;
     }
-  }, []);
+  }, [loadDiaryEntries]);
 
   const value = {
     diaryEntries,
