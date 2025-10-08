@@ -1,196 +1,133 @@
-import { CommunityPost, CommunityComment } from '../types/community';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CommunityPost, CommunityUser, CommunityComment } from '@/src/types/community';
 
 // --- Configuración de Logging ---
-const ENABLE_MOCK_LOGS = false; // Cambiar a true para ver los logs del mock service
+const ENABLE_MOCK_LOGS = true; // Habilitado para depuración
 
 const mockLog = (...args: any[]) => {
   if (ENABLE_MOCK_LOGS) {
-    console.log('[MockService]', ...args);
+    console.log('[MockCommunityService]', ...args);
   }
 };
 
 // --- Base de datos Falsa (Mock Database) ---
-export let mockUsers = {
+export const mockUsers: Record<string, CommunityUser> = {
   'user-1': { id: 'user-1', name: 'Gonzalo', avatarUrl: 'https://i.pravatar.cc/150?u=gonzalo' },
   'user-2': { id: 'user-2', name: 'Sofía', avatarUrl: 'https://i.pravatar.cc/150?u=sofia' },
   'user-3': { id: 'user-3', name: 'Laura', avatarUrl: 'https://i.pravatar.cc/150?u=laura' },
   'user-4': { id: 'user-4', name: 'Carlos', avatarUrl: 'https://i.pravatar.cc/150?u=carlos' },
 };
 
-export let mockPosts: CommunityPost[] = [
-  {
-    id: 'post-1',
-    content: '¿Alguien ha probado algún champú especial para perros con piel sensible? Mi labrador no para de rascarse. Agradezco cualquier recomendación.',
-    imageUrl: null,
-    createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // Hace 2 horas
-    author: mockUsers['user-2'],
-    stats: { likes: 15, dislikes: 0, comments: 4 },
-    viewerInteraction: null,
-  },
-  {
-    id: 'post-2',
-    content: '¡Miren qué grande está mi cachorro! Parece que fue ayer cuando llegó a casa.',
-    imageUrl: 'https://placedog.net/500/300?id=1',
-    createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(), // Hace 5 horas
-    author: mockUsers['user-3'],
-    stats: { likes: 42, dislikes: 1, comments: 8 },
-    viewerInteraction: 'like',
-  },
-  {
-    id: 'post-3',
-    content: 'Busco un buen veterinario por la zona centro que sea especialista en gatos. ¿Alguna sugerencia?',
-    imageUrl: null,
-    createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // Ayer
-    author: mockUsers['user-4'],
-    stats: { likes: 8, dislikes: 0, comments: 2 },
-    viewerInteraction: null,
-  },
-  {
-    id: 'post-4',
-    content: '¡Hoy es el cumpleaños número 5 de Rocky! 🎉 Le hemos preparado una tarta especial para perros.',
-    imageUrl: 'https://placedog.net/500/500?id=2',
-    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // Hace 2 días
-    author: mockUsers['user-1'],
-    stats: { likes: 112, dislikes: 3, comments: 25 },
-    viewerInteraction: 'dislike',
-  },
+const ASYNC_STORAGE_KEY = '@CommunityPosts';
+
+// --- Datos Iniciales (Solo para la primera vez) ---
+const initialPosts: CommunityPost[] = [
+    {
+        id: 'post-1',
+        author: mockUsers['user-2'],
+        content: '¡Hola a todos! Acabo de adoptar un cachorro de Golden Retriever. ¿Algún consejo para las primeras semanas?',
+        imageUrl: 'https://images.dog.ceo/breeds/retriever-golden/n02099601_3234.jpg',
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
+        stats: { likes: 15, dislikes: 0, comments: 2 },
+        viewerInteraction: null,
+    },
+    {
+        id: 'post-2',
+        author: mockUsers['user-3'],
+        content: 'Mi gato ha estado un poco decaído últimamente. ¿Debería preocuparme? No ha dejado de comer, pero duerme más de lo normal.',
+        imageUrl: null,
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1).toISOString(),
+        stats: { likes: 8, dislikes: 1, comments: 1 },
+        viewerInteraction: 'liked',
+    },
 ];
 
-// --- Servicio Simulado ---
+// --- Funciones de Ayuda para AsyncStorage ---
 
-export const getPosts = (page: number = 1, limit: number = 5): Promise<{ posts: CommunityPost[]; hasMore: boolean }> => {
-  mockLog(`Fetching posts for page ${page} with limit ${limit}`);
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const startIndex = (page - 1) * limit;
-      const endIndex = startIndex + limit;
-      const paginatedPosts = mockPosts.slice(startIndex, endIndex);
-      const hasMore = endIndex < mockPosts.length;
-      resolve({ posts: paginatedPosts, hasMore });
-    }, 800);
-  });
+const getStoredPosts = async (): Promise<CommunityPost[]> => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(ASYNC_STORAGE_KEY);
+    if (jsonValue !== null) {
+      mockLog('Posts cargados desde AsyncStorage.');
+      return JSON.parse(jsonValue);
+    } else {
+      // Si no hay nada, inicializa con los datos de ejemplo y guárdalos
+      await AsyncStorage.setItem(ASYNC_STORAGE_KEY, JSON.stringify(initialPosts));
+      mockLog('No se encontraron posts. Inicializando con datos de ejemplo.');
+      return initialPosts;
+    }
+  } catch (e) {
+    console.error('Failed to fetch posts from storage', e);
+    return initialPosts; // Devuelve datos iniciales en caso de error
+  }
 };
 
-export const createPost = (content: string): Promise<CommunityPost> => {
-  mockLog(`Creating new post with content: "${content}"`);
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const newPost: CommunityPost = {
-        id: `post-${Date.now()}`,
-        content,
-        imageUrl: null,
+const setStoredPosts = async (posts: CommunityPost[]) => {
+  try {
+    const jsonValue = JSON.stringify(posts);
+    await AsyncStorage.setItem(ASYNC_STORAGE_KEY, jsonValue);
+    mockLog('Posts guardados en AsyncStorage.');
+  } catch (e) {
+    console.error('Failed to save posts to storage', e);
+  }
+};
+
+
+// --- Interfaz del Servicio ---
+
+export const CommunityService = {
+  async getPosts(page: number = 1, limit: number = 10): Promise<{ posts: CommunityPost[], hasMore: boolean }> {
+    mockLog(`getPosts(page: ${page}, limit: ${limit})`);
+    const allPosts = await getStoredPosts();
+    const startIndex = (page - 1) * limit;
+    const paginatedPosts = allPosts.slice(startIndex, startIndex + limit);
+    const hasMore = allPosts.length > startIndex + limit;
+    return { posts: paginatedPosts, hasMore };
+  },
+
+  async addPost(postData: Omit<CommunityPost, 'id' | 'author' | 'createdAt' | 'stats' | 'viewerInteraction'> & { author: CommunityUser }): Promise<CommunityPost> {
+    mockLog('addPost', postData);
+    const allPosts = await getStoredPosts();
+    const newPost: CommunityPost = {
+      ...postData,
+      id: `post-${Date.now()}-${Math.random()}`,
+      createdAt: new Date().toISOString(),
+      stats: { likes: 0, dislikes: 0, comments: 0 },
+      viewerInteraction: null,
+    };
+    const updatedPosts = [newPost, ...allPosts];
+    await setStoredPosts(updatedPosts);
+    return newPost;
+  },
+
+  async getComments(postId: string): Promise<CommunityComment[]> {
+    // En un servicio real, esto tendría su propia tabla y lógica.
+    // Aquí lo simulamos para que funcione.
+    mockLog(`getComments for postId: ${postId}`);
+    if (postId === 'post-1') {
+      return [
+        { id: 'comment-1', author: mockUsers['user-4'], content: '¡Felicidades! Mucha paciencia y refuerzo positivo. ¡Y esconde los zapatos!', createdAt: new Date(Date.now() - 1000 * 60 * 60 * 1).toISOString() },
+        { id: 'comment-2', author: mockUsers['user-1'], content: 'Jajaja, ¡gracias por el consejo! Tomo nota.', createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString() },
+      ];
+    }
+    if (postId === 'post-2') {
+         return [
+            { id: 'comment-3', author: mockUsers['user-2'], content: 'A veces solo están más perezosos. Mientras coma y beba bien, obsérvalo. Si tienes dudas, una visita al veterinario nunca está de más para tu tranquilidad.', createdAt: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString() },
+        ];
+    }
+    return [];
+  },
+
+  async addComment(postId: string, commentData: { content: string; author: CommunityUser }): Promise<CommunityComment> {
+     // Esto no será persistente en el mock actual, pero simula la acción.
+    mockLog(`addComment to postId: ${postId}`, commentData);
+    const newComment: CommunityComment = {
+        ...commentData,
+        id: `comment-${Date.now()}`,
         createdAt: new Date().toISOString(),
-        author: mockUsers['user-1'],
-        stats: { likes: 0, dislikes: 0, comments: 0 },
-        viewerInteraction: null,
-      };
-      mockPosts = [newPost, ...mockPosts];
-      resolve(newPost);
-    }, 1200);
-  });
-};
-
-export const interactWithPost = (
-  postId: string,
-  interaction: 'like' | 'dislike'
-): Promise<CommunityPost> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const postIndex = mockPosts.findIndex(p => p.id === postId);
-      if (postIndex === -1) {
-        return reject(new Error('Post not found'));
-      }
-
-      const post = { ...mockPosts[postIndex] };
-      const currentInteraction = post.viewerInteraction;
-
-      if (currentInteraction === interaction) {
-        post.viewerInteraction = null;
-        if (interaction === 'like') post.stats.likes -= 1;
-        if (interaction === 'dislike') post.stats.dislikes -= 1;
-      } else {
-        if (currentInteraction === 'like') post.stats.likes -= 1;
-        if (currentInteraction === 'dislike') post.stats.dislikes -= 1;
-
-        post.viewerInteraction = interaction;
-        if (interaction === 'like') post.stats.likes += 1;
-        if (interaction === 'dislike') post.stats.dislikes += 1;
-      }
-
-      mockPosts[postIndex] = post;
-      resolve(post);
-    }, 300);
-  });
-};
-
-// --- Comentarios Falsos (Mock Comments) ---
-const mockComments: { [postId: string]: CommunityComment[] } = {
-  'post-1': [
-    {
-      id: 'comment-1-1',
-      postId: 'post-1',
-      content: '¡Hola Sofía! Yo uso el champú de avena de la marca PetCare y le va genial a mi beagle con piel sensible.',
-      createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
-      author: mockUsers['user-1'],
-    },
-    {
-      id: 'comment-1-2',
-      postId: 'post-1',
-      content: 'Prueba con un suplemento de omega-3, a veces ayuda mucho con la piel seca.',
-      createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
-      author: mockUsers['user-4'],
-    },
-  ],
-  'post-2': [
-    {
-      id: 'comment-2-1',
-      postId: 'post-2',
-      content: '¡Qué monada! Se le ve muy feliz.',
-      createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-      author: mockUsers['user-1'],
-    },
-  ],
-};
-
-export const getComments = (postId: string): Promise<CommunityComment[]> => {
-  mockLog(`Fetching comments for post ${postId}`);
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(mockComments[postId] || []);
-    }, 500);
-  });
-};
-
-export const addComment = (
-  postId: string,
-  content: string
-): Promise<CommunityComment> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const post = mockPosts.find(p => p.id === postId);
-      if (!post) {
-        return reject(new Error('Post not found'));
-      }
-
-      if (!mockComments[postId]) {
-        mockComments[postId] = [];
-      }
-
-      // Lógica de ID robusta y sin estado
-      const newId = `comment-${postId}-${Date.now()}-${Math.random()}`;
-
-      const newComment: CommunityComment = {
-        id: newId,
-        postId,
-        content,
-        createdAt: new Date().toISOString(),
-        author: mockUsers['user-1'],
-      };
-
-      mockComments[postId].unshift(newComment);
-      post.stats.comments += 1;
-
-      resolve(newComment);
-    }, 700);
-  });
+    };
+    // Aquí iría la lógica para guardar el comentario en AsyncStorage si fuera necesario.
+    // Por simplicidad del mock, solo lo devolvemos.
+    return newComment;
+  },
 };
