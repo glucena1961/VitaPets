@@ -13,6 +13,7 @@ import { FontSizeProvider } from '@/src/contexts/FontSizeContext';
 import { DiaryProvider } from '@/src/contexts/DiaryContext';
 import { AIConversationProvider } from '@/src/contexts/AIConversationContext';
 
+// Este componente maneja la lógica del Splash Screen, ocultándolo solo cuando las fuentes y la autenticación han cargado.
 function SplashController({ children }: { children: React.ReactNode }) {
   const { isLoading: isAuthLoading } = useAuth();
   const [fontsLoaded, fontError] = useFonts({
@@ -30,16 +31,34 @@ function SplashController({ children }: { children: React.ReactNode }) {
   }, [fontsLoaded, isAuthLoading]);
 
   if (!fontsLoaded || isAuthLoading) {
-    return null;
+    return null; // No renderiza nada hasta que todo esté listo
   }
 
   return <>{children}</>;
 }
 
+// El componente Providers ahora anida correctamente cada proveedor para asegurar la estabilidad del estado.
 export function Providers({ children }: { children: React.ReactNode }) {
   const colorScheme = useColorScheme();
 
   return (
-    <SafeAreaProvider><I18nextProvider i18n={i18n}><AuthProvider><FontSizeProvider><DiaryProvider><AIConversationProvider><ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}><SplashController>{children}</SplashController><Toast /></ThemeProvider></AIConversationProvider></DiaryProvider></FontSizeProvider></AuthProvider></I18nextProvider></SafeAreaProvider>
+    <SafeAreaProvider>
+      <I18nextProvider i18n={i18n}>
+        <AuthProvider>
+          <FontSizeProvider>
+            <DiaryProvider>
+              <AIConversationProvider>
+                <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+                  <SplashController>
+                    {children}
+                  </SplashController>
+                  <Toast />
+                </ThemeProvider>
+              </AIConversationProvider>
+            </DiaryProvider>
+          </FontSizeProvider>
+        </AuthProvider>
+      </I18nextProvider>
+    </SafeAreaProvider>
   );
 }
