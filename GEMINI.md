@@ -1,3 +1,26 @@
+# Estado del Proyecto al 8 de Octubre de 2025: Correcciones en Pantalla Comunidad
+
+Este documento registra la corrección de dos bugs importantes detectados en la pantalla "Comunidad" durante pruebas en un dispositivo físico.
+
+## Resumen de Correcciones
+
+1.  **Persistencia de Posts (Mock Service):**
+    *   **Síntoma:** Las publicaciones nuevas desaparecían al salir y volver a entrar a la pantalla.
+    *   **Causa Raíz:** El servicio simulado (`MockCommunityService`) no guardaba los datos de forma persistente, manteniéndolos solo en memoria durante la vida del componente.
+    *   **Solución:** Se refactorizó `MockCommunityService.ts` para utilizar `AsyncStorage`. Ahora, los posts se cargan desde el almacenamiento local al iniciar y se guardan cada vez que se añade uno nuevo, asegurando la persistencia entre sesiones de navegación.
+
+2.  **Funcionalidad de Carga de Imágenes:**
+    *   **Síntoma:** Los botones para añadir una foto desde la galería o la cámara no funcionaban.
+    *   **Causa Raíz:** El código de la interfaz de usuario (`CreatePostForm.tsx`) ya contenía la lógica para la selección de imágenes, pero los cambios no habían sido confirmados (commit) en el repositorio. La lógica del servicio para manejar la URL de la imagen también estaba incompleta.
+    *   **Solución:** Se consolidó el código existente en la UI y se completó el servicio para aceptar y guardar la `imageUrl`, activando así la funcionalidad completa.
+
+## Estado Actual
+
+*   La funcionalidad de la pantalla "Comunidad" es ahora robusta y persistente en el entorno de desarrollo.
+*   Los cambios han sido versionados y subidos al repositorio (commit `5390594`).
+
+---
+
 # Estado del Proyecto al 6 de Octubre de 2025: Estabilización del Diario y Funcionalidad QR
 
 Este documento registra una sesión intensiva de depuración y refactorización que abordó múltiples bugs críticos en las funcionalidades del "Diario" y del "Código QR", dejando la aplicación en un estado significativamente más estable y robusto.
