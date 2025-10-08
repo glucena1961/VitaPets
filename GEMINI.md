@@ -1,3 +1,21 @@
+# Estado del Proyecto al 8 de Octubre de 2025 (Parte 4): Configuración de Build para APK
+
+Este documento registra la configuración final del proceso de compilación para generar archivos `.apk` para pruebas.
+
+## Ajuste en la Configuración
+
+1.  **Generación de APK para Pruebas:**
+    *   **Necesidad:** Se requería un método fiable para generar un archivo `.apk` instalable para pruebas en dispositivos físicos.
+    *   **Decisión:** Se estableció que el flujo de trabajo correcto para el proyecto es utilizar el perfil `preview` de EAS (Expo Application Services).
+    *   **Implementación:** Se modificó el archivo `eas.json` para añadir la configuración `"android": { "buildType": "apk" }` al perfil `preview`. Esto asegura que al ejecutar `eas build --profile preview`, el resultado sea un `.apk` y no un `.aab`. También se verificó que la clave de API de Gemini estuviera presente en este perfil para asegurar la funcionalidad completa en la versión de prueba.
+
+## Estado Actual
+
+*   El proyecto está ahora correctamente configurado para generar builds de prueba en formato `.apk` desde la rama `master`.
+*   El cambio ha sido versionado y subido al repositorio (commit `babb62b`).
+
+---
+
 # Estado del Proyecto al 8 de Octubre de 2025 (Parte 3): Botón de Compartir en Comunidad
 
 Este documento registra la adición de una nueva funcionalidad para fomentar el crecimiento de la comunidad en la aplicación.
