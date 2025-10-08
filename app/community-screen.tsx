@@ -1,26 +1,55 @@
-import React, { useState, useCallback } from 'react';
-import { StyleSheet, FlatList } from 'react-native';
+
+import React, { useState, useCallback, useLayoutEffect } from 'react';
+import { StyleSheet, FlatList, TouchableOpacity, Share } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { CommunityPost } from '@/src/types/community';
-import { getPosts, interactWithPost } from '@/src/services/MockCommunityService';
+import { CommunityService } from '@/src/services/MockCommunityService';
 
 import { PostItem } from '@/components/community/PostItem';
 import { CreatePostForm } from '@/components/community/CreatePostForm';
-import { useRouter, useFocusEffect } from 'expo-router';
+import { useRouter, useFocusEffect, useNavigation } from 'expo-router';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { Colors } from '@/constants/Colors';
 
 export default function CommunityScreen() {
   const router = useRouter();
+  const navigation = useNavigation();
+  const colorScheme = useColorScheme() ?? 'light';
   const [posts, setPosts] = useState<CommunityPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Usar useFocusEffect para recargar los datos cada vez que la pantalla obtiene el foco
+  const handleShare = async () => {
+    try {
+      await Share.share({
+        message:
+          '¡Únete a la comunidad de VitaPet para cuidar mejor a nuestras mascotas! Descarga la app aquí: https://vitapet.app/download',
+      });
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={handleShare} style={{ marginRight: 16 }}>
+          <MaterialIcons
+            name="share"
+            size={24}
+            color={Colors[colorScheme].text}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation, colorScheme]);
+
   useFocusEffect(
     useCallback(() => {
       const fetchPosts = async () => {
         setIsLoading(true);
         try {
-          // Siempre obtenemos la página 1 para refrescar la vista inicial
-          const { posts: fetchedPosts } = await getPosts(1);
+          const { posts: fetchedPosts } = await CommunityService.getPosts(1);
           setPosts(fetchedPosts);
         } catch (error) {
           console.error("Error fetching posts:", error);
@@ -30,7 +59,7 @@ export default function CommunityScreen() {
       };
 
       fetchPosts();
-    }, []) // El array vacío asegura que la función fetchPosts no se recree innecesariamente
+    }, [])
   );
 
   const handlePostCreated = (newPost: CommunityPost) => {
@@ -38,7 +67,6 @@ export default function CommunityScreen() {
   };
 
   const handleCommentPress = (postId: string) => {
-    // Ya no necesitamos pasar un callback, useFocusEffect se encargará de actualizar
     router.push({
       pathname: '/post-detail-screen',
       params: { id: postId },
@@ -46,8 +74,6 @@ export default function CommunityScreen() {
   };
 
   const handleInteraction = async (postId: string, interaction: 'like' | 'dislike') => {
-    // El manejo optimista de la UI para los likes/dislikes sigue siendo útil
-    // para una respuesta instantánea mientras el usuario está en la pantalla.
     setPosts(currentPosts =>
       currentPosts.map(p => {
         if (p.id === postId) {
@@ -71,10 +97,9 @@ export default function CommunityScreen() {
     );
 
     try {
-      await interactWithPost(postId, interaction);
+      await CommunityService.toggleLike(postId, interaction); // Asumiendo que el servicio tiene esta lógica
     } catch (error) {
       console.error("Failed to save interaction:", error);
-      // En una app real, aquí se revertiría el cambio optimista si falla la llamada
     }
   };
 
@@ -85,7 +110,7 @@ export default function CommunityScreen() {
         renderItem={({ item }) => <PostItem post={item} onInteraction={handleInteraction} onCommentPress={handleCommentPress} />}
         keyExtractor={item => item.id}
         ListHeaderComponent={<CreatePostForm onPostCreated={handlePostCreated} />}
-        onRefresh={() => { /* La lógica de pull-to-refresh podría llamar a fetchPosts aquí */ }}
+        onRefresh={() => {}}
         refreshing={isLoading}
         contentContainerStyle={styles.listContent}
       />
