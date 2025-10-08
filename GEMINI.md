@@ -1,3 +1,22 @@
+# Estado del Proyecto al 8 de Octubre de 2025 (Parte 2): Estabilidad de Contextos de React
+
+Este documento registra la corrección de un bug de pérdida de estado que afectaba a múltiples pantallas, notablemente a "Consulta con la IA".
+
+## Resumen de la Corrección
+
+1.  **Bug de Pérdida de Estado de Sesión:**
+    *   **Síntoma:** El estado de ciertos componentes (ej. la conversación en la pantalla de IA) se reiniciaba al navegar fuera de la pantalla y volver.
+    *   **Causa Raíz:** Se identificó que el archivo `components/Providers.tsx`, que centraliza todos los proveedores de contexto de React, tenía una estructura de anidamiento incorrecta. Los proveedores estaban anidados en una sola línea, lo que causaba un comportamiento impredecible en la gestión del estado durante el ciclo de vida de los componentes.
+    *   **Solución:** Se refactorizó `components/Providers.tsx` para anidar los proveedores de forma jerárquica y explícita. Cada proveedor ahora envuelve al siguiente en una estructura de árbol clara y legible. Esto garantiza que React maneje el estado de cada contexto de forma independiente y estable, solucionando el bug de persistencia de estado en toda la aplicación.
+
+## Estado Actual
+
+*   La gestión de estado global de la aplicación es ahora más robusta y predecible.
+*   El bug de pérdida de estado en la pantalla "Consulta con la IA" ha sido solucionado.
+*   El cambio estructural ha sido versionado y subido al repositorio (commit `502e3df`).
+
+---
+
 # Estado del Proyecto al 8 de Octubre de 2025: Correcciones en Pantalla Comunidad
 
 Este documento registra la corrección de dos bugs importantes detectados en la pantalla "Comunidad" durante pruebas en un dispositivo físico.
