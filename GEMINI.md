@@ -1,3 +1,22 @@
+# Estado del Proyecto al 8 de Octubre de 2025 (Parte 3): Botón de Compartir en Comunidad
+
+Este documento registra la adición de una nueva funcionalidad para fomentar el crecimiento de la comunidad en la aplicación.
+
+## Nueva Funcionalidad
+
+1.  **Botón de Compartir:**
+    *   **Necesidad:** Se detectó la ausencia de una función para que los usuarios pudieran invitar a otros a la comunidad.
+    *   **Solución:** Se implementó un botón con el icono universal de "Compartir" en la cabecera (header) de la pantalla "Comunidad".
+    *   **Comportamiento:** Al pulsar el botón, se invoca la funcionalidad nativa de compartir del sistema operativo, permitiendo al usuario enviar un mensaje predefinido con un enlace para descargar la aplicación.
+    *   **Implementación:** La lógica se añadió en `app/community-screen.tsx`, utilizando el hook `useLayoutEffect` para configurar el `headerRight` de la navegación y la API `Share` de React Native para la acción.
+
+## Estado Actual
+
+*   La pantalla "Comunidad" ahora cuenta con una función para compartir.
+*   El cambio ha sido versionado y subido al repositorio (commit `17be211`).
+
+---
+
 # Estado del Proyecto al 8 de Octubre de 2025 (Parte 2): Estabilidad de Contextos de React
 
 Este documento registra la corrección de un bug de pérdida de estado que afectaba a múltiples pantallas, notablemente a "Consulta con la IA".
